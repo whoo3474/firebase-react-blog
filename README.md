@@ -53,6 +53,8 @@ react-router
 
 메뉴 - 로그인기능 추가.
 
+---반복되는 값들은 redux에 값을넣어서 map 으로 구현할필요가 있다. Career/Skills, PORTFOLIO, CONTACT
+---ABOUT은 적당히 데이터만 그대로 넣어주면 될것같다.
 
 사이트 맵
 --------
