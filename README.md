@@ -19,6 +19,7 @@ react-router
                 장점 : 이미 파일을 받아온 상태이고, 번들링을 한 이후이기 때문에 이전 파일들보다 가벼워졌다.
                 단점 : 초기 사이트를 받아오는데 시간이 조금더 걸린다. - 코드 스플리팅을 권장
 * redux         - react에서 단방향(양방향이 가능하지만)데이터 흐름을 양방향으로 한 store에서 관리할수 있도록 한다.
+                - 기본적인 사용법은 store을 provider로 감싸주고, connect로 연결 시켜준후에, this.props 에서 store의 값과 actionsCreator의 함수를 사용할수 있게된다. compoenentDidMount에서 초기화로 값들을 받아 렌더링 해주고, 이후 이벤트에 액션생성자를 넣고 이벤트가 일어나면 실행시켜야하며, 이벤트들을 컴포넌트들에 적용시킨다.
 <PRE><CODE>
   *before*
   const mapDispatchToProps = (dispatch) => ({
@@ -132,6 +133,29 @@ react-router
     
     >List, Map 을 쓰지않고 fromJS를 써도 된다. 자바스크립트 배열과 객체로 변환시에는 toJS
   }
+  
+  **get, update, set**
+  
+  기존에는 store에서 가져온 값을 todo.id, todo.texxt 등으로 객체 내부값에 접근하였지만, todos안의 값들을 Map으로 설정해놓은 상태이면 get함수로 값을 조회해야한다.
+  
+  render() {
+    const {todos, onToggle, onRemove } = this.props;  //todo reduce에서 가져온값. todos는 initialState로 Map과 List로 이루어져 있음
+    const todoList = todos.map(
+      todo => (
+        <TodoItem
+          key={todo.get('id')}
+          done={todo.get('done')}
+          onToggle={() => onToggle(Todo.get('id))}
+          onRemove={() => onRemove(todo.get('id))}>
+          {todo.get('text')}
+        </TodoItem>
+      )
+    );
+   return (
+    <div>
+      {todoList}
+    </div>
+  }
   </code></pre>
 * open-color    - 색상들을 비트형식이 아닌 *oc-gray-1* 등의 문자열로 적을수 있어 알아보기 쉽고 간단하다.
 
@@ -176,26 +200,26 @@ react-router
 --------
 <pre>
 / 
-  - /src
-    - index.js         => ReactDOM.render
-    - Root.js          => component/App.js import. createStore, provider, BrowserRouter 적용
-    - /component
-      - App.js         => react-router-dom 적용 - Switch, Route
-      - /Header
-        -Header.js     => Link
-      - test.js
-    - /conteiner
-      - test.js
-    - /store
-      - career.js
-      - portfolio.js
-      - contact.js
-      - index.js       => combineReducer
-    - /lib
-      - firebase_auth.js
-      - firestore.js
-    - /style
-      - base.scss
-      - test.scss
+   - /src
+        - index.js         => ReactDOM.render
+        - Root.js          => component/App.js import. createStore, provider, BrowserRouter 적용
+        - /component
+            - App.js         => react-router-dom 적용 - Switch, Route
+            - /Header
+               -Header.js     => Link
+            - test.js
+        - /conteiner
+            - test.js
+        - /store
+            - career.js
+            - portfolio.js
+            - contact.js
+            - index.js       => combineReducer
+        - /lib
+            - firebase_auth.js
+            - firestore.js
+        - /style
+            - base.scss
+            - test.scss
       
 </pre>  
