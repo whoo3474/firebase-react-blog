@@ -19,6 +19,21 @@ react-router
                 장점 : 이미 파일을 받아온 상태이고, 번들링을 한 이후이기 때문에 이전 파일들보다 가벼워졌다.
                 단점 : 초기 사이트를 받아오는데 시간이 조금더 걸린다. - 코드 스플리팅을 권장
 * redux         - react에서 단방향(양방향이 가능하지만)데이터 흐름을 양방향으로 한 store에서 관리할수 있도록 한다.
+<PRE><CODE>
+  *before*
+  const mapDispatchToProps = (dispatch) => ({
+    InputActions: {
+      setInput: (value) => dispatch(inputActions.setInput(value))
+    }
+  })
+  
+  *after*
+  const mapDispatchToProps = (dispatch) => ({
+    InputActions: bindActionCreator(inputActions, dispatch)
+  })
+  호출 => this.props.InputActions.setInput
+</CODE></PRE>
+
 * react-redux   - 기존에 store.getState() , dispatch, subscribe 등을 connect로 극복하게 해주고, context api 등의 설정 없이 store을 provider로 설정가능하게 도와준다.
 * redux-thunk   - redux에서 콜백형식으로 객체가 아닌 함수를 리턴할수 있도록 하는 redux-middleware
 * redux-action  - action 의 기본 설정을 쉽게해준다.
@@ -120,12 +135,6 @@ react-router
   </code></pre>
 * open-color    - 색상들을 비트형식이 아닌 *oc-gray-1* 등의 문자열로 적을수 있어 알아보기 쉽고 간단하다.
 
-폴더 설명
---------
-* container => 리덕스와 connect 하여 store의 정보를 가져오고, 액션을 dispatch 하는 용도.
-* component => css 적용 및 props로 정보들을 받아서 보여주는 용도.
-* store     => redux를 사용하기 위한 redux
-
 페이지 설명
 -----------
 메뉴 - ABOUT(자기소개)
@@ -154,11 +163,26 @@ react-router
 ---반복되는 값들은 redux에 값을넣어서 map 으로 구현할필요가 있다. Career/Skills, PORTFOLIO, CONTACT
 ---ABOUT은 적당히 데이터만 그대로 넣어주면 될것같다.
 
+폴더 설명
+--------
+* container => 리덕스와 connect 하여 store의 정보를 가져오고, 액션을 dispatch 하는 용도.
+* component => css 적용 및 props로 정보들을 받아서 보여주는 용도.
+* component/Header => react-router 의 Link 요소를 모아두는 헤더, 메뉴바
+* store     => redux를 사용하기 위한 용도
+* style     => style 요소들을 모아두기위한 용도
+* lib       => 모듈로서 나눠 사용하기 위한 용도
+
 사이트 맵
 --------
 <pre>
-/ - /src
+/ 
+  - /src
+    - index.js         => ReactDOM.render
+    - Root.js          => component/App.js import. createStore, provider, BrowserRouter 적용
     - /component
+      - App.js         => react-router-dom 적용 - Switch, Route
+      - /Header
+        -Header.js     => Link
       - test.js
     - /conteiner
       - test.js
@@ -166,11 +190,12 @@ react-router
       - career.js
       - portfolio.js
       - contact.js
-      - index.js
+      - index.js       => combineReducer
     - /lib
       - firebase_auth.js
       - firestore.js
     - /style
       - base.scss
       - test.scss
+      
 </pre>  
