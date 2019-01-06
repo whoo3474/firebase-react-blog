@@ -19,8 +19,63 @@ react-router
 * react-redux   - 기존에 store.getState() , dispatch, subscribe 등을 connect로 극복하게 해주고, context api 등의 설정 없이 store을 provider로 설정가능하게 도와준다.
 * redux-thunk   - redux에서 콜백형식으로 객체가 아닌 함수를 리턴할수 있도록 하는 redux-middleware
 * redux-action  - action 의 기본 설정을 쉽게해준다.
+  {
+    액션 객체
+    *before*
+    export const increment = (index) => ({
+      type : types.INCREMENT,
+      index
+    });
+    *after*
+    export const increment = createAction(types.INCREMENT,({index})=>({index}));
+    >두번째 파라미터는 생략가능. 명시적 표시
+  }
+  
 * immutable     - 불변성을 지키기 수월하게 해준다.
-* open-color    - 색상들을 비트형식이 아닌 oc-gray-1 등의 문자열로 적을수 있어 알아보기 쉽고 간단하다.
+  {
+    객체는 Map, 배열은 List 로 표시하여 조작한다.
+    *before*
+    let test = 
+    [
+      {
+        index : 1,
+        value : 'woo'
+      },
+      {
+        index : 1,
+        value : 'woo'
+      }
+    ]
+    
+    *after*
+    const { List, Map, fromJS } = Imuutable;
+    let test2 = 
+    List([
+      Map({
+        index : 1,
+        value : 'woo'
+      }),
+      Map({
+        index : 1,
+        value : 'woo'
+      })
+    ]);
+    //or
+    let test3 = 
+    fromJS([
+      {
+        index : 1,
+        value : 'woo'
+      },
+      {
+        index : 1,
+        value : 'woo'
+      }
+    ]);
+    
+    >List, Map 을 쓰지않고 fromJS를 써도 된다. 자바스크립트 배열과 객체로 변환시에는 toJS
+  }
+* open-color    - 색상들을 비트형식이 아닌 *oc-gray-1* 등의 문자열로 적을수 있어 알아보기 쉽고 간단하다.
 
 폴더 설명
 --------
