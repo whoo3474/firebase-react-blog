@@ -1,6 +1,9 @@
 # firebase-react-blog
 진행중인 블로그
 
+create-react-app firebase-react-blog
+npm install --save redux react-redux redux-actions immutable react-router open-color
+
 블로그 구조 잡기
 ===============
 
@@ -153,10 +156,21 @@ react-router
 
 사이트 맵
 --------
-/
-  > component
-    >>hello
-  > conteiner
-    >>hello
-  > store
-  
+<pre>
+/ - /src
+    - /component
+      - test.js
+    - /conteiner
+      - test.js
+    - /store
+      - career.js
+      - portfolio.js
+      - contact.js
+      - index.js
+    - /lib
+      - firebase_auth.js
+      - firestore.js
+    - /style
+      - base.scss
+      - test.scss
+</pre>  
