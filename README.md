@@ -19,9 +19,12 @@ react-router
 * react-redux   - 기존에 store.getState() , dispatch, subscribe 등을 connect로 극복하게 해주고, context api 등의 설정 없이 store을 provider로 설정가능하게 도와준다.
 * redux-thunk   - redux에서 콜백형식으로 객체가 아닌 함수를 리턴할수 있도록 하는 redux-middleware
 * redux-action  - action 의 기본 설정을 쉽게해준다.
-<CODE>
+<PRE><CODE>
   {
-    액션 객체
+    ####액션 객체 선언시
+    
+    import { createAction, handleActions } from 'redux-actions';
+    
     *before*
     export const increment = (index) => ({
       type : types.INCREMENT,
@@ -30,12 +33,46 @@ react-router
     *after*
     export const increment = createAction(types.INCREMENT,({index})=>({index}));
     >두번째 파라미터는 생략가능. 명시적 표시
+  
+    #### 리듀서 switch 문 대신 handleAction 사용
+    
+    const initialState = {
+      conter : 0
+    }
+    *before*
+    const counter(state=initialState, action) {
+      switch (action.type) {
+        case types.INCREMENT:
+          return {
+            counter : state.counter + action.counter         
+          };
+        case types.DECREMENT:
+          return {
+            counter : state.counter - action.counter
+          }
+        default:
+         return state;
+      }
+   }
+  
+   *after*
+    
+    const counter2 = handleActions({
+      INCREMENT: (state, action) => ({
+        counter : state.counter + action.payload
+        }),
+      DECREMENT: (state, action) => ({
+        counter : state.counter - action.payload
+      })
+    },initialState);
+  
   }
-  </CODE>
+  </CODE></PRE>
+  
 * immutable     - 불변성을 지키기 수월하게 해준다.
   <pre><code>
   {
-    객체는 Map, 배열은 List 로 표시하여 조작한다.
+    ####객체는 Map, 배열은 List 로 표시하여 조작한다.
     *before*
     let test = 
     [
