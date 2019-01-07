@@ -18,7 +18,9 @@ react-router
                 그 정보를 통해 개발자가 정한 url마다 보여주고싶은 컴포넌트를 지정해줄수 있다.
                 장점 : 이미 파일을 받아온 상태이고, 번들링을 한 이후이기 때문에 이전 파일들보다 가벼워졌다.
                 단점 : 초기 사이트를 받아오는데 시간이 조금더 걸린다. - 코드 스플리팅을 권장
-* redux         - react에서 단방향(양방향이 가능하지만)데이터 흐름을 양방향으로 한 store에서 관리할수 있도록 한다.
+                
+                
+* redux         - react에서 단방향(양방향이 가능하지만)데이터 흐름을 양방향으로 한 store에서 관리할수 있도록 한다.</p>
                 - 기본적인 사용법은 store을 provider로 감싸주고, connect로 연결 시켜준후에, this.props 에서 store의 값과 actionsCreator의 함수를 사용할수 있게된다. compoenentDidMount에서 초기화로 값들을 받아 렌더링 해주고, 이후 이벤트에 액션생성자를 넣고 이벤트가 일어나면 실행시켜야하며, 이벤트들을 컴포넌트들에 적용시킨다.
 <PRE><CODE>
   *before*
@@ -142,7 +144,14 @@ react-router
   class App extends Componenet {
     loadData = () => {
       const { PostActions, number } = this.props;
-      PostActions.getPost(number);
+      PostActions.getPost(number).then(
+        (response) => {
+          console.log(response);
+        }
+      ).catch(
+        (error) => {
+          console.log(error);
+      );
     }
    componentDidMount() {
     this.loadData();
@@ -159,14 +168,14 @@ react-router
       <div>
         {
           loading
-          ?(<h2> 로딩중 ... <h2/>)
+          ?( 로딩중 ... )
           : (
             error
-            ?(<h2> 오류 발생!<h2/>)
+            ?( 오류 발생!)
             : (
                 <div>
-                  <h2>{post.title}</h2>
-                  <p>{post.body}</p>
+                  {post.title}
+                  {post.body}
                 </div>
               )
            )
@@ -321,9 +330,10 @@ react-router
 아코디언 예제 ( 열정, 끈기, 긍정) 같은느낌으로 본인 사진3장? 
 그후 나에 대해서 보여주기
 
-메뉴 - Career/Skills
+메뉴 - TIMELINE
 타임라인 그래프로
 학교, 스터디, 학원, 과외 ..등
+(상단에 JAVA, NODE, ES6, JAVASCRIPT..등 이미지를 같이 첨부하면 좋을듯. 스터디, 과외,학교 등을 적어가며)
 
 메뉴 - CONTACT
 상단에는 게시글은 방명록의 느낌으로 가면 될것같다. - 들어간후에는 로그인 시, 댓글기능
@@ -349,7 +359,35 @@ react-router
 * component => css 적용 및 props로 정보들을 받아서 보여주는 용도.
 * component/Header => react-router 의 Link 요소를 모아두는 헤더, 메뉴바
 * store     => redux를 사용하기 위한 용도
-* style     => style 요소들을 모아두기위한 용도
+* page      => page 구분을 한다.
+<PRE><CODE>
+  //이 안에 페이지들을 넣는 개념
+  **src/components/common/PageTemplate/PageTemplate.js**
+  const PageTemplate = ({children}) => (
+    <div>
+      <Header/>
+      <Main>
+        {children}
+      </Main>
+      <Footer/>
+    </div>
+  );
+  export default PageTemplate;
+  
+  //page 구현
+  **src/pages/ListPage.js**
+  const ListPage = () => {
+    return (
+      <PageTemplate>
+        <ListWrapper>
+          <PostList/>
+        </ListWrapper>
+      </PageTemplate>
+    );
+  };
+  export default ListPage;
+  </CODE></PRE>
+* style     => 공통 style 요소들을 모아두기위한 용도
 * lib       => 모듈로서 나눠 사용하기 위한 용도
 
 사이트 맵
@@ -359,17 +397,31 @@ react-router
    - /src
         - index.js         => ReactDOM.render
         - Root.js          => component/App.js import. createStore, provider, BrowserRouter 적용
-        - /component
+        - /components
+            - /common
+              - /PageTemplate
+                 -PageTemplate.js
+              - /Header
+                 -Header.js     => Link
+              - /MainWrapper
+                 -MainWrapper.js
+              - /Footer
+                 -Footer.js
             - App.js         => react-router-dom 적용 - Switch, Route
-            - /Header
-               -Header.js     => Link
+
             - test.js
         - /conteiner
             - test.js
+        - /page
+            - About.js
+            - TimeLine.js
+            - Portfolio.js
+            - Contact.js
+            - Login.js        => 모달창으로 구현?
         - /store
-            - career.js
-            - portfolio.js
-            - contact.js
+            - TimeLine.js
+            - Portfolio.js
+            - Contact.js
             - index.js       => combineReducer
         - /lib
             - firebase_auth.js
