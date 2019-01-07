@@ -67,10 +67,130 @@ react-router
   
 </CODE></PRE>
 
-*axios - 보통 componentDidMount 에서 axios를 사용하여 REST API를 요청한다. ~ 비동기작업 ~ redux-thunk와 함께 사용
+* axios - 보통 componentDidMount 에서 axios를 사용하여 REST API를 요청한다. ~ 비동기작업 ~ redux-thunk와 함께 사용
 <PRE><CODE>
+  **reducer 파일**
+  import { handleActions, createActions } from 'redux-actions';
+  import axios from 'axios';
   
-  </CODE></PRE>
+  function getPostAPI(postId) {
+    return axios.get(`https://jsonplaceholder.typicode.com/posts/${postId}`
+  }
+  
+  const GET_POST_PENDING = 'GET_POST_PENDING';
+  const GET_POST_SUCCESS = 'GET_POST_SUCCESS';
+  const GET_POST_FAILURE = 'GET_POST_FAILURE';
+  
+  const getPostPending = createAction(GET_POST_PENDING);
+  const getPostSuccess = createAction(GET_POST_SUCCESS);
+  const getPostFailure = createAction(GET_POST_FAILURE);
+  
+  **redux-thunk**
+  export const getPost = (postId) => dispatch => {
+    dispatch(getPostPending());
+    
+    return getPostApi(postId).then((response) => {
+      dispatch(getPostSuccess(response))
+      return response;
+    }).catch(error => {
+      dispatch(getPostFailure(error));
+      throw(error);
+    })
+  }
+  
+  **reducer 부분**
+  
+  const initialState = {
+    pending: false,
+    error: false,
+    data: {
+      title: '',
+      body: ''
+    }
+  }
+  
+  export dafault handleActions({
+    [GET_POST_PENDING]: (state,action) => {
+      return {
+        ...state,
+        pending: true,
+        error: false
+      }
+    },
+    [GET_POST_SUCCESS]: (state,action) => {
+      const { title, body } = action.payload.data;
+      return {
+        ...state,
+        pending: false,
+        data: {
+          title,
+          body
+        }
+      }
+    },
+    [GET_POST_FAILURE]: (state,action) => {
+      return {
+        ...state,
+        pending: false,
+        error: true
+      }
+    }
+  }, initialState);
+    
+  **App.js 에서 호출시 **
+  
+  class App extends Componenet {
+    loadData = () => {
+      const { PostActions, number } = this.props;
+      PostActions.getPost(number);
+    }
+   componentDidMount() {
+    this.loadData();
+   }
+   componentDidUpadate(prevProps, prevState) {
+    if(this.props.number !== prevProps.number) {
+      this.loadData();
+    }
+   }
+   render() {
+    const { number, post, error, loading } = this.props;
+    
+    return(
+      <div>
+        {
+          loading
+          ?(<h2> 로딩중 ... <h2/>)
+          : (
+            error
+            ?(<h2> 오류 발생!<h2/>)
+            : (
+                <div>
+                  <h2>{post.title}</h2>
+                  <p>{post.body}</p>
+                </div>
+              )
+           )
+          
+      </div>
+    );
+   }
+  }
+  
+  export default connect(
+    (state) => ({
+      number: state.counter,
+      post : state.post.data,
+      loading : state.post.pending,
+      error: state.post.error
+    }),
+    (dispatch) => ({
+      PostActions : bindActionCreators(postActions, dispatch)
+    })
+  )(App);
+  
+    
+  
+</CODE></PRE>
 
 
 * redux-action  - action 의 기본 설정을 쉽게해준다.
