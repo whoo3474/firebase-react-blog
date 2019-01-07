@@ -37,6 +37,42 @@ react-router
 
 * react-redux   - 기존에 store.getState() , dispatch, subscribe 등을 connect로 극복하게 해주고, context api 등의 설정 없이 store을 provider로 설정가능하게 도와준다.
 * redux-thunk   - redux에서 콜백형식으로 객체가 아닌 함수를 리턴할수 있도록 하는 redux-middleware
+<PRE><CODE>
+ ** store 생성시 **
+  import reducers from './store';
+  import ReduxThunk from 'redux-thunk';
+  
+  const store = createStore(reducers,applyMiddleware(ReduxThunk));
+ 
+ //////////////////////////////////////////////////////////////////
+ 
+**reducer 내부**
+  import { handleActions, createAction } from 'redux-actions';
+
+  //redux-actions
+  const INCREMENT = 'counter/INCREMENT'
+  export const increment = createAction(INCREMENT);
+
+  //redux-thunk
+  export const incrementAsync = () => (dispatch, getState) => {
+    setTimeout(
+      () => { dispatch(increment()) },
+      1000
+    );
+  }
+  
+  export default handleActions({
+    [INCREMENT] : (state, action) => state + 1
+  }, 0);
+  
+</CODE></PRE>
+
+*axios - 보통 componentDidMount 에서 axios를 사용하여 REST API를 요청한다. ~ 비동기작업 ~ redux-thunk와 함께 사용
+<PRE><CODE>
+  
+  </CODE></PRE>
+
+
 * redux-action  - action 의 기본 설정을 쉽게해준다.
 <PRE><CODE>
   {
