@@ -1,9 +1,18 @@
 import React from 'react';
+import { Switch, Route } from 'react-router-dom';
+import { AboutPage, ContactPage, NotFoundPage, PortfolioPage, TimelinePage } from '../pages'
 
 const App = () => {
     return (
         <div>
-            BlogApp   
+            <Switch>
+                <Route exact path="/" component={AboutPage} />
+                <Route path="/contact" component={ContactPage} />
+                <Route path="/portfolio" component={PortfolioPage} />
+                <Route path="/timeline" component={TimelinePage} />
+                {/* <Route path="" component={} /> */}
+                <Route component={NotFoundPage} />    
+            </Switch>   
         </div>
     );
 };

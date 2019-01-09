@@ -7,7 +7,7 @@ import { Map } from 'immutable';
 // action creators
 
 // initial state
-const initalState = Map({});
+const initialState = Map({});
 
 // reducer
 export default handleActions({

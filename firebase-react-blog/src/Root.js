@@ -4,13 +4,14 @@ import App from './components/App';
 import { Provider } from 'react-redux';
 import store from './store';
 
-const store = store();
 class Root extends Component {
     render() {
         return (
-            <BrowserRouter>
-                <App/>
-            </BrowserRouter>
+            <Provider store={store}>
+                <BrowserRouter>
+                    <App/>
+                </BrowserRouter>
+            </Provider>
         );
     }
 }
