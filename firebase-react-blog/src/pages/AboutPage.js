@@ -1,10 +1,11 @@
 import React from 'react';
+import PageTemplate from '../components/common/PageTemplate/PageTemplate';
 
 const AboutPage = () => {
     return (
-        <div>
+        <PageTemplate>
             about
-        </div>
+        </PageTemplate>
     );
 };
 
