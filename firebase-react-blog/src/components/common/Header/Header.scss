@@ -1,0 +1,23 @@
+
+$color-first : #66545e;
+a {
+    text-decoration: none;
+}
+// 상단것들은 common 으로 뺴줘야함
+
+.header {
+    background : $color-first;
+    height: 4rem;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+}
+
+.logo{
+    font-family: 'Righteous', cursive;
+}
+.nav-body  {
+
+}

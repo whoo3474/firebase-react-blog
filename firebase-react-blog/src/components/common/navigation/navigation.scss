@@ -1,0 +1,15 @@
+
+.nav-body{
+    ul{
+        display: flex;
+        height: 100%;
+    }
+
+    a{
+        padding:1.5rem;
+    }
+}
+
+.active {
+    background-color: red;
+}
