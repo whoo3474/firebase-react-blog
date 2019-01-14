@@ -10,7 +10,6 @@ const Header = () => {
                     {/* 로고를 넣는다 */}
                     <Link to="/">minhan Blog</Link>
                 </div>
-                <Navigation/>
         </header>
     );
 };
