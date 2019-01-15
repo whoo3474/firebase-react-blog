@@ -1,12 +1,15 @@
 import React from 'react';
 import './TimelineCards.scss';
 
-const TimelineCards = ({cards}) => {
+const TimelineCards = ({card}) => {
     // map 돌리는건 containers에 있어야겠네.
 
             <li class="timeline-item">
                 <div class="card">
-                    <img class="card-icon" src={card.img}/>>
+                    { card.img ?
+                    <img class="card-icon" src={card.img}/>
+                    : ''
+                    }
                     <h2 class="card-title">{card.title}</h2>
                     <dl class="card-definition">
                         <dt>
@@ -21,3 +24,4 @@ const TimelineCards = ({cards}) => {
 };
 
 export default TimelineCards;
+//img, title, dt, dd, timestamp
