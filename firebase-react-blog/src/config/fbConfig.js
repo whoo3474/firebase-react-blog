@@ -11,7 +11,10 @@ var config = {
     storageBucket: "fir-react-blog.appspot.com",
     messagingSenderId: "811250927565"
   };
+  
   firebase.initializeApp(config);
-  firebase.firestore().settings({ timestampsInSnapshots: true});
+  
+    const firestore = firebase.firestore();
+    firestore.settings({ timestampsInSnapshots: true});
 
-  export default firebase;
+  export default firestore;
