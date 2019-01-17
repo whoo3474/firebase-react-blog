@@ -3,12 +3,12 @@ import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
 import './PageTemplate.scss';
 // nav route
-import navRoute from '../../../route/nav';
+import { signInNavRoutes, signOutNavRoutes} from '../../../route/nav';
 
 const PageTemplate = ({children}) => {
     return (
         <div className="page-template">
-            <Header navs={navRoute}/>
+            <Header signOutNavs={signOutNavRoutes} signInNavs={signInNavRoutes}/>
             <main className="main-content">
                 {children}
             <Footer/>

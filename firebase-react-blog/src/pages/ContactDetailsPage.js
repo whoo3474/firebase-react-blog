@@ -1,13 +1,13 @@
 import React from 'react';
 import PageTemplate from '../components/common/PageTemplate/PageTemplate';
-import ContactWrapper from '../containers/ContactWrapper/ContactWrapper';
+import ContactDetails from '../components/Contact/ContactDetails';
 
-const ContactPage = () => {
+const ContactDetailsPage = () => {
     return (
         <PageTemplate>
-            <ContactWrapper/>
+            <ContactDetails/>
         </PageTemplate>
     );
 };
 
-export default ContactPage;
+export default ContactDetailsPage;
