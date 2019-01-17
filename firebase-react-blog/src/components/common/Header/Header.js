@@ -1,16 +1,23 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import Navigation from '../navigation/navigation';
-import './Header.scss';
+import { NavLink,Link } from 'react-router-dom';
 
-const Header = () => {
+const Header = ({navs}) => {
+    const navList = navs.map(
+        nav => (
+            <li>
+                <NavLink to={nav.to} activeClassName={nav.activeName}>{nav.name}</NavLink>
+            </li>
+        )
+    );
     return (
-        <header className="header">
-                <div className="logo">
-                    {/* 로고를 넣는다 */}
-                    <Link to="/">minhan Blog</Link>
-                </div>
-        </header>
+        <nav className="nav-wrapper grey darken-3">
+            <div className="container">
+                <Link to="/" className="brand-logo">Minhan Blog</Link>
+                <ul className="right">
+                    {navList}
+                </ul>
+            </div>
+        </nav>
     );
 };
 
