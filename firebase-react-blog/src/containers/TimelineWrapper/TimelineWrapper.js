@@ -15,7 +15,7 @@ class TimelineWrapper extends Component {
     //     });
     // }
 
-    componentDidMount() {
+    componentWillMount() {
         this.props.getTimeList();
     }
     //  renderCards = () => {
@@ -41,7 +41,7 @@ class TimelineWrapper extends Component {
 }
 const mapStateToProps = (state) => {
     return{
-       timelines:state.timelines
+       timelines:state.timeLine.timelines
     };
 };
 const mapDispatchToProps = (dispatch)=>({

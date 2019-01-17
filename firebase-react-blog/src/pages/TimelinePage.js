@@ -1,6 +1,7 @@
 import React from 'react';
 import PageTemplate from '../components/common/PageTemplate/PageTemplate';
 import TimeLineWrapper from '../containers/TimelineWrapper/TimelineWrapper';
+import './TimelinePage.scss';
 
 const TimelinePage = () => {
     return (
