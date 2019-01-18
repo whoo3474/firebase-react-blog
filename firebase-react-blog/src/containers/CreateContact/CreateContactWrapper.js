@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { createContactTk } from '../../store/modules/contact';
+import { bindActionCreators } from 'redux';
 
 class CreateContactWrapper extends Component {
     state ={
@@ -13,6 +16,7 @@ class CreateContactWrapper extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
+        this.props.createContact(this.state);
     }
     render() {
         return (
@@ -37,5 +41,10 @@ class CreateContactWrapper extends Component {
         );
     }
 }
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createContact : bindActionCreators(createContactTk,dispatch)
+    }
+}
 
-export default CreateContactWrapper;
+export default connect(null,mapDispatchToProps)(CreateContactWrapper);
