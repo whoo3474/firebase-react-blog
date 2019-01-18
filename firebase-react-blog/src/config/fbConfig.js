@@ -5,7 +5,7 @@ import 'firebase/storage';
 
   // Initialize Firebase
 var config = {
-    apiKey: "AIzaSyBV6vnnfRhB89PsOMSiQxWwHfaa6HeGNnM",
+    apiKey: "",
     authDomain: "fir-react-blog.firebaseapp.com",
     databaseURL: "https://fir-react-blog.firebaseio.com",
     projectId: "fir-react-blog",
