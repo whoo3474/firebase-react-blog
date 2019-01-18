@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import Notifications from '../../components/Contact/Notifications';
 import ContactList from '../../components/Contact/ContactList';
+import { connect } from 'react-redux';
 
 class ContactWrapper extends Component {
     render() {
+        const { contacts } = this.props;
         return (
             <div className="dashboard container">
                 <div className="col">
@@ -11,7 +13,7 @@ class ContactWrapper extends Component {
                         <Notifications/>
                     </div>
                     <div className="col s12 m6">
-                        <ContactList/>
+                        <ContactList contacts={contacts}/>
                     </div>
                 </div>
             </div>
@@ -19,4 +21,10 @@ class ContactWrapper extends Component {
     }
 }
 
-export default ContactWrapper;
+const mapStateToProps = (state) => {
+    return {
+        contacts : state.contact.contacts
+    }
+}
+
+export default connect(mapStateToProps)(ContactWrapper);

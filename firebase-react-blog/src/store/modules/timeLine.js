@@ -26,8 +26,6 @@ export const getTimeList = () => {
 
 // initial state
 const initialState = {
-    // pending: false,
-    // error: false,
     timelines: []
 };
 

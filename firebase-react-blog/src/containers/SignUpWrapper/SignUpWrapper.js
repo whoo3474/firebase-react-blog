@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 
-class SignInWrapper extends Component {
+class SignUpWrapper extends Component {
 
     state ={
         email: '',
         password:'',
-        firestName:'',
-        lastName:''
+        name:'',
     }
 
     handleChange = (e) => {
@@ -16,13 +15,12 @@ class SignInWrapper extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
     }
     render() {
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit}>
-                    <h5>로그인</h5>
+                    <h5>회원가입</h5>
                     <div className="input-field">
                         <label htmlFor="email">Email</label>
                         <input type="email" id="email" onChange={this.handleChange} />
@@ -32,7 +30,11 @@ class SignInWrapper extends Component {
                         <input type="password" id="password" onChange={this.handleChange} />
                     </div>
                     <div className="input-field">
-                        <button className="btn">로그인</button>
+                        <label htmlFor="name">Name</label>
+                        <input type="text" id="name" onChange={this.handleChange} />
+                    </div>
+                    <div className="input-field">
+                        <button className="btn">회원가입</button>
                     </div>
                 </form>
             </div>
@@ -40,4 +42,4 @@ class SignInWrapper extends Component {
     }
 }
 
-export default SignInWrapper;
+export default SignUpWrapper;

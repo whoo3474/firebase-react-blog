@@ -24,7 +24,7 @@ const Footer = () => {
           </div>
           <div class="footer-copyright">
             <div class="container">
-            © 2014 Copyright WooJeongMin. All rights reserved.
+            © 2019 Copyright WooJeongMin. All rights reserved.
             <a class="grey-text text-lighten-4 right" href="#!">More Links</a>
             </div>
           </div>

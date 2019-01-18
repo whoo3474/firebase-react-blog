@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 
-class SignInWrapper extends Component {
-
+class CreateContactWrapper extends Component {
     state ={
-        email: '',
-        password:'',
-        firestName:'',
-        lastName:''
+        title: '',
+        content:'',
     }
 
     handleChange = (e) => {
@@ -16,23 +13,24 @@ class SignInWrapper extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
     }
     render() {
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit}>
-                    <h5>로그인</h5>
+                    <h5>글쓰기</h5>
                     <div className="input-field">
-                        <label htmlFor="email">Email</label>
-                        <input type="email" id="email" onChange={this.handleChange} />
+                        <label htmlFor="title">Title</label>
+                        <input type="text" id="title" onChange={this.handleChange} />
                     </div>
                     <div className="input-field">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" onChange={this.handleChange} />
+                        <label htmlFor="content">Content</label>
+                        <textarea id="content" className="materialize-textarea" onChange={this.handleChange}>
+                       
+                        </textarea>
                     </div>
                     <div className="input-field">
-                        <button className="btn">로그인</button>
+                        <button className="btn">생성</button>
                     </div>
                 </form>
             </div>
@@ -40,4 +38,4 @@ class SignInWrapper extends Component {
     }
 }
 
-export default SignInWrapper;
+export default CreateContactWrapper;

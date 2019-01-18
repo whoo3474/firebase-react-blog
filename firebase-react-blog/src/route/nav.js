@@ -19,5 +19,5 @@ export const signOutNavRoutes = [
         ,
         {to:"/signup",activeName:"active",name:"SignUp"}
         ,
-        {to:"/login",activeName:"active",name:"LogIn"}
+        {to:"/signin",activeName:"active",name:"LogIn"}
 ];

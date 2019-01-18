@@ -1,12 +1,13 @@
 import React from 'react';
 
 //ContactList를 클릭하면 보여줌
-const ContactDetails = () => {
+const ContactDetails = ({id}) => {
+    //react-router 의 match 로 id를 받는다
     return (
-        <div className="container section project-details">
+        <div className="container section contact-details">
             <div className="card z-depth-0">
                 <div className="card-content">
-                    <span className="card-title">Project title</span>
+                    <span className="card-title">Project title - {id}</span>
                     <p> 
                     Project text
                     </p>
