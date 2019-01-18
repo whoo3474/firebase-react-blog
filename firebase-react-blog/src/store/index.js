@@ -5,7 +5,7 @@ import { default as auth} from './modules/auth';
 import thunk from 'redux-thunk';
 
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
-
+   
 const reducers = combineReducers({
     contact,
     portfolio,
