@@ -5,15 +5,26 @@ import fbConfig from '../../config/fbConfig';
 // action type
 const GET_CONTACT = 'GET_CONTACT';
 const CREATE_CONTACT = 'CREATE_CONTACT';
+const CREATE_CONTACT_ERROR = 'CREATE_CONTACT_ERROR';
 
 // action creators
 const getContact = createAction(GET_CONTACT);
 const createContact = createAction(CREATE_CONTACT);
+const createContactError = createAction(CREATE_CONTACT_ERROR);
 
 export const createContactTk = (contact) => {
     return (dispatch, getState) => {
-        dispatch(createContact(contact));
-    }
+        fbConfig.collection('contacts').add({
+            ...contact,
+            authorName: 'minhan',
+            authorId:12345,
+            createdAt: new Date()
+        }).then(() => {
+            dispatch(createContact(contact));
+        }).catch((err) => {
+            dispatch(createContactError(err));
+        })
+    } 
 };
 
 // initial state
@@ -31,6 +42,11 @@ export default handleActions({
         }
     },
     [CREATE_CONTACT] : (state,action) => {
+        return {
+            state
+        }
+    },
+    [CREATE_CONTACT_ERROR] : (state,action) => {
         return {
             state
         }
