@@ -2,15 +2,15 @@ import React, { Component } from 'react';
 import Notifications from '../../components/Contact/Notifications';
 import ContactList from '../../components/Contact/ContactList';
 import { connect } from 'react-redux';
-import { getContactTk } from '../../store/modules/contact';
+import { getContactListTk } from '../../store/modules/contact';
 import { bindActionCreators } from 'redux';
 
 class ContactWrapper extends Component {
     componentWillMount() {
-        this.props.getContactTk();
+        this.props.getContactListTk();
     }
     render() {
-        const { contacts } = this.props;
+        const { contactList } = this.props;
         return (
             <div className="dashboard container">
                 <div className="col">
@@ -18,7 +18,7 @@ class ContactWrapper extends Component {
                         <Notifications/>
                     </div>
                     <div className="col s12 m6">
-                        <ContactList contacts={contacts}/>
+                        <ContactList contactList={contactList}/>
                     </div>
                 </div>
             </div>
@@ -28,11 +28,11 @@ class ContactWrapper extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        contacts : state.contact.contacts
+        contactList : state.contact.contactList
     }
 }
 const mapDispatchToProps = (dispatch) => ({
-    getContactTk : bindActionCreators(getContactTk,dispatch)
+    getContactListTk : bindActionCreators(getContactListTk,dispatch)
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(ContactWrapper);
