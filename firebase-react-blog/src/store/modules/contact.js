@@ -12,6 +12,20 @@ const getContact = createAction(GET_CONTACT);
 const createContact = createAction(CREATE_CONTACT);
 const createContactError = createAction(CREATE_CONTACT_ERROR);
 
+export const getContactTk = () => {
+    return (dispatch, getState)=>{
+        fbConfig.collection('contacts').get()
+        .then((querySnapshot)=> {
+            var rows = []; 
+            querySnapshot.forEach((doc) => { 
+                var childData = doc.data(); 
+                rows.push(childData);
+            });
+           dispatch(getContact(rows));
+        });
+    };
+};
+
 export const createContactTk = (contact) => {
     return (dispatch, getState) => {
         fbConfig.collection('contacts').add({
@@ -29,16 +43,15 @@ export const createContactTk = (contact) => {
 
 // initial state
 const initialState = {
-    contacts:[
-        { id:'1', title:'Project Title', content:'Project text' }
-    ]
+    contacts:[]
 }
 
 // reducer
 export default handleActions({
     [GET_CONTACT] : (state,action) => {
         return {
-            state
+            ...state,
+            contacts: action.payload
         }
     },
     [CREATE_CONTACT] : (state,action) => {
