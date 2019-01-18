@@ -3,17 +3,35 @@
 @import url('https://fonts.googleapis.com/css?family=Righteous');
 @import url('https://fonts.googleapis.com/css?family=Josefin+Sans:400,700');
 
-body, h1, h2, h3, p, ul {
-    margin: 0;
-    padding :0;
-    font-family: 'Roboto', sans-serif;
+body{
+  margin: 0;
+  padding :0;
+  font-family: 'Roboto', sans-serif;
+  background-color:#e3d6d6;
+  min-height:100%;
+}
+form {
+  background-color:white;
+  padding:20px;
+  margin:60px 0;
+  button, h5 {
+    margin: 20px 0;
   }
+}
+// input click시 border-color가 바뀐다.
+input[type=text]:not(.browser-default):focus:not([read-only]),
+input[type=email]:not(.browser-default):focus:not([read-only]),
+input[type=password]:not(.browser-default):focus:not([read-only]),
+textarea.materialize-textarea:focus:not([read-only]){
+  border-color:#ec407a;
+  box-shadow:none;
+}
+
   li {
-    list-style-type : none;
+    list-style-type : none;  
+    a{
+      color: inherit;
+    }
   }
-  
-  a{
-    text-decoration: none;
-    color: inherit;
-  }
+
   

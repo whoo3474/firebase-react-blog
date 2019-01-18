@@ -1,0 +1,35 @@
+.cover {
+    color:aliceblue;
+    padding-top: 20%;
+    padding-bottom: 10%;
+    text-align: center;
+    background-size: cover;
+    /* 보통 backbround-size 사진이 찌그러지지 않도록 cover을 많이쓴다 */
+    background-position: bottom;
+    /* position도 center을 많이쓰지만, 이번에는 산비탈을 보이기위하여 bottom */
+    transition: padding .5s;
+    /* 모바일과 pc버전일때 변화가 일어나면유연하게 변화하기 위하여 추가함 */
+  }
+  
+  .cover-title {
+    font-size: 20vw;
+    /* 픽셀로 맞추면 pc~mobile 마다 바꾸어줘야됨 */
+    /* viewport의 (weight)너비기준의 10% => 10vw */
+    font-family: 'Yellowtail', cursive;
+    font-weight: normal;
+    line-height:1;
+    /* 행간을 맞춤 */
+    font-style:italic;
+    transition: padding .5s;
+    /* 모바일과 pc버전일때 변화가 일어나면유연하게 변화하기 위하여 추가함 */
+  }
+  
+  .cover-title span {
+    font-family: 'arial';
+    font-size: 0.2em;
+    /* 부모의 폰트 사이즈를 상속받는데, cover-title 의 폰트사이즈가 10vw 이니까
+    그에 비례에서 움직인다. 0.5em => 절반 */
+    display: block;
+    text-indent: 3em;
+    /* 들여쓰기 */
+  }

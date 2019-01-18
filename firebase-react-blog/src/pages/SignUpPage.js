@@ -1,13 +1,13 @@
 import React from 'react';
 import PageTemplate from '../components/common/PageTemplate/PageTemplate';
-import ContactWrapper from '../containers/ContactWrapper/ContactWrapper';
+import SignUpWrapper from '../containers/SignUpWrapper/SignUpWrapper';
 
-const ContactPage = () => {
+const SignUpPage = () => {
     return (
         <PageTemplate>
-            <ContactWrapper/>
+            <SignUpWrapper/>
         </PageTemplate>
     );
 };
 
-export default ContactPage;
+export default SignUpPage;
