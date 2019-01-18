@@ -16,7 +16,7 @@ const createContactError = createAction(CREATE_CONTACT_ERROR);
 
 export const getContactListTk = () => {
     return (dispatch, getState)=>{
-        fbConfig.collection('contacts').get()
+        fbConfig.firestore().collection('contacts').get()
         .then((querySnapshot)=> {
             var rows = []; 
             console.log(querySnapshot);
@@ -32,7 +32,7 @@ export const getContactListTk = () => {
 
 export const getContactTk = (id) => {
     return (dispatch, getState)=>{
-        fbConfig.collection('contacts').doc(id).get()
+        fbConfig.firestore().collection('contacts').doc(id).get()
         .then((querySnapshot)=>
             dispatch(getContact(querySnapshot.data()))
         );
@@ -42,7 +42,7 @@ export const getContactTk = (id) => {
 
 export const createContactTk = (contact) => {
     return (dispatch, getState) => {
-        const contactDoc = fbConfig.collection('contacts').doc();
+        const contactDoc = fbConfig.firestore().collection('contacts').doc();
         contactDoc.set({
             ...contact,
             id:contactDoc.id,

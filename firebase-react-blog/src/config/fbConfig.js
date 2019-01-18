@@ -13,11 +13,10 @@ var config = {
     messagingSenderId: "811250927565"
   };
   
-  firebase.initializeApp(config);
+  const fbConfig =firebase.initializeApp(config);
   
-    const fbConfig = firebase.firestore();
+  export const firestoreCg = firebase.firestore().settings({ timestampsInSnapshots: true});
     // fbConfig.storage();
 
-    fbConfig.settings({ timestampsInSnapshots: true});
-
+  export const fireauthCg = firebase.auth();
   export default fbConfig;

@@ -1,5 +1,4 @@
 import { createAction, handleActions } from 'redux-actions';
-import fbConfig from '../../config/fbConfig';
 
 // action type
 const GET_AUTH = 'GET_AUTH';

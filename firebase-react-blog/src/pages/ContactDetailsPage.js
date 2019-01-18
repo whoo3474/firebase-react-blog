@@ -1,12 +1,12 @@
 import React from 'react';
 import PageTemplate from '../components/common/PageTemplate/PageTemplate';
-import ContactDetails from '../containers/ContactDetails/ContactDetails';
+import ContactDetailsWrapper from '../containers/ContactDetailsWrapper/ContactDetailsWrapper';
 
 const ContactDetailsPage = (props) => {
     const id = props.match.params.id;
     return (
         <PageTemplate>
-            <ContactDetails id={id}/>
+            <ContactDetailsWrapper id={id}/>
         </PageTemplate>
     );
 };

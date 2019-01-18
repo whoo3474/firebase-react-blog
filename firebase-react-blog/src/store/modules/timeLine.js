@@ -1,6 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
 import fbConfig from '../../config/fbConfig';
-// import { Map } from 'immutable';
 
 // action type
 
@@ -12,7 +11,7 @@ const getTimeline = createAction(GET_TIMELINE);
 
 export const getTimeList = () => {
     return (dispatch, getState)=>{
-        fbConfig.collection('Timelines').get()
+        fbConfig.firestore().collection('Timelines').get()
         .then((querySnapshot)=> {
             var rows = []; 
             querySnapshot.forEach((doc) => { 
