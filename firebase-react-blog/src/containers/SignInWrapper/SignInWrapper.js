@@ -25,6 +25,7 @@ class SignInWrapper extends Component {
             signInSuccess: ()=> false
         }
     }
+    // 이건 여기에 있는게 맞는거같음
 
     componentDidMount = () => {
         fbConfig.auth().onAuthStateChanged(user => {
@@ -33,7 +34,7 @@ class SignInWrapper extends Component {
             })
             console.log("user",user)
         })
-        // 리듀서로 만들어봐야겠네 상태가 바뀌면 boolen 값으로 저장하기
+        // 리듀서로 만들어봐야겠네 상태가 바뀌면 boolen 값으로 저장하기 유저가 들어왔는지 확인해야함
     }
 
     handleChange = (e) => {
@@ -66,8 +67,8 @@ class SignInWrapper extends Component {
                 {
                     this.state.isSignedIn?
                     (<div>
-                        <div>signedIn</div>
-                        <button onClick={()=>fbConfig.auth().signOut()}/>
+                        <div>로그인이 되었습니다.</div>
+                        <button onClick={()=>fbConfig.auth().signOut()}>로그아웃</button>
                         <h1>welcome {fbConfig.auth().currentUser.displayName}</h1>
                         <img alt="profile picture" src={fbConfig.auth().currentUser.photoURL}/>
                     </div>
