@@ -1,4 +1,7 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { createAuthEmailTk } from '../../store/modules/auth';
 
 class SignUpWrapper extends Component {
 
@@ -9,12 +12,16 @@ class SignUpWrapper extends Component {
     }
 
     handleChange = (e) => {
+        console.log(email,password);
+        const {email,password} = this.state;
         this.setState({
             [e.target.id] : e.target.value
         })
     }
     handleSubmit = (e) => {
         e.preventDefault();
+        const {email,password} = this.state;
+        this.props.createAuthEmailTk(email,password);
     }
     render() {
         return (
@@ -42,4 +49,15 @@ class SignUpWrapper extends Component {
     }
 }
 
-export default SignUpWrapper;
+const mapStateToProps = (state) => {
+    return{
+        isSignedIn : state.auth.isSignedIn
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        createAuthEmailTk : bindActionCreators(createAuthEmailTk,dispatch)
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(SignUpWrapper);

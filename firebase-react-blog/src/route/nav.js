@@ -5,9 +5,9 @@ export const signInNavRoutes = [
         ,
         {to:"/contact",activeName:"active",name:"Contact"}
         ,
-        {to:"/logout",activeName:"active",name:"logout"}
-        ,
         {to:"/user",activeName:"btn btn-floating pink lighten-1",name:"user"}
+        ,
+        {to:"/logout",activeName:"active",name:"logout"}
 ];
 
 export const signOutNavRoutes = [
