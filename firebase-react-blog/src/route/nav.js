@@ -7,7 +7,7 @@ export const signInNavRoutes = [
         ,
         {to:"/user",activeName:"btn btn-floating pink lighten-1",name:"user"}
         ,
-        {to:"/logout",activeName:"active",name:"logout"}
+        {to:"/",activeName:"active",name:"logout"}
 ];
 
 export const signOutNavRoutes = [

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import firebase from 'firebase';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { authSignInTk } from '../../store/modules/auth';
 import fbConfig from '../../config/fbConfig';
 
 class SignInWrapper extends Component {
@@ -27,15 +30,6 @@ class SignInWrapper extends Component {
     }
     // 이건 여기에 있는게 맞는거같음
 
-    componentDidMount = () => {
-        fbConfig.auth().onAuthStateChanged(user => {
-            this.setState({
-              isSignedIn:!!user  
-            })
-            console.log("user",user)
-        })
-        // 리듀서로 만들어봐야겠네 상태가 바뀌면 boolen 값으로 저장하기 유저가 들어왔는지 확인해야함
-    }
 
     handleChange = (e) => {
         this.setState({
@@ -44,9 +38,11 @@ class SignInWrapper extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state);
+        this.props.authSignInTk(this.state);
+        console.log('currentUser',fbConfig.auth().currentUser);
     }
     render() {
+        const { authError } = this.props;
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit}>
@@ -61,11 +57,14 @@ class SignInWrapper extends Component {
                     </div>
                     <div className="input-field">
                         <button className="btn">로그인</button>
+                        <div className="red-text center">
+                            { authError ? <p>{authError}</p> : ''}
+                        </div>
                     </div>
                 </form>
                 <div className="division"></div>
-                {
-                    this.state.isSignedIn?
+                {/* {
+                    this.props.isSignedIn?
                     (<div>
                         <div>로그인이 되었습니다.</div>
                         <button onClick={()=>fbConfig.auth().signOut()}>로그아웃</button>
@@ -76,10 +75,22 @@ class SignInWrapper extends Component {
                     (<StyledFirebaseAuth
                     uiConfig={this.uiConfig}
                     firebaseAuth={fbConfig.auth()}/>)
-                }
+                } */}
             </div>
         );
     }
 }
 
-export default SignInWrapper;
+const mapStateToProps = (state) => {
+    return{
+        isSignedIn : state.auth.isSignedIn,
+        authError : state.auth.authError
+    }
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        authSignInTk : bindActionCreators(authSignInTk,dispatch)
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(SignInWrapper);

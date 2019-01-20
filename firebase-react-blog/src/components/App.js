@@ -5,6 +5,7 @@ import { AboutPage, SignInPage, SignUpPage, ContactPage, CreactContactPage, Cont
 const App = () => {
     return (
         <div>
+
             <Switch>
                 <Route exact path="/" component={AboutPage} />
                 <Route exact path="/contact" component={ContactPage} />
