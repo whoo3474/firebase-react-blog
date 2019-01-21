@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { createAuthEmailTk } from '../../store/modules/auth';
+import { Redirect } from 'react-router-dom';
 
 class SignUpWrapper extends Component {
 
@@ -24,6 +25,8 @@ class SignUpWrapper extends Component {
         this.props.createAuthEmailTk(email,password);
     }
     render() {
+        const { user } = this.props;
+        if(!!user) return <Redirect to='/'/>
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit}>
@@ -51,7 +54,8 @@ class SignUpWrapper extends Component {
 
 const mapStateToProps = (state) => {
     return{
-        isSignedIn : state.auth.isSignedIn
+        isSignedIn : state.auth.isSignedIn,
+        user : state.auth.user
     }
 }
 const mapDispatchToProps = (dispatch) => {

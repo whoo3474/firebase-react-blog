@@ -4,6 +4,7 @@ import firebase from 'firebase';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { authSignInTk } from '../../store/modules/auth';
+import { Redirect } from 'react-router-dom';
 import fbConfig from '../../config/fbConfig';
 
 class SignInWrapper extends Component {
@@ -42,7 +43,8 @@ class SignInWrapper extends Component {
         console.log('currentUser',fbConfig.auth().currentUser);
     }
     render() {
-        const { authError } = this.props;
+        const { authError,user } = this.props;
+        if(!!user) return <Redirect to='/'/>
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit}>
@@ -84,7 +86,8 @@ class SignInWrapper extends Component {
 const mapStateToProps = (state) => {
     return{
         isSignedIn : state.auth.isSignedIn,
-        authError : state.auth.authError
+        authError : state.auth.authError,
+        user : state.auth.user
     }
 }
 const mapDispatchToProps = (dispatch) => {
