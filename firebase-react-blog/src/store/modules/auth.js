@@ -6,24 +6,31 @@ const AUTH_SIGN_IN_SUCCESS = 'AUTH_SIGN_IN_SUCCESS';
 const AUTH_SIGN_IN_ERROR = 'AUTH_SIGN_IN_ERROR';
 const AUTH_SIGN_OUT_SUCCESS = 'AUTH_SIGN_OUT_SUCCESS';
 const AUTH_SIGN_CHECK = 'AUTH_SIGN_CHECK';
-const CREATE_AUTH_EMAIL = 'CREATE_AUTH_EMAIL';
+const CREATE_AUTH_EMAIL_SUCCESS = 'CREATE_AUTH_EMAIL_SUCCESS';
+const CREATE_AUTH_EMAIL_ERROR = 'CREATE_AUTH_EMAIL_ERROR';
 
 // action creators
 const authSignInSuccess = createAction(AUTH_SIGN_IN_SUCCESS);
 const authSignInError = createAction(AUTH_SIGN_IN_ERROR);
 const authSignOutSuccess = createAction(AUTH_SIGN_OUT_SUCCESS);
 const authSignCheck = createAction(AUTH_SIGN_CHECK);
-const createAuthEmail = createAction(CREATE_AUTH_EMAIL);
+const createAuthEmailSuccess = createAction(CREATE_AUTH_EMAIL_SUCCESS);
+const createAuthEmailError = createAction(CREATE_AUTH_EMAIL_ERROR);
 
 //email,password 아이디 비밀번호로 생성
-export const createAuthEmailTk = ({email,password}) => {
+export const createAuthEmailTk = (newUser) => {
     return (dispatch, getState) => {
-        console.log(email,password);
-        fbConfig.auth.createUserWithEmailAndPassword(email,password).then((user)=>{
-            console.log(user);
-            dispatch(createAuthEmail('가입에 성공하였습니다.'));
+        console.log('newUser',newUser);
+        const firestore = fbConfig.firestore();
+        fbConfig.auth().createUserWithEmailAndPassword(newUser.email,newUser.password).then((response)=>{
+            console.log('response',response);
+            return firestore.collection('users').doc(response.user.uid).set({
+                name : newUser.name
+            })
+        }).then(()=>{
+            dispatch(createAuthEmailSuccess());
         }).catch((error) => {
-            dispatch(createAuthEmail('가입에 실패하셨습니다.'));
+            dispatch(createAuthEmailError(error));
         });
     }
 }
@@ -92,10 +99,16 @@ export default handleActions({
             user:action.payload
         }
     },
-    [CREATE_AUTH_EMAIL]: (state, action) => {
+    [CREATE_AUTH_EMAIL_SUCCESS]: (state, action) => {
         return {
             ...state,
-            message:action.payload
+            authError:''
+        }
+    },
+    [CREATE_AUTH_EMAIL_ERROR]: (state, action) => {
+        return {
+            ...state,
+            authError:action.payload
         }
     }
 },initialState);

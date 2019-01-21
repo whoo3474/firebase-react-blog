@@ -21,8 +21,7 @@ class SignUpWrapper extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        const {email,password} = this.state;
-        this.props.createAuthEmailTk(email,password);
+        this.props.createAuthEmailTk(this.state);
     }
     render() {
         const { user } = this.props;
