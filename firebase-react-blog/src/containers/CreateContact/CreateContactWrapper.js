@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { createContactTk } from '../../store/modules/contact';
 import { bindActionCreators } from 'redux';
-
+import { Redirect } from 'react-router-dom';
 class CreateContactWrapper extends Component {
     state ={
         title: '',
@@ -19,6 +19,8 @@ class CreateContactWrapper extends Component {
         this.props.createContact(this.state);
     }
     render() {
+        const { user } = this.props;
+        if(!user) return <Redirect to='/signin'/>
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit}>
@@ -41,10 +43,17 @@ class CreateContactWrapper extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) => {
+    return {
+        user: state.auth.user
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         createContact : bindActionCreators(createContactTk,dispatch)
     }
 }
 
-export default connect(null,mapDispatchToProps)(CreateContactWrapper);
+export default connect(mapStateToProps,mapDispatchToProps)(CreateContactWrapper);

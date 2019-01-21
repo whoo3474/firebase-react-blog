@@ -50,14 +50,13 @@ export const authSignOutTk = () => {
 export const authCheckTk = () => {
     return (dispatch,getState) => {
         fbConfig.auth().onAuthStateChanged(user => {
-            dispatch(authSignCheck())
+            dispatch(authSignCheck(user))
         })
     }
 }
 
 const initialState = {
     userId:'',
-    isSignedIn:false,
     redirect:false,
     authError:'',
     message:''
@@ -77,6 +76,7 @@ export default handleActions({
             authError: 'Login failed'
         }
     },
+
     [AUTH_SIGN_OUT_SUCCESS]: (state, action) => {
         return {
             ...state,
@@ -84,10 +84,12 @@ export default handleActions({
             redirect:true
         }
     },
-    [AUTH_SIGN_OUT_SUCCESS]: (state, action) => {
+
+    [AUTH_SIGN_CHECK]: (state, action) => {
         return {
             ...state,
-            isSignedIn:!!action.payload
+            isSignedIn:!!action.payload,
+            user:action.payload
         }
     },
     [CREATE_AUTH_EMAIL]: (state, action) => {

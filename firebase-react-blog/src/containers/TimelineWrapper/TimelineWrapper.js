@@ -8,7 +8,7 @@ import { bindActionCreators } from 'redux';
 class TimelineWrapper extends Component {
     state = {
         contacts : [],
-        totalPages: null,
+        totalCount: null,
         scrolling: false
     }
 
@@ -18,11 +18,11 @@ class TimelineWrapper extends Component {
         this.scrollListener = window.addEventListener('scroll', (e) =>{
             this.handleScroll(e)
         })
-        const {totalPages} = this.props;
-        console.log(totalPages);
+        const {totalCount} = this.props;
+        console.log(totalCount);
     }
     handleScroll= (e) => {
-        const { scrolling, totalPages, nextPage } = this.props;
+        const { scrolling, totalCount, nextPage } = this.props;
         if(scrolling) return;
         const lastLi = document.querySelector('ul.timeline-list > li:last-child');
         console.log(lastLi);
@@ -33,8 +33,12 @@ class TimelineWrapper extends Component {
     }
 
     loadMore = () => {
+        if (this.paging.end) {
+            return;
+        };
         console.log("hello load")
         this.props.getTimeListLoad();
+        // scrolling:true;
         // 파이어베이스 호출 해서 rows에 넣어야된다.
     }
  
@@ -57,7 +61,7 @@ class TimelineWrapper extends Component {
 const mapStateToProps = (state) => {
     return{
        timelines:state.timeLine.timelines,
-       totalPages:state.timeLine.totalPages,
+       totalCount:state.timeLine.totalCount,
        nextPage:state.timeLine.nextPage,
        scrolling:state.timeLine.scrolling
     };
