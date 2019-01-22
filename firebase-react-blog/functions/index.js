@@ -17,9 +17,24 @@ exports.projectCreated = functions.firestore
     .onCreate( doc => {
         const contact = doc.data();
         const notification = {
-            content: '게시글이 새로 추가되었습니다.',
+            content: '새로운 게시글이 추가되었습니다.',
             user : `${contact.authorName}`,
             time: admin.firestore.FieldValue.serverTimestamp()
         }
         return createNotificatoin(notification);
-    })
+    });
+
+exports.userJoined = functions.auth.user()
+    .onCreate(user => {
+        return admin.firestore().collection('users')
+        .doc(user.uid).get().then( doc => {
+            const newUser = doc.data();
+            const notification = {
+                content : '님 회원가입을 축하드립니다.',
+                user: `${newUser.name}`,
+                time: admin.firestore.FieldValue.serverTimestamp()
+            }
+            return createNotificatoin(notification);
+        })
+});
+

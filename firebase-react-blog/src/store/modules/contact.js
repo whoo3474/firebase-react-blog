@@ -7,23 +7,38 @@ const GET_CONTACT = 'GET_CONTACT';
 const GET_CONTACT_LIST = 'GET_CONTACT_LIST';
 const CREATE_CONTACT = 'CREATE_CONTACT';
 const CREATE_CONTACT_ERROR = 'CREATE_CONTACT_ERROR';
+const GET_NOTIFICATIONS = 'GET_NOTIFICATIONS';
 
 // action creators
 const getContact = createAction(GET_CONTACT);
 const getContactList = createAction(GET_CONTACT_LIST);
 const createContact = createAction(CREATE_CONTACT);
 const createContactError = createAction(CREATE_CONTACT_ERROR);
+const getNotifications = createAction(GET_NOTIFICATIONS);
 
 export const getContactListTk = () => {
     return (dispatch, getState)=>{
         fbConfig.firestore().collection('contacts').get()
         .then((querySnapshot)=> {
-            var rows = []; 
+            let rows = []; 
             querySnapshot.forEach((doc) => { 
-                var childData = doc.data(); 
+                let childData = doc.data(); 
                 rows.push(childData);
             });
            dispatch(getContactList(rows));
+        });
+    };
+};
+export const getNotificationsTk = () => {
+    return (dispatch, getState)=>{
+        fbConfig.firestore().collection('notifications').orderBy('time').limit(5).get()
+        .then((querySnapshot)=> {
+            let rows = []; 
+            querySnapshot.forEach((doc) => { 
+                let childData = doc.data(); 
+                rows.push(childData);
+            });
+           dispatch(getNotifications(rows));
         });
     };
 };
@@ -48,7 +63,7 @@ export const createContactTk = (contact) => {
         contactDoc.set({
             ...contact,
             id:contactDoc.id,
-            file: contact.file.name,
+            file: contact.file.name||'',
             authorName: firebaseUser.displayName||'',
             authorId:firebaseUser.email||'',
             createdAt: new Date()
@@ -66,7 +81,8 @@ export const createContactTk = (contact) => {
 // initial state
 const initialState = {
     contactList:[],
-    contact:{}
+    contact:{},
+    notifications:[]
 }
 
 // reducer
@@ -79,17 +95,25 @@ export default handleActions({
     },
     [GET_CONTACT] : (state,action) => {
         return {
+            ...state,
             contact: action.payload
         }
     },
     [CREATE_CONTACT] : (state,action) => {
         return {
-            state
+            ...state,
+            contactList:[...state.contactList,action.payload]
         }
     },
     [CREATE_CONTACT_ERROR] : (state,action) => {
         return {
-            state
+            ...state
+        }
+    },
+    [GET_NOTIFICATIONS] : (state,action) => {
+        return {
+            ...state,
+            notifications: action.payload
         }
     }
 }, initialState);
