@@ -16,10 +16,10 @@ class ContactWrapper extends Component {
             <div className="dashboard container">
                 <div className="col">
                     <div className="col s12 m5 offset-m1">
-                        <Link className='waves-effect waves-light btn' to='/create'>게시글 생성</Link>
-                    </div>
-                    <div className="col s12 m5 offset-m1">
                         <Notifications/>
+                    </div>
+                    <div className="col s12 m6 right">
+                        <Link className='waves-effect waves-light btn' to='/create'>게시글 생성</Link>
                     </div>
                     <div className="col s12 m6">
                         <ContactList contactList={contactList}/>

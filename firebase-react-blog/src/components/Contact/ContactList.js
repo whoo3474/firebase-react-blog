@@ -9,7 +9,7 @@ const ContactList = ({contactList}) => {
         <div className="contact-list section">
             { contactList && contactList.map(contact => {
                 return (
-                    <Link to={'/contact/' + contact.id }>
+                    <Link to={'/contact/'+contact.id }>
                       <ContactSummary contact={contact} key={contact.id}/>
                     </Link>
                 )

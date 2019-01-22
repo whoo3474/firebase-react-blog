@@ -4,17 +4,26 @@ import ContactDetails from '../../components/Contact/ContactDetails';
 import { getContactTk } from '../../store/modules/contact';
 import { bindActionCreators } from 'redux';
 class ContactDetailsWrapper extends Component {
-    componentWillMount() {
+    componentDidMount() {
         const id = this.props.id;
         this.props.getContactTk(id);
     }
     render() {
-        const {contact} = this.props;
+        const {contact, getContactTk,id} = this.props;
+        if(!!contact){
         return(
             <div className="container section contact-details">
                 <ContactDetails contact={contact}/>
              </div>
            );
+        }else {
+            return(
+                <div className="container center">
+                  <p>Loading ContactDetails......</p>
+                </div>
+                // 이거 작동을 안하나?
+            )
+        }
     }
 }
 

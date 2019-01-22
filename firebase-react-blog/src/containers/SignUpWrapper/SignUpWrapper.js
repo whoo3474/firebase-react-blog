@@ -24,7 +24,7 @@ class SignUpWrapper extends Component {
         this.props.createAuthEmailTk(this.state);
     }
     render() {
-        const { user } = this.props;
+        const { user, authError } = this.props;
         if(!!user) return <Redirect to='/'/>
         return (
             <div className="container">
@@ -44,6 +44,9 @@ class SignUpWrapper extends Component {
                     </div>
                     <div className="input-field">
                         <button className="btn">회원가입</button>
+                        <div className="red-text center">
+                            { authError ? <p>{authError}</p>:''}
+                        </div>
                     </div>
                 </form>
             </div>
@@ -54,7 +57,8 @@ class SignUpWrapper extends Component {
 const mapStateToProps = (state) => {
     return{
         isSignedIn : state.auth.isSignedIn,
-        user : state.auth.user
+        user : state.auth.user,
+        authError : state.auth.authError
     }
 }
 const mapDispatchToProps = (dispatch) => {

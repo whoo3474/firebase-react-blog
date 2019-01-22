@@ -7,6 +7,7 @@ class CreateContactWrapper extends Component {
     state ={
         title: '',
         content:'',
+        file:'',
     }
 
     handleChange = (e) => {
@@ -14,9 +15,14 @@ class CreateContactWrapper extends Component {
             [e.target.id] : e.target.value
         })
     }
+    handleFileChange = (e) => {
+        this.setState({
+            file : e.target.files[0]
+        })
+    }
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.createContact(this.state);
+        this.props.createContactTk(this.state);
     }
     render() {
         const { user } = this.props;
@@ -35,6 +41,8 @@ class CreateContactWrapper extends Component {
                        
                         </textarea>
                     </div>
+                    <div className="divider"/>
+                    <input type="file" id="file" onChange={this.handleFileChange}/>
                     <div className="input-field">
                         <button className="btn">생성</button>
                     </div>
@@ -52,7 +60,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        createContact : bindActionCreators(createContactTk,dispatch)
+        createContactTk : bindActionCreators(createContactTk,dispatch)
     }
 }
 

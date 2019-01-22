@@ -15,8 +15,9 @@ var config = {
   
   const fbConfig =firebase.initializeApp(config);
   
-  export const firestoreCg = firebase.firestore().settings({ timestampsInSnapshots: true});
+  export const fireStore = firebase.firestore().settings({ timestampsInSnapshots: true});
     // fbConfig.storage();
 
-  export const fireauthCg = firebase.auth();
+  export const fireAuth = firebase.auth();
+  export const fireStorege = firebase.storage();
   export default fbConfig;

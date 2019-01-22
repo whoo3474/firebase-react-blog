@@ -5,25 +5,34 @@ import fbConfig from '../../config/fbConfig';
 const AUTH_SIGN_IN_SUCCESS = 'AUTH_SIGN_IN_SUCCESS';
 const AUTH_SIGN_IN_ERROR = 'AUTH_SIGN_IN_ERROR';
 const AUTH_SIGN_OUT_SUCCESS = 'AUTH_SIGN_OUT_SUCCESS';
-const AUTH_SIGN_CHECK = 'AUTH_SIGN_CHECK';
+const AUTH_SIGN_CHECK_OK = 'AUTH_SIGN_CHECK_OK';
+const AUTH_SIGN_CHECK_NO = 'AUTH_SIGN_CHECK_NO';
 const CREATE_AUTH_EMAIL_SUCCESS = 'CREATE_AUTH_EMAIL_SUCCESS';
 const CREATE_AUTH_EMAIL_ERROR = 'CREATE_AUTH_EMAIL_ERROR';
+const GET_USER_INFO = 'GET_USER_INFO';
 
 // action creators
 const authSignInSuccess = createAction(AUTH_SIGN_IN_SUCCESS);
 const authSignInError = createAction(AUTH_SIGN_IN_ERROR);
 const authSignOutSuccess = createAction(AUTH_SIGN_OUT_SUCCESS);
-const authSignCheck = createAction(AUTH_SIGN_CHECK);
+const authSignCheckOk = createAction(AUTH_SIGN_CHECK_OK);
+const authSignCheckNo = createAction(AUTH_SIGN_CHECK_NO);
 const createAuthEmailSuccess = createAction(CREATE_AUTH_EMAIL_SUCCESS);
 const createAuthEmailError = createAction(CREATE_AUTH_EMAIL_ERROR);
+const getUserInfo = createAction(GET_USER_INFO);
+
+export const getUserInfoTk = (user) => {
+    return (dispatch, getState) => {
+        console.log('info',fbConfig.auth());
+    }
+}
 
 //email,password 아이디 비밀번호로 생성
 export const createAuthEmailTk = (newUser) => {
     return (dispatch, getState) => {
-        console.log('newUser',newUser);
         const firestore = fbConfig.firestore();
         fbConfig.auth().createUserWithEmailAndPassword(newUser.email,newUser.password).then((response)=>{
-            console.log('response',response);
+            // firebase auth 에서 이메일로 유저를 만들때 사용, 프로미스 반환
             return firestore.collection('users').doc(response.user.uid).set({
                 name : newUser.name
             })
@@ -39,7 +48,8 @@ export const authSignInTk = (user) => {
     const {email,password} = user;
     return (dispatch, getState) =>{
         fbConfig.auth().signInWithEmailAndPassword(email, password).then((a)=>{
-            dispatch(authSignInSuccess());
+            // firebase auth 에서 이메일로 유저를 인증할때 사용, 프로미스 반환
+            dispatch(authSignInSuccess(a.user));
         }).catch((err)=>{
             dispatch(authSignInError(err));
         });
@@ -57,7 +67,12 @@ export const authSignOutTk = () => {
 export const authCheckTk = () => {
     return (dispatch,getState) => {
         fbConfig.auth().onAuthStateChanged(user => {
-            dispatch(authSignCheck(user))
+            // firebase auth 에서 인증상태를 감시하기 위하여 사용, 인증 상태가 변경될때마다 작용, 로그인 또는 로그아웃시
+            if(user){
+                dispatch(authSignCheckOk(user));
+            }else{
+                dispatch(authSignCheckNo());
+            }
         })
     }
 }
@@ -80,7 +95,8 @@ export default handleActions({
     [AUTH_SIGN_IN_ERROR]: (state, action) => {
         return {
             ...state,
-            authError: 'Login failed'
+            isSignedIn:false,
+            authError: action.payload.message
         }
     },
 
@@ -92,11 +108,18 @@ export default handleActions({
         }
     },
 
-    [AUTH_SIGN_CHECK]: (state, action) => {
+    [AUTH_SIGN_CHECK_OK]: (state, action) => {
         return {
             ...state,
-            isSignedIn:!!action.payload,
+            isSignedIn:true,
             user:action.payload
+        }
+    },
+    [AUTH_SIGN_CHECK_NO]: (state, action) => {
+        return {
+            ...state,
+            isSignedIn:false,
+            user:''
         }
     },
     [CREATE_AUTH_EMAIL_SUCCESS]: (state, action) => {
@@ -108,7 +131,7 @@ export default handleActions({
     [CREATE_AUTH_EMAIL_ERROR]: (state, action) => {
         return {
             ...state,
-            authError:action.payload
+            authError:action.payload.message
         }
     }
 },initialState);

@@ -1,12 +1,13 @@
 import React from 'react';
+import moment from 'moment';
 
-const ContactSummary = ({contact}) => {
+const ContactSummary = ({contact,key}) => {
     return (
-        <div className="card z-depth-0 contact-summary">
+        <div id={key} className="card z-depth-0 contact-summary">
             <div className="card-content gery-text text-darken-3">
-                <span className="card-title">{contact.title}</span>
+                <span className="card-title">{contact.title}-{contact.id}</span>
             <p>{contact.content}</p>
-                <p className="grey-text">2019년 1월17일 23시</p>
+                <p className="grey-text">{moment(contact.createdAt.toDate()).calendar()}</p>
             </div>
         </div>
     );
