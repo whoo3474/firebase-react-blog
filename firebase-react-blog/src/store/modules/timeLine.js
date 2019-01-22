@@ -66,7 +66,7 @@ const initialState = {
     ,
     loading:false,
     end:false,
-    countList:3,
+    countList:12,
     //한페이지에 출력될 게시물 수
     currentPageIndex:0,
     //현재 페이지 번호

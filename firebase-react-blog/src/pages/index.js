@@ -7,3 +7,4 @@ export { default as NotFoundPage } from './NotFoundPage';
 export { default as PortfolioPage} from './PortfolioPage';
 export { default as TimelinePage} from './TimelinePage';
 export { default as SignUpPage} from './SignUpPage';
+export { default as UserPage} from './UserPage';

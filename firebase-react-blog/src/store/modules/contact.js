@@ -18,7 +18,7 @@ const getNotifications = createAction(GET_NOTIFICATIONS);
 
 export const getContactListTk = () => {
     return (dispatch, getState)=>{
-        fbConfig.firestore().collection('contacts').get()
+        fbConfig.firestore().collection('contacts').orderBy('createdAt','desc').get()
         .then((querySnapshot)=> {
             let rows = []; 
             querySnapshot.forEach((doc) => { 
@@ -31,7 +31,7 @@ export const getContactListTk = () => {
 };
 export const getNotificationsTk = () => {
     return (dispatch, getState)=>{
-        fbConfig.firestore().collection('notifications').orderBy('time').limit(5).get()
+        fbConfig.firestore().collection('notifications').orderBy('time').limit(3).get()
         .then((querySnapshot)=> {
             let rows = []; 
             querySnapshot.forEach((doc) => { 
@@ -55,26 +55,29 @@ export const getContactTk = (id) => {
 
 export const createContactTk = (contact) => {
     return (dispatch, getState) => {
-        const contactDoc = fbConfig.firestore().collection('contacts').doc();
+        const firestore = fbConfig.firestore().collection('contacts').doc();
         const firebaseUser = fbConfig.auth().currentUser;
-        const fireStorage =fbConfig.storage();
-        console.log('firebaseUser',firebaseUser);
-        console.log('contact.file',contact.file);
-        contactDoc.set({
-            ...contact,
-            id:contactDoc.id,
-            file: contact.file.name||'',
-            authorName: firebaseUser.displayName||'',
-            authorId:firebaseUser.email||'',
-            createdAt: new Date()
-        }).then(() => {
-            fireStorage.ref('blog_img/'+contact.file.name);
-            fireStorage.put(contact.file);
-            dispatch(createContact(contact));
-            // 스토리지에 저장
-        }).catch((err) => {
-            dispatch(createContactError(err));
-        })
+        const fireStorage =fbConfig.storage().ref();
+
+        fireStorage.child(`blog_img/${contact.file.name}/${new Date().getTime()}`)
+        .put(contact.file).then((snapshot)=> {
+            console.log('storage snapshot',snapshot);
+            firestore.set({
+                ...contact,
+                id:firestore.id,
+                file: contact.file.name||'',
+                authorName: firebaseUser.displayName||'이름없음',
+                authorId:firebaseUser.email||'이메일없음',
+                file: snapshot.metadata.fullPath||'',
+                createdAt: new Date()
+               }).then(() => {
+               dispatch(createContact(contact));
+                // 스토리지에 저장
+               }).catch((err) => {
+                  dispatch(createContactError(err));
+                })
+            });
+
     } 
 };
 

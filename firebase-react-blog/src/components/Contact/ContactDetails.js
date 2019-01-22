@@ -15,7 +15,7 @@ const ContactDetails = (props) => {
                         </div>
                         <div className="card-action grey-lighten-4 gery-text">
                             <div>
-                                Posted by {contact.authorName}
+                                Posted by {contact.authorName||'이름없음'}
                             </div>
                             <div>
                             {moment(contact.createdAt).calendar()}

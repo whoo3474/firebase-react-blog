@@ -1,6 +1,6 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import { AboutPage, SignInPage, SignUpPage, ContactPage, CreactContactPage, ContactDetailsPage, NotFoundPage, PortfolioPage, TimelinePage } from '../pages'
+import { AboutPage, UserPage, SignInPage, SignUpPage, ContactPage, CreactContactPage, ContactDetailsPage, NotFoundPage, PortfolioPage, TimelinePage } from '../pages'
 
 const App = () => {
     return (
@@ -15,6 +15,7 @@ const App = () => {
                 <Route path="/timeline" component={TimelinePage} />
                 <Route path="/signin" component={SignInPage} />
                 <Route path="/signup" component={SignUpPage} />
+                <Route path="/user" component={UserPage} />
                 {/* <Route path="" component={} /> */}
                 <Route component={NotFoundPage} />    
             </Switch>   

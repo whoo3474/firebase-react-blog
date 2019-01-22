@@ -88,6 +88,7 @@ export default handleActions({
     [AUTH_SIGN_IN_SUCCESS]: (state, action) => {
         return {
             ...state,
+            user:action.payload,
             authError: '',
             isSignedIn:true
         }

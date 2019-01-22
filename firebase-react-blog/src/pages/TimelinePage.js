@@ -8,8 +8,7 @@ const TimelinePage = () => {
         <PageTemplate>
             <div className="cover">
                 <h1 className="cover-title">
-                    <span>제목</span>
-                    입니다
+                    <span className="text-center">타임라인</span>
                 </h1>
             </div>
             <TimeLineWrapper/>

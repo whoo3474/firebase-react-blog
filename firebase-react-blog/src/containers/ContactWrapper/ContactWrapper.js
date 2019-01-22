@@ -19,7 +19,7 @@ class ContactWrapper extends Component {
                     <div className="col s12 m5 offset-m1">
                         <Notifications notifications={notifications}/>
                     </div>
-                    <div className="col s12 m6 right">
+                    <div className="c">
                         <Link className='waves-effect waves-light btn' to='/create'>게시글 생성</Link>
                     </div>
                     <div className="col s12 m6">
