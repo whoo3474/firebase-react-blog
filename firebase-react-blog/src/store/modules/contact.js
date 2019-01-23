@@ -32,13 +32,15 @@ export const getContactListTk = () => {
 
 export const getNotificationsTk = () => {
     return (dispatch, getState)=>{
-        fbConfig.firestore().collection('notifications').orderBy('time').limit(3).get()
+        fbConfig.firestore().collection('notifications').orderBy('time','desc').limit(3).get()
         .then((querySnapshot)=> {
             let rows = []; 
             querySnapshot.forEach((doc) => { 
+                console.log('doc',doc);
                 let childData = doc.data(); 
                 rows.push(childData);
             });
+            console.log('rows',rows);
            dispatch(getNotifications(rows));
         });
     };

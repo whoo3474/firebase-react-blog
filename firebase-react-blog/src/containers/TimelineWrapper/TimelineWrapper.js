@@ -6,45 +6,32 @@ import { getTimeList, getTimeListLoad } from '../../store/modules/timeLine';
 import { bindActionCreators } from 'redux';
 
 class TimelineWrapper extends Component {
-    state = {
-        contacts : [],
-        totalCount: null,
-        scrolling: false
+    state={
+        isLoading:false
     }
-
     componentWillMount() {
-        this.props.getTimeList();
-        //스크롤 만들어보자
-        // this.scrollListener = window.addEventListener('scroll', (e) =>{
-        //     this.handleScroll(e)
-        // })
-        // const {totalCount} = this.props;
-        // console.log(totalCount);
+        this.props.getTimeListLoad();
+        if(!!this.props.exists)window.addEventListener('scroll',this._infiniteScroll,true);
+        // 이거 텀을 줘야될것같다.
     }
-    // handleScroll= (e) => {
-    //     const { scrolling, totalCount, nextPage } = this.props;
-    //     if(scrolling) return;
-    //     const lastLi = document.querySelector('ul.timeline-list > li:last-child');
-    //     console.log(lastLi);
-    //     const lastLiOffset = lastLi.offsetTop + lastLi.clientHeight;
-    //     const pageOffset = window.pageYOffset + window.innerHeight;
-    //     let bottomOffset = 20;
-    //     if (pageOffset > lastLiOffset - bottomOffset) this.loadMore();
-    // }
+    _infiniteScroll = () => {
+        let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
+        let scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
+        let clientHeight = document.documentElement.clientHeight;
+        this.setState({
+            isLoading:false
+        });
+        if(scrollTop + clientHeight === scrollHeight){
+            this.setState({
+                isLoading:true
+            });
+            this.props.getTimeListLoad();
+        }
+    }
 
-    // loadMore = () => {
-    //     if (this.paging.end) {
-    //         return;
-    //     };
-    //     console.log("hello load")
-    //     this.props.getTimeListLoad();
-    //     // scrolling:true;
-    //     // 파이어베이스 호출 해서 rows에 넣어야된다.
-    // }
- 
+
     render() {
         const{ timelines } = this.props;
-
         return (
             <div className="wrapper">
                 <ul className="timeline-list">
@@ -54,6 +41,7 @@ class TimelineWrapper extends Component {
                     ))
                 }
                </ul>
+               {this.state.isLoading&&this.props.exists?(<div className="loader">Loading ...</div>):''}
             </div>
         );
     }
@@ -63,7 +51,7 @@ const mapStateToProps = (state) => {
        timelines:state.timeLine.timelines,
        totalCount:state.timeLine.totalCount,
        nextPage:state.timeLine.nextPage,
-       scrolling:state.timeLine.scrolling
+       exists:state.timeLine.exists
     };
 };
 const mapDispatchToProps = (dispatch)=>({

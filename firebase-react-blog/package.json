@@ -12,6 +12,7 @@
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-firebaseui": "^3.1.2",
+    "react-intersection-observing-infinity-scroll": "^1.0.0",
     "react-redux": "^6.0.0",
     "react-redux-firebase": "^2.2.6",
     "react-router-dom": "^4.3.1",
