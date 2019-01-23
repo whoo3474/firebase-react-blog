@@ -23,7 +23,7 @@ export const getTimeList = () => {
         TimeListFirst.get().then((total)=> {
             dispatch(getTimelineTotal(total.size));
         });
-        TimeListFirst.orderBy('title').limit(countList).get().then((querySnapshot)=> {
+        TimeListFirst.orderBy('title').start().limit(countList).get().then((querySnapshot)=> {
             console.log(querySnapshot);
             console.log(querySnapshot.empty);
             const lastVisible = querySnapshot.docs[querySnapshot.docs.length-1];
@@ -66,7 +66,7 @@ const initialState = {
     ,
     loading:false,
     end:false,
-    countList:12,
+    countList:3,
     //한페이지에 출력될 게시물 수
     currentPageIndex:0,
     //현재 페이지 번호

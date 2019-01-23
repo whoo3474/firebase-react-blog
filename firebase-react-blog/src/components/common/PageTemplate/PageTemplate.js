@@ -10,8 +10,8 @@ const PageTemplate = ({children}) => {
             <Header/>
             <main className="main-content">
                 {children}
-            <Footer/>
             </main>
+            <Footer/>
         </div>
     );
 };

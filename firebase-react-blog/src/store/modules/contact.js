@@ -29,6 +29,7 @@ export const getContactListTk = () => {
         });
     };
 };
+
 export const getNotificationsTk = () => {
     return (dispatch, getState)=>{
         fbConfig.firestore().collection('notifications').orderBy('time').limit(3).get()
@@ -59,9 +60,9 @@ export const createContactTk = (contact) => {
         const firebaseUser = fbConfig.auth().currentUser;
         const fireStorage =fbConfig.storage().ref();
 
-        fireStorage.child(`blog_img/${contact.file.name}/${new Date().getTime()}`)
+        fireStorage.child(`blog_img/${contact.file.name}`)
         .put(contact.file).then((snapshot)=> {
-            console.log('storage snapshot',snapshot);
+            console.log('snapshot.metadata : ',snapshot.metadata);
             firestore.set({
                 ...contact,
                 id:firestore.id,
@@ -77,7 +78,7 @@ export const createContactTk = (contact) => {
                   dispatch(createContactError(err));
                 })
             });
-
+            // 얘를 async/ await로 바꿔서 해보자
     } 
 };
 
