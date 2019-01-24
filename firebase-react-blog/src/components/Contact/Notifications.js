@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import Moment from 'react-moment';
 
 // contactWrapper에서 보여줌
 const Notifications = (props) => {
@@ -17,7 +17,7 @@ const Notifications = (props) => {
                                         <span className="pink-text">{item.user}</span>
                                         <span>{item.content}</span>
                                         <div className="grey-text note-date">
-                                            {moment(item.time.toDate()).fromNow()}
+                                            <Moment fromNow>{item.time.toDate()?item.time.toDate():''}</Moment>
                                         </div>
                                     </li>
                                 )

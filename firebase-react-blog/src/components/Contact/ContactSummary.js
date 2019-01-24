@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import Moment from 'react-moment';
 
 const ContactSummary = ({contact,key}) => {
     return (
@@ -8,8 +8,16 @@ const ContactSummary = ({contact,key}) => {
                 <span className="card-title">{contact.title}</span>
             <p>{contact.content}</p>
             <p className="grey-text">Posted by {contact.authorName||'이름없음'}</p>
-            <p className="grey-text">{moment(contact.createdAt.toDate()).calendar()}</p>
+            <p className="grey-text">
+              <Moment calendar>{contact.createdAt?contact.createdAt.toDate():''}</Moment>
+            </p>
             </div>
+           {(contact.DownloadUrl &&
+            (<div>
+                <img className="card" src={contact.DownloadUrl}/>
+            </div>)
+            )
+           ||(<div className="loader">Loading ...</div>)}
         </div>
     );
 };

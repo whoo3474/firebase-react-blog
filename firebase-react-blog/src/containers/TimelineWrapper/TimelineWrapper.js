@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TimelineCards from '../../components/TimelineCards/TimelineCards';
 import './TimelineWrapper.scss';
-import { getTimeList, getTimeListLoad } from '../../store/modules/timeLine';
+import { getTimeListLoad } from '../../store/modules/timeLine';
 import { bindActionCreators } from 'redux';
 
 class TimelineWrapper extends Component {
@@ -49,13 +49,10 @@ class TimelineWrapper extends Component {
 const mapStateToProps = (state) => {
     return{
        timelines:state.timeLine.timelines,
-       totalCount:state.timeLine.totalCount,
-       nextPage:state.timeLine.nextPage,
        exists:state.timeLine.exists
     };
 };
 const mapDispatchToProps = (dispatch)=>({
-    getTimeList : bindActionCreators(getTimeList,dispatch),
     getTimeListLoad : bindActionCreators(getTimeListLoad,dispatch)
 })
 

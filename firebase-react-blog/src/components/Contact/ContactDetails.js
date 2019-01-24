@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import Moment from 'react-moment';
 
 const ContactDetails = (props) => {
     const {contact} = props;
@@ -18,7 +18,7 @@ const ContactDetails = (props) => {
                                 Posted by {contact.authorName||'이름없음'}
                             </div>
                             <div>
-                            {moment(contact.createdAt).calendar()}
+                                <Moment calendar>{contact.createdAt?contact.createdAt.toDate():''}</Moment>
                             </div>
                         </div>
                     </div>

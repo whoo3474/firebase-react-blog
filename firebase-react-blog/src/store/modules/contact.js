@@ -5,6 +5,7 @@ import fbConfig from '../../config/fbConfig';
 // action type
 const GET_CONTACT = 'GET_CONTACT';
 const GET_CONTACT_LIST = 'GET_CONTACT_LIST';
+const GET_CONTACT_LIST_LOAD = 'GET_CONTACT_LIST_LOAD';
 const CREATE_CONTACT = 'CREATE_CONTACT';
 const CREATE_CONTACT_ERROR = 'CREATE_CONTACT_ERROR';
 const GET_NOTIFICATIONS = 'GET_NOTIFICATIONS';
@@ -12,21 +13,63 @@ const GET_NOTIFICATIONS = 'GET_NOTIFICATIONS';
 // action creators
 const getContact = createAction(GET_CONTACT);
 const getContactList = createAction(GET_CONTACT_LIST);
+const getContactListLoad = createAction(GET_CONTACT_LIST_LOAD);
 const createContact = createAction(CREATE_CONTACT);
 const createContactError = createAction(CREATE_CONTACT_ERROR);
 const getNotifications = createAction(GET_NOTIFICATIONS);
 
 export const getContactListTk = () => {
     return (dispatch, getState)=>{
-        fbConfig.firestore().collection('contacts').orderBy('createdAt','desc').get()
-        .then((querySnapshot)=> {
-            let rows = []; 
-            querySnapshot.forEach((doc) => { 
-                let childData = doc.data(); 
-                rows.push(childData);
-            });
-           dispatch(getContactList(rows));
-        });
+        const state = getState().contact;
+        const lastBoard = state.lastBoard;
+        const countList = state.countList;
+        const exists = state.exists;
+        const rows = []; 
+
+        const fireStorage =fbConfig.storage();
+        let ContactListFirst =fbConfig.firestore().collection('contacts').orderBy('createdAt','desc');
+        if(!!exists){
+            if(!!lastBoard){
+                // lastBoard가 있다고? 그럼 startAfter로 너를 기준으로 limit만큼 찾아오자
+                ContactListFirst.startAfter(lastBoard).limit(countList).get().then((querySnapshot)=> {
+                    querySnapshot.forEach((doc) => {
+                        // 게시판을 for문으로 다 뽑을껀데 
+                        let childData = doc.data(); 
+                        if(!!childData.filePath) {
+                            //  혹시 file 있니?
+                            fireStorage.ref().child(doc.data().filePath).getDownloadURL().then( url =>{
+                            childData.DownloadUrl= url;
+                            // 있으면 같이 store에 DownloadUrl로 저장 되렴
+                            })
+                        }
+                        rows.push(childData);
+                    });
+                    const lastBoard = querySnapshot.docs[querySnapshot.docs.length-1];
+                   dispatch(getContactList(rows));
+                   dispatch(getContactListLoad(lastBoard));
+                });
+            }else{
+                // 여긴 처음부터 시작하자. 첫시작은 너야
+                ContactListFirst.limit(countList).get().then((querySnapshot)=> {
+                    querySnapshot.forEach((doc) => {
+                        // 게시판을 for문으로 다 뽑을껀데 
+                        let childData = doc.data(); 
+                        if(!!childData.filePath) {
+                            //  혹시 file 있니?
+                            fireStorage.ref().child(doc.data().filePath).getDownloadURL().then( url =>{
+                            childData.DownloadUrl= url;
+                            // 있으면 같이 store에 DownloadUrl로 저장 되렴
+                            })
+                        }
+                        rows.push(childData);
+                    });
+                    const lastBoard = querySnapshot.docs[querySnapshot.docs.length-1];
+                   dispatch(getContactList(rows));
+                   dispatch(getContactListLoad(lastBoard));
+                });
+            }
+        }
+
     };
 };
 
@@ -36,11 +79,9 @@ export const getNotificationsTk = () => {
         .then((querySnapshot)=> {
             let rows = []; 
             querySnapshot.forEach((doc) => { 
-                console.log('doc',doc);
                 let childData = doc.data(); 
                 rows.push(childData);
             });
-            console.log('rows',rows);
            dispatch(getNotifications(rows));
         });
     };
@@ -60,19 +101,22 @@ export const createContactTk = (contact) => {
     return (dispatch, getState) => {
         const firestore = fbConfig.firestore().collection('contacts').doc();
         const firebaseUser = fbConfig.auth().currentUser;
-        const fireStorage =fbConfig.storage().ref();
-
-        fireStorage.child(`blog_img/${contact.file.name}`)
-        .put(contact.file).then((snapshot)=> {
+        const fireStorage =fbConfig.storage().ref().child(`blog_img/${Time}`);
+        const Time = new Date();
+        // const DownloadUrl = fireStorage.getDownloadURL()
+        fireStorage.put(contact.file).then((snapshot)=> {
             console.log('snapshot.metadata : ',snapshot.metadata);
+            console.log('snapshot : ',snapshot);
             firestore.set({
                 ...contact,
                 id:firestore.id,
                 file: contact.file.name||'',
+                changeFileName : Time,
                 authorName: firebaseUser.displayName||'이름없음',
                 authorId:firebaseUser.email||'이메일없음',
-                file: snapshot.metadata.fullPath||'',
-                createdAt: new Date()
+                // filePath: snapshot.get||'',
+                filePath: snapshot.metadata.fullPath||'',
+                createdAt: Time
                }).then(() => {
                dispatch(createContact(contact));
                 // 스토리지에 저장
@@ -88,7 +132,12 @@ export const createContactTk = (contact) => {
 const initialState = {
     contactList:[],
     contact:{},
-    notifications:[]
+    notifications:[],
+    lastBoard:'',
+    // 마지막 인덱스
+    exists:true,
+    countList:3,
+    //한페이지에 출력될 게시물 수
 }
 
 // reducer
@@ -96,7 +145,16 @@ export default handleActions({
     [GET_CONTACT_LIST] : (state,action) => {
         return {
             ...state,
-            contactList: action.payload
+            loading:false,
+            contactList: [...state.contactList,...action.payload]
+        }
+    },
+        [GET_CONTACT_LIST_LOAD] : (state,action) => {
+        return {
+            ...state,
+            loading:false,
+            lastBoard:action.payload,
+            exists: action.payload?(action.payload.exists?action.payload.exists:''):''
         }
     },
     [GET_CONTACT] : (state,action) => {

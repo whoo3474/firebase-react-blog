@@ -36,7 +36,6 @@ export const getTimeListLoad = () => {
         const countList = state.countList;
         const exists = state.exists;
         const rows = []; 
-        console.log('lastBoard',lastBoard);
         let TimeListFirst = fbConfig.firestore().collection('Timelines').orderBy('title');
         if(!!exists){
             if(!!lastBoard){
