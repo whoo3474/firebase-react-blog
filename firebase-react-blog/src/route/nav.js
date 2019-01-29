@@ -3,6 +3,8 @@ export const signInNavRoutes = [
         ,
         {to:"/timeline",activeName:"active",name:"TimeLine"}
         ,
+        {to:"/portfolio",activeName:"active",name:"Portfolio"}
+        ,
         {to:"/contact",activeName:"active",name:"Contact"}
         ,
         {to:"/user",activeName:"btn btn-floating pink lighten-1",name:"user"}
@@ -14,6 +16,8 @@ export const signOutNavRoutes = [
         {to:"/",activeName:"active",name:"About"}
         ,
         {to:"/timeline",activeName:"active",name:"TimeLine"}
+        ,
+        {to:"/portfolio",activeName:"active",name:"Portfolio"}
         ,
         {to:"/contact",activeName:"active",name:"Contact"}
         ,

@@ -1,10 +1,13 @@
 import React from 'react';
+import PageTemplate from '../components/common/PageTemplate/PageTemplate';
+import PortfolioWrapper from '../containers/PortfolioWrapper/PortfolioWrapper';
+
 
 const PortfolioPage = () => {
     return (
-        <div>
-            PortfolioPage
-        </div>
+        <PageTemplate>
+            <PortfolioWrapper/>
+        </PageTemplate>
     );
 };
 

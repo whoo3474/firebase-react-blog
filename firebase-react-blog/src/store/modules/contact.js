@@ -101,12 +101,10 @@ export const createContactTk = (contact) => {
     return (dispatch, getState) => {
         const firestore = fbConfig.firestore().collection('contacts').doc();
         const firebaseUser = fbConfig.auth().currentUser;
+        const Time = new Date().getTime();
         const fireStorage =fbConfig.storage().ref().child(`blog_img/${Time}`);
-        const Time = new Date();
         // const DownloadUrl = fireStorage.getDownloadURL()
         fireStorage.put(contact.file).then((snapshot)=> {
-            console.log('snapshot.metadata : ',snapshot.metadata);
-            console.log('snapshot : ',snapshot);
             firestore.set({
                 ...contact,
                 id:firestore.id,

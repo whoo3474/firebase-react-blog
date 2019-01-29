@@ -12,6 +12,9 @@ const SignedOutLink = (props) => {
                 <NavLink to='/timeline' activeClassName='active'>TimeLine</NavLink>
             </li>
             <li>
+                <NavLink to='/portfolio' activeClassName='active'>Portfolio</NavLink>
+            </li>
+            <li>
                 <NavLink to='/contact' activeClassName='active'>Contact</NavLink>
             </li>
             <li>
