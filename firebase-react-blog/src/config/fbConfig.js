@@ -15,9 +15,11 @@ var config = {
   
   const fbConfig =firebase.initializeApp(config);
   
-  export const fireStore = firebase.firestore().settings({ timestampsInSnapshots: true});
+  const fireStore = firebase.firestore().settings({ timestampsInSnapshots: true});
     // fbConfig.storage();
-
-  export const fireAuth = firebase.auth();
-  export const fireStorege = firebase.storage();
+  const facebookProvider = new firebase.auth.FacebookAuthProvider();
+        
+  const fireAuth = firebase.auth();
+  const fireStorage = firebase.storage();
+  export {fireStore, fireAuth, fireStorage, facebookProvider}
   export default fbConfig;

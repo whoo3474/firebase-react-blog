@@ -5,24 +5,14 @@ import { bindActionCreators } from 'redux';
 import {authSignOutTk, authCheckTk ,getUserInfoTk} from '../../../store/modules/auth';
 import SignedInLink from '../Navbar/SignedInLink';
 import SignedOutLink from '../Navbar/SignedOutLink';
-import fbConfig from '../../../config/fbConfig';
+// import fbConfig from '../../../config/fbConfig';
 // import M from "materialize-css";
 
 class Header extends Component{
-    // componentDidMount() {
-    //     var elem = document.querySelector(".sidenav");
-    //     var instances = M.Sidenav.init(elem);
-    // }
-
-    // componentDidMount = () => {
-    //     fbConfig.auth().onAuthStateChanged(user => {
-    //           this.props.isSignedIn=!!user
-    //     })
-    // }
     componentDidMount = () => {
         
         this.props.authCheckTk();
-        this.props.getUserInfoTk();
+        // this.props.getUserInfoTk();
     }
     handleClick = () => {
         this.props.authSignOutTk();
@@ -57,7 +47,7 @@ const mapDispatchToProps = (dispatch) => {
     return {
         authSignOutTk : bindActionCreators(authSignOutTk,dispatch),
         authCheckTk : bindActionCreators(authCheckTk,dispatch),
-        getUserInfoTk : bindActionCreators(getUserInfoTk,dispatch)
+        // getUserInfoTk : bindActionCreators(getUserInfoTk,dispatch)
     }
 }
 export default connect(mapStateToProps,mapDispatchToProps)(Header);

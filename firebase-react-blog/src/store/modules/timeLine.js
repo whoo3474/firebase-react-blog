@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
-import fbConfig from '../../config/fbConfig';
+import fbConfig,{fireStore} from '../../config/fbConfig';
 
 // action type
 

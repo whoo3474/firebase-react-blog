@@ -4,10 +4,10 @@ import './TimelineCards.scss';
 const TimelineCards = ({id,title,dt,dd}) => {
     // map 돌리는건 containers에 있어야겠네.
     return(
-            <li class="timeline-item" id={id}>
-                <div class="card">
-                    <h2 class="card-title">{title}</h2>
-                    <dl class="card-definition">
+            <li className="timeline-item" id={id}>
+                <div className="card">
+                    <h2 className="card-title">{title}</h2>
+                    <dl className="card-definition">
                         <dt>
                             {dt}
                         </dt>
