@@ -1,8 +1,8 @@
 import React,{Component, Children} from 'react';
 import { connect } from 'react-redux';
-import { NavLink,Link, withRouter } from 'react-router-dom';
+import {withRouter } from 'react-router-dom';
 import { bindActionCreators } from 'redux';
-import {authSignOutTk, authCheckTk ,getUserInfoTk} from '../../../store/modules/auth';
+import {authSignOutTk, authCheckTk } from '../../../store/modules/auth';
 import SignedInLink from '../Navbar/SignedInLink';
 import SignedOutLink from '../Navbar/SignedOutLink';
 import { CssBaseline, AppBar, IconButton, Toolbar, Typography, Hidden, Drawer, withStyles, MenuList, MenuItem } from '@material-ui/core';
@@ -35,7 +35,7 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar,
     content: {
       flexGrow: 1,
-      padding: theme.spacing.unit * 3,
+      padding: theme.spacing.unit,
     }
   });
 
@@ -75,11 +75,14 @@ class Header extends Component{
                     <Typography variant="h6" color="inherit" noWrap>
                       Minhan's Blog
                     </Typography>
+                    <i className={`${classes.materialIcons} material-icons`}>
+                            code
+                        </i>
                   </Toolbar>
                 </AppBar>
                 {/* 상단까지는 Header */}
                 <nav className={classes.drawer}>
-                  <Hidden smUp implementation="css">
+                  <Hidden xsUp implementation="css">
                     <Drawer
                       container={this.props.container}
                       variant="temporary"

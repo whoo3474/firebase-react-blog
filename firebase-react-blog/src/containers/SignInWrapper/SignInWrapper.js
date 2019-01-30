@@ -70,7 +70,7 @@ class SignInWrapper extends Component {
         return (
                 <Card className={classes.card}>
                     <CardContent className={classes.marginAuto}>
-                    <Typography className={classes.textAlign} component="h5" variant="display5" gutterBottom>로그인 / 회원가입</Typography>
+                    <Typography className={classes.textAlign} component="h3" variant="display2" gutterBottom>로그인 / 회원가입</Typography>
                  
                     <StyledFirebaseAuth
                     className={classes.marginAuto}

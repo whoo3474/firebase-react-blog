@@ -1,35 +1,38 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
-const Footer = () => {
+import {withStyles, Grid, Typography, Button } from '@material-ui/core';
+const styles = theme => ({
+  root : {
+    position:'fix',
+    bottom:30
+  },
+  button: {
+    textAlign:'center',
+    padding:'0'
+  },
+  icon: {
+    width:'25px',
+    height:'25px'
+  }
+})
+const Footer = (props) => {
+  const { classes} =props;
     return (
 
-        <footer className="page-footer  grey darken-3">
-          <div className="container">
-            <div className="row">
-              <div className="col l6 s12">
-                <h5 className="white-text">Footer Content</h5>
-                <p className="grey-text text-lighten-2">You can use rows and columns here to organize your footer content.</p>
-              </div>
-              <div className="col l4 offset-l2 s12">
-                <h5 className="white-text">Links</h5>
-                <ul>
-                  <li><a className="grey-text text-lighten-3" href="#!">Link 1</a></li>
-                  <li><a className="grey-text text-lighten-3" href="#!">Link 2</a></li>
-                  <li><a className="grey-text text-lighten-3" href="#!">Link 3</a></li>
-                  <li><a className="grey-text text-lighten-3" href="#!">Link 4</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-          <div className="footer-copyright">
-            <div className="container">
-            © 2019 Copyright WooJeongMin. All rights reserved.
-            <a className="grey-text text-lighten-4 right" href="#!">More Links</a>
-            </div>
-          </div>
+        <footer className="root">
+            <Grid container>
+            <Typography variant="button" gutterBottom>© 2019 Copyright WooJeongMin. All rights reserved.</Typography>
+            <Button className={classes.button} onClick={() => { window.location = 'https://github.com/whoo3474'; return null;} } target="_blank">
+              <svg className={classes.icon} focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                <g>
+                  <path d="M12,2C6.48,2 2,6.48 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12C22,6.48 17.52,2 12,2Z">
+                  </path>
+                </g>
+              </svg>
+            </Button>
+            </Grid>
         </footer>
     );
 };
 
-export default Footer;
+export default withStyles(styles)(Footer);
