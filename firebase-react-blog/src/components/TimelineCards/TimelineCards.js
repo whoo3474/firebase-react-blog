@@ -1,5 +1,4 @@
 import React from 'react';
-import './TimelineCards.scss';
 
 const TimelineCards = ({id,title,dt,dd}) => {
     // map 돌리는건 containers에 있어야겠네.

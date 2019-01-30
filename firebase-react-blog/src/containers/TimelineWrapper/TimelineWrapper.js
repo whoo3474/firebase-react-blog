@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import TimelineCards from '../../components/TimelineCards/TimelineCards';
-import './TimelineWrapper.scss';
 import { getTimeListLoad } from '../../store/modules/timeLine';
 import { bindActionCreators } from 'redux';
 
