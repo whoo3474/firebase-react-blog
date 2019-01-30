@@ -6,7 +6,26 @@ import { connect } from 'react-redux';
 // import { authSignInTk, firebaseProvider } from '../../store/modules/auth';
 import { Redirect } from 'react-router-dom';
 import fbConfig from '../../config/fbConfig';
-
+import { Grid, Typography, withStyles, Card, CardContent, Paper } from '@material-ui/core';
+const styles = theme=> ({
+    card: {
+        display:"flex",
+        flexGrow: 1,
+        margin:'50px auto',
+        [theme.breakpoints.up('sm')]:{
+            width: '500px'
+        },
+        [theme.breakpoints.down('xs')]:{
+            width: '350px'
+        }
+    },
+    marginAuto:{
+        margin:'20px auto',
+    },
+    textAlign:{
+        textAlign: 'center',
+    }
+  });
 class SignInWrapper extends Component {
 
     // state ={
@@ -46,38 +65,21 @@ class SignInWrapper extends Component {
     //     this.props.firebaseProvider()
     // }
     render() {
-        const { authError,user } = this.props;
+        const { authError,user,classes } = this.props;
         if(!!user) return <Redirect to='/'/>
         return (
-            <div className="container">
-                {/* <form onSubmit={this.handleSubmit}>
-                    <h5>로그인</h5>
-                    <div className="input-field">
-                        <label htmlFor="email">Email</label>
-                        <input type="email" id="email" onChange={this.handleChange} />
-                    </div>
-                    <div className="input-field">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" onChange={this.handleChange} />
-                    </div>
-                    <div className="input-field">
-                        <button className="btn">로그인</button>
-                        <div className="red-text center">
-                            { authError ? <p>{authError}</p> : ''}
-                        </div>
-                    </div>
-                </form> */}
-                {/* <div className="division"></div> */}
-                {/* <button style={{width:"100%"}} 
-                    onClick={()=> this.authWithFacebook()}>
-                    Log In with Facebook
-                </button> */}
-                    <h4>로그인 / 회원가입</h4>
+                <Card className={classes.card}>
+                    <CardContent className={classes.marginAuto}>
+                    <Typography className={classes.textAlign} component="h5" variant="display5" gutterBottom>로그인 / 회원가입</Typography>
+                 
                     <StyledFirebaseAuth
+                    className={classes.marginAuto}
                     uiConfig={this.uiConfig}
                     firebaseAuth={fbConfig.auth()}/>
+                    </CardContent>
+                </Card>
+    
                
-            </div>
         );
     }
 }
@@ -96,4 +98,4 @@ const mapStateToProps = (state) => {
 //     }
 // }
 
-export default connect(mapStateToProps)(SignInWrapper);
+export default  withStyles(styles)(connect(mapStateToProps)(SignInWrapper));
