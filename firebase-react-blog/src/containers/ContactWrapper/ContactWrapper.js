@@ -1,19 +1,41 @@
 import React, { Component } from 'react';
-import Notifications from '../../components/Contact/Notifications';
-import ContactList from '../../components/Contact/ContactList';
 import { connect } from 'react-redux';
-import { getContactListTk, getNotificationsTk } from '../../store/modules/contact';
 import { bindActionCreators } from 'redux';
 import { Redirect,Link } from 'react-router-dom';
+import Notifications from '../../components/Contact/Notifications';
+import ContactList from '../../components/Contact/ContactList';
+import { getContactListTk, getNotificationsTk } from '../../store/modules/contact';
+import { compose } from 'recompose'
+import { Paper, Grid, Button, withStyles } from '@material-ui/core';
 
+const styles = theme => ({
+    root: {
+      flexGrow: 1,
+      overflow: 'hidden',
+      padding: `0 ${theme.spacing.unit * 1.5}px`,
+    },
+    paper: {
+      minWidth: 'auto',
+      margin: `${theme.spacing.unit}px auto`,
+      padding: theme.spacing.unit * 2,
+    },
+    button: {
+      margin: theme.spacing.unit,
+    },
+  });
+  
 class ContactWrapper extends Component {
     state={
       isLoading:false
     }
-    componentWillMount() {
+    componentDidMount() {
         this.props.getContactListTk();
         this.props.getNotificationsTk();
-        if(!!this.props.exists)window.addEventListener('scroll',this._infiniteScroll,true);
+    }
+    componentWillMount() {
+        // this.props.getContactListTk();
+        // this.props.getNotificationsTk();
+        if(!!this.props.exists&&!this.state.isLoading)window.addEventListener('scroll',this._infiniteScroll,true);
         // 이거 텀을 줘야될것같다.
         console.log('contactList',this.props.contactList)
     }
@@ -31,21 +53,22 @@ class ContactWrapper extends Component {
             this.props.getContactListTk();
         }
     }
+
     render() {
-        const { contactList, notifications} = this.props;
+        const { contactList, notifications, classes} = this.props;
         return (
-            <div className="dashboard container">
-                <div className="col">
-                    <div className="col s12 m5 offset-m1">
+            <div className={classes.root}>
+                <Paper className={classes.paper}>
+                    <Grid>
                         <Notifications notifications={notifications}/>
-                    </div>
-                    <div className="c">
-                        <Link className='waves-effect waves-light btn' to='/create'>게시글 생성</Link>
-                    </div>
-                    <div className="col s12 m6">
+                    </Grid>
+                </Paper>
+                        <Button color="primary" variant="contained" className={classes.button} component={Link} to="/create" >
+                            게시글 생성
+                        </Button>
+                <div>
                         <ContactList contactList={contactList}/>
                         {this.state.isLoading&&this.props.exists?(<div className="loader">Loading ...</div>):''}
-                    </div>
                 </div>
             </div>
         );
@@ -65,4 +88,7 @@ const mapDispatchToProps = (dispatch) => ({
     getNotificationsTk : bindActionCreators(getNotificationsTk,dispatch)
 })
 
-export default connect(mapStateToProps,mapDispatchToProps)(ContactWrapper);
+export default compose(
+    withStyles(styles),
+    connect(mapStateToProps,mapDispatchToProps)
+)(ContactWrapper);

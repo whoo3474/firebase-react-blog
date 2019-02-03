@@ -5,10 +5,10 @@ import Moment from 'react-moment';
 const Notifications = (props) => {
     const {notifications} = props;
     return (
-        <div className="secondary">
-            <div className="card z-depth-0">
-                <div className="card-content">
-                    <span className="card-title">공지사항</span>
+        <div>
+            <div>
+                <div >
+                    <span>공지사항</span>
                     <ul className="notifications">
                         <li>
                             { notifications && notifications.map( item => {

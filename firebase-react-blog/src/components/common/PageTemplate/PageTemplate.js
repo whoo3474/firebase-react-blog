@@ -1,14 +1,11 @@
 import React from 'react';
-import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
-// nav route
 
 const PageTemplate = ({children}) => {
     return (
-        <div className="page-template">
+        <div className="page-template" style={{marginBottom:'60px'}}>
             <Header>
                 {children}
-                <Footer/>
             </Header>
         </div>
     );

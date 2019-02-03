@@ -3,7 +3,21 @@ import { connect } from 'react-redux';
 import TimelineCards from '../../components/TimelineCards/TimelineCards';
 import { getTimeListLoad } from '../../store/modules/timeLine';
 import { bindActionCreators } from 'redux';
+import { withStyles } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { compose } from 'recompose'
+import './TimelineWrpper.scss';
 
+const styles = theme => ({
+    absoluteProgress:{
+        position:'absolute',
+        right:50,
+        bottom:-50,
+    },
+    progress: {
+      margin: theme.spacing.unit * 2,
+    },
+  });
 class TimelineWrapper extends Component {
     state={
         isLoading:false
@@ -30,17 +44,23 @@ class TimelineWrapper extends Component {
 
 
     render() {
-        const{ timelines } = this.props;
+        const{ timelines, classes} = this.props;
         return (
             <div className="wrapper">
-                <ul className="timeline-list">
+                <ul className="timeline">
                 {
                     timelines.map((card,i) => (
                         <TimelineCards key={i} {...card}/>
                     ))
                 }
                </ul>
-               {this.state.isLoading&&this.props.exists?(<div className="loader">Loading ...</div>):''}
+               {this.state.isLoading&&this.props.exists?
+                (
+                    <div className={classes.absoluteProgress}>
+                      <CircularProgress className={classes.progress} />
+                    </div>)
+                :
+                ''}
             </div>
         );
     }
@@ -56,4 +76,7 @@ const mapDispatchToProps = (dispatch)=>({
 })
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(TimelineWrapper);
+export default compose(
+    withStyles(styles),
+    connect(mapStateToProps,mapDispatchToProps)
+    )(TimelineWrapper);

@@ -15,7 +15,8 @@ var config = {
   
   const fbConfig =firebase.initializeApp(config);
   
-  const fireStore = firebase.firestore().settings({ timestampsInSnapshots: true});
+  const fireStore = fbConfig.firestore();
+  fireStore.settings({ timestampsInSnapshots: true});
     // fbConfig.storage();
   const facebookProvider = new firebase.auth.FacebookAuthProvider();
         

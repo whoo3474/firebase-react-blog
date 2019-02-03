@@ -1,0 +1,189 @@
+// body, h1, h2, ul, dl, dd {
+//     margin: 0;
+//     padding:0;
+//   }
+//   /* 내가 설정하지 않은 margin, padding 등을 초기화 */
+  body{
+      height:100vh;
+  }
+  li{
+    list-style-type:none;
+  }
+
+  
+  .wrapper {
+    padding: 0 20px;
+    margin: 0 auto;
+  }
+  
+  .cover {
+    // background-image : url(./img/background_timeline.jpg);
+    color:#b2dfdb;
+    padding-top: 20%;
+    padding-bottom: 10%;
+    text-align: center;
+    background-size: cover;
+    /* 보통 backbround-size 사진이 찌그러지지 않도록 cover을 많이쓴다 */
+    background-position: bottom;
+    /* position도 center을 많이쓰지만, 이번에는 산비탈을 보이기위하여 bottom */
+    transition: padding .5s;
+    /* 모바일과 pc버전일때 변화가 일어나면유연하게 변화하기 위하여 추가함 */
+  }
+  
+  .cover-title {
+    font-size: 20vw;
+    /* 픽셀로 맞추면 pc~mobile 마다 바꾸어줘야됨 */
+    /* viewport의 (weight)너비기준의 10% => 10vw */
+    font-family: 'Yellowtail', cursive;
+    font-weight: normal;
+    line-height:1;
+    /* 행간을 맞춤 */
+    font-style:italic;
+    transition: padding .5s;
+    /* 모바일과 pc버전일때 변화가 일어나면유연하게 변화하기 위하여 추가함 */
+  }
+  
+  .cover-title span {
+    font-family: 'arial';
+    font-size: 0.6em;
+    /* 부모의 폰트 사이즈를 상속받는데, cover-title 의 폰트사이즈가 10vw 이니까
+    그에 비례에서 움직인다. 0.5em => 절반 */
+    display: block;
+    // text-indent: 3em;
+    /* 들여쓰기 */
+  }
+  .timeline{
+    position: relative;
+    padding-bottom:50px;
+  }
+  
+  .timeline::after {
+    content:' ';
+    background-color: rgba(0,0,0,0.3);
+    position: absolute;
+    left: 50%;
+    top: 5vw;
+    bottom: 0;
+    width: 6px;
+    border-radius: 5px;
+    margin-left: 17px;
+    z-index:-1;
+  }
+  
+  .timeline-item{
+    margin-top: 70px;
+  }
+  
+  .card { 
+    background-color: rgba(0,0,0,0.9);
+    color: #999;
+    padding: 0 20px 20px 20px;
+    /* 마진 겹침 현상을 상쇄하기 위하여 padding:20px 를 주었다.
+    overplow:hidden 이나 border을 주는 방법도 있다. */
+    border-radius: 30px;
+  }
+  
+  .card-icon {
+    width: 70px;
+    height: auto;
+    vertical-align:top;
+    /* position: relative;
+    top: -50px; */
+    /* transform: translateY(-50%); */
+    /* 나의 높이의 -50%만큼 올린다 */
+    margin-top:-35px;
+    margin-left: 30px;
+    margin-right: 30px;
+  }
+  
+  .card-title {
+    font-size: 20vw;
+    color: #b2dfdb;
+    font-family: "impact";
+    line-height: 1;
+    margin: 20px;
+    position: relative;
+  }
+  
+  .card-definition {
+    margin:20px;
+  }
+  
+  .card-definition dt{
+    font-size: 25px;
+    color: #ddd;
+    margin-bottom: 20px;
+  }
+  
+  .card-definition dt span{
+    color: #b2dfdb;
+    display: block;
+    font-size: 0.5em;
+  }
+  
+  
+  @media (min-width: 720px) {
+    .card-title{
+      font-size: 7vw;
+      display: inline-block;
+      position: relative;
+    }
+    .card-title::after{
+      content: '';
+      position: absolute;
+      right: -60px;
+      top:50%;
+      background-color: white;
+      border:  6px solid #b2dfdb;
+      border-radius: 50%;
+      width: 10px;
+      height: 10px;
+      transform: translate(50%, -50%);
+      z-index: 10;
+       background-color: #0a222b;
+    }
+    /* 타임라인 점백이 만들기 */
+  
+    .cover {
+      padding-top : 10%;
+      padding-bottom: 5%;
+    }
+  
+    .cover-title {
+      font-size: 15vw;
+    }
+    .timeline::after{
+      background: #b2dfdb;
+    }
+    .timeline-item {
+      width: 50%;
+      padding: 0 20px;
+      box-sizing:border-box;
+      text-align: right;
+    }
+    .timeline-item:nth-child(even){
+      margin-left: auto;
+      margin-top: -150px;
+      margin-bottom: -200px;
+      text-align: left;
+    }
+    /* 짝수에 해당하는 요소를 선택하겠다 */
+    /* 네거티브 마진 겹치는 효과*/
+    .card {
+      background-color: rgba(0,0,0,0.6);
+      position: relative;
+    }
+    .card-icon{
+      position: absolute;
+      left:0;
+      top:0;
+    }
+    .timeline-item:nth-child(even) .card-icon{
+      left: auto;
+      right:0;
+    }
+     .timeline-item:nth-child(even) .card-title::after{
+      left: -60px;
+      transform: translate(-50%,-50%);
+    }
+  }

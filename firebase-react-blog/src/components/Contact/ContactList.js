@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 const ContactList = ({contactList}) => {
 
     return (
-        <div className="contact-list section">
+        <>
             { contactList && contactList.map(contact => {
                 return (
                     <Link to={'/contact/'+contact.id }>
@@ -14,7 +14,7 @@ const ContactList = ({contactList}) => {
                     </Link>
                 )
             })}
-        </div>
+        </>
     );
 };
 

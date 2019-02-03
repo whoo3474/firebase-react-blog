@@ -26,7 +26,6 @@ const styles = theme => ({
 
 const User = (props) => {
     const { user, classes,handleClickOpen,handleClose,handleCloseDelete,open } = props;
-    console.log('user',user);
     if(!user) return <Redirect to='/'/>
     return (
     <div>

@@ -8,11 +8,13 @@ import SignedOutLink from '../Navbar/SignedOutLink';
 import { CssBaseline, AppBar, IconButton, Toolbar, Typography, Hidden, Drawer, withStyles, MenuList, MenuItem } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import { compose } from 'recompose'
+import Footer from '../Footer/Footer';
 
 const drawerWidth = 240;
 const styles = theme => ({
     root: {
       display: 'flex',
+      position:'relative'
     },
     drawer: {
       [theme.breakpoints.up('sm')]: {
@@ -41,17 +43,30 @@ const styles = theme => ({
 
 class Header extends Component{
     state = {
+        open: false,
         mobileOpen: false,
       };
+    handleClickOpen = () => {
+        this.setState({ open: true });
+        console.log('handleClickOpen')
+      };
     
-      handleDrawerToggle = () => {
+    handleClose = () => {
+        this.setState({ open: false });
+      };
+    
+    handleCloseSignOut = () => {
+        this.setState({ open: false });
+        this.handleSignOut();
+      };
+    handleDrawerToggle = () => {
         this.setState(state => ({ mobileOpen: !state.mobileOpen }));
       };
     componentDidMount = () => {
         this.props.authCheckTk();
         // this.props.getUserInfoTk();
     }
-    handleClick = () => {
+    handleSignOut = () => {
         this.props.authSignOutTk();
     }
 
@@ -92,7 +107,15 @@ class Header extends Component{
                         paper: classes.drawerPaper,
                       }}
                     >
-                    {this.props.isSignedIn ? <SignedInLink pathname={location.pathname} handleClick={this.handleClick}/> : <SignedOutLink pathname={location.pathname}/>}
+                    {this.props.isSignedIn ?
+                     <SignedInLink 
+                     pathname={location.pathname} 
+                     open={this.state.open}
+                    handleClose={this.handleClose}
+                    handleClickOpen={this.handleClickOpen}
+                    handleCloseSignOut={this.handleCloseSignOut}
+                     /> 
+                    : <SignedOutLink pathname={location.pathname}/>}
                     </Drawer>
                   </Hidden>
                   <Hidden xsDown implementation="css">
@@ -103,7 +126,16 @@ class Header extends Component{
                       variant="permanent"
                       open
                     >
-                      {this.props.isSignedIn ? <SignedInLink pathname={location.pathname} handleClick={this.handleClick}/> : <SignedOutLink pathname={location.pathname}/>}
+                      {this.props.isSignedIn ?
+                         <SignedInLink 
+                         pathname={location.pathname} 
+                         open={this.state.open}
+                        handleClose={this.handleClose}
+                        handleClickOpen={this.handleClickOpen}
+                        handleCloseSignOut={this.handleCloseSignOut}
+                         /> 
+                         : 
+                         <SignedOutLink pathname={location.pathname}/>}
                     </Drawer>
                   </Hidden>
                   {/* 여기서는 크기에따라 보여주는지 안보여주는지를 적음 */}
@@ -112,7 +144,8 @@ class Header extends Component{
                 <main className={classes.content}>
                   <div className={classes.toolbar} />
                   {children}
-                  </main>
+                  <Footer/>
+                </main>
             </div>
 
         );

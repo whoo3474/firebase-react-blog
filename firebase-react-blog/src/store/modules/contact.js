@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
-import fbConfig from '../../config/fbConfig';
+import fbConfig,{fireStore} from '../../config/fbConfig';
 
 
 // action type
@@ -27,7 +27,7 @@ export const getContactListTk = () => {
         const rows = []; 
 
         const fireStorage =fbConfig.storage();
-        let ContactListFirst =fbConfig.firestore().collection('contacts').orderBy('createdAt','desc');
+        let ContactListFirst =fbConfig.firestore().collection('contacts').orderBy('createdAt');
         if(!!exists){
             if(!!lastBoard){
                 // lastBoard가 있다고? 그럼 startAfter로 너를 기준으로 limit만큼 찾아오자
@@ -99,29 +99,46 @@ export const getContactTk = (id) => {
 
 export const createContactTk = (contact) => {
     return (dispatch, getState) => {
-        const firestore = fbConfig.firestore().collection('contacts').doc();
+        const firestore = fireStore.collection('contacts').doc();
         const firebaseUser = fbConfig.auth().currentUser;
-        const Time = new Date().getTime();
+        const Time = new Date().getTime();;
         const fireStorage =fbConfig.storage().ref().child(`blog_img/${Time}`);
         // const DownloadUrl = fireStorage.getDownloadURL()
-        fireStorage.put(contact.file).then((snapshot)=> {
+        if(contact.file){
+            fireStorage.put(contact.file).then((snapshot)=> {
+                firestore.set({
+                    ...contact,
+                    id:firestore.id,
+                    file: contact.file.name||'',
+                    changeFileName : Time,
+                    authorName: firebaseUser.displayName||'이름없음',
+                    authorId:firebaseUser.email||'이메일없음',
+                    // filePath: snapshot.get||'',
+                    filePath: snapshot.metadata.fullPath||''
+                }).then(() => {
+                dispatch(createContact(contact));
+                    // 스토리지에 저장
+                }).catch((err) => {
+                    dispatch(createContactError(err));
+                    })
+                });
+        }
+        else{
             firestore.set({
                 ...contact,
                 id:firestore.id,
-                file: contact.file.name||'',
-                changeFileName : Time,
+                file: '',
+                changeFileName : '',
                 authorName: firebaseUser.displayName||'이름없음',
                 authorId:firebaseUser.email||'이메일없음',
-                // filePath: snapshot.get||'',
-                filePath: snapshot.metadata.fullPath||'',
-                createdAt: Time
-               }).then(() => {
-               dispatch(createContact(contact));
+                filePath: ''
+            }).then(() => {
+            dispatch(createContact(contact));
                 // 스토리지에 저장
-               }).catch((err) => {
-                  dispatch(createContactError(err));
+            }).catch((err) => {
+                dispatch(createContactError(err));
                 })
-            });
+        }
             // 얘를 async/ await로 바꿔서 해보자
     } 
 };
@@ -134,7 +151,7 @@ const initialState = {
     lastBoard:'',
     // 마지막 인덱스
     exists:true,
-    countList:3,
+    countList:4,
     //한페이지에 출력될 게시물 수
 }
 
