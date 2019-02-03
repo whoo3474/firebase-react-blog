@@ -57,7 +57,7 @@ class Header extends Component{
     
     handleCloseSignOut = () => {
         this.setState({ open: false });
-        this.handleSignOut();
+        this.props.authSignOutTk();
       };
     handleDrawerToggle = () => {
         this.setState(state => ({ mobileOpen: !state.mobileOpen }));
@@ -66,10 +66,6 @@ class Header extends Component{
         this.props.authCheckTk();
         // this.props.getUserInfoTk();
     }
-    handleSignOut = () => {
-        this.props.authSignOutTk();
-    }
-
     // signIn signOut 에 따라 다르게 보여줘야된다.
     render(){
         const { classes,children,location } =this.props;

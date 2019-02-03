@@ -93,7 +93,6 @@ export const authCheckTk = () => {
 
 const initialState = {
     userId:'',
-    redirect:false,
     authError:'',
     message:'',
     isSignedIn:false
@@ -119,8 +118,7 @@ export default handleActions({
     [AUTH_SIGN_OUT_SUCCESS]: (state, action) => {
         return {
             ...state,
-            isSignedIn:false,
-            redirect:true
+            isSignedIn:false
         }
     },
 
