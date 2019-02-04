@@ -101,7 +101,7 @@ export const createContactTk = (contact) => {
     return (dispatch, getState) => {
         const firestore = fireStore.collection('contacts').doc();
         const firebaseUser = fbConfig.auth().currentUser;
-        const Time = new Date().getTime();;
+        const Time = new Date();
         const fireStorage =fbConfig.storage().ref().child(`blog_img/${Time}`);
         // const DownloadUrl = fireStorage.getDownloadURL()
         if(contact.file){
@@ -110,11 +110,12 @@ export const createContactTk = (contact) => {
                     ...contact,
                     id:firestore.id,
                     file: contact.file.name||'',
-                    changeFileName : Time,
+                    changeFileName : Time.getTime(),
                     authorName: firebaseUser.displayName||'이름없음',
                     authorId:firebaseUser.email||'이메일없음',
                     // filePath: snapshot.get||'',
-                    filePath: snapshot.metadata.fullPath||''
+                    filePath: snapshot.metadata.fullPath||'',
+                    createdAt:Time
                 }).then(() => {
                 dispatch(createContact(contact));
                     // 스토리지에 저장

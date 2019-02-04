@@ -31,7 +31,7 @@ const Footer = (props) => {
 
         <footer className={classes.root}>
             <Grid container>
-            <Typography variant="button" gutterBottom>© 2019 Copyright WooJeongMin. All rights reserved.</Typography>
+            <Typography variant="subtitle1"  align="center" color="textSecondary" component="p">© 2019 Copyright WooJeongMin. All rights reserved.</Typography>
             <Button className={classes.button} onClick={() => { window.location = 'https://github.com/whoo3474'; return null;} } target="_blank">
               <svg className={classes.icon} focusable="false" viewBox="0 0 24 24" aria-hidden="true">
                 <g>

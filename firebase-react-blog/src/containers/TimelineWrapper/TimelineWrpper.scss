@@ -1,8 +1,8 @@
-// body, h1, h2, ul, dl, dd {
-//     margin: 0;
-//     padding:0;
-//   }
-//   /* 내가 설정하지 않은 margin, padding 등을 초기화 */
+dl, dd {
+    margin: 0;
+    padding:0;
+  }
+  /* 내가 설정하지 않은 margin, padding 등을 초기화 */
   body{
       height:100vh;
   }
@@ -19,8 +19,8 @@
   .cover {
     // background-image : url(./img/background_timeline.jpg);
     color:#b2dfdb;
-    padding-top: 20%;
-    padding-bottom: 10%;
+    // padding-top: 20%;
+    // padding-bottom: 10%;
     text-align: center;
     background-size: cover;
     /* 보통 backbround-size 사진이 찌그러지지 않도록 cover을 많이쓴다 */
@@ -31,7 +31,7 @@
   }
   
   .cover-title {
-    font-size: 20vw;
+    font-size: 22vw;
     /* 픽셀로 맞추면 pc~mobile 마다 바꾸어줘야됨 */
     /* viewport의 (weight)너비기준의 10% => 10vw */
     font-family: 'Yellowtail', cursive;
@@ -145,8 +145,8 @@
     /* 타임라인 점백이 만들기 */
   
     .cover {
-      padding-top : 10%;
-      padding-bottom: 5%;
+      // padding-top : 10%;
+      // padding-bottom: 5%;
     }
   
     .cover-title {

@@ -15,9 +15,7 @@ const styles = theme=> ({
         [theme.breakpoints.up('sm')]:{
             width: '500px'
         },
-        [theme.breakpoints.down('xs')]:{
             width: '350px'
-        }
     },
     marginAuto:{
         margin:'20px auto',
