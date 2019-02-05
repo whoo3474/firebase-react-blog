@@ -18,6 +18,24 @@ const createContact = createAction(CREATE_CONTACT);
 const createContactError = createAction(CREATE_CONTACT_ERROR);
 const getNotifications = createAction(GET_NOTIFICATIONS);
 
+
+export const getContactTk = (id) => {
+    return (dispatch, getState)=>{
+        const fireStorage =fbConfig.storage();
+        fbConfig.firestore().collection('contacts').doc(id).get()
+        .then((querySnapshot)=>{
+            let childData = querySnapshot.data(); 
+               if(!!childData.filePath) {
+                 //  혹시 file 있니?
+                 fireStorage.ref().child(childData.filePath).getDownloadURL().then( url =>{
+                 childData.DownloadUrl= url;
+                     // 있으면 같이 store에 DownloadUrl로 저장 되렴
+                  })
+               }
+            dispatch(getContact(childData));
+        });
+    };
+};
 export const getContactListTk = () => {
     return (dispatch, getState)=>{
         const state = getState().contact;
@@ -37,7 +55,7 @@ export const getContactListTk = () => {
                         let childData = doc.data(); 
                         if(!!childData.filePath) {
                             //  혹시 file 있니?
-                            fireStorage.ref().child(doc.data().filePath).getDownloadURL().then( url =>{
+                            fireStorage.ref().child(childData.filePath).getDownloadURL().then( url =>{
                             childData.DownloadUrl= url;
                             // 있으면 같이 store에 DownloadUrl로 저장 되렴
                             })
@@ -64,7 +82,7 @@ export const getContactListTk = () => {
                         rows.push(childData);
                     });
                     const lastBoard = querySnapshot.docs[querySnapshot.docs.length-1];
-                   dispatch(getContactList(rows));
+                    dispatch(getContactList(rows));
                    dispatch(getContactListLoad(lastBoard));
                 });
             }
@@ -84,15 +102,6 @@ export const getNotificationsTk = () => {
             });
            dispatch(getNotifications(rows));
         });
-    };
-};
-
-export const getContactTk = (id) => {
-    return (dispatch, getState)=>{
-        fbConfig.firestore().collection('contacts').doc(id).get()
-        .then((querySnapshot)=>
-            dispatch(getContact(querySnapshot.data()))
-        );
     };
 };
 
@@ -132,7 +141,8 @@ export const createContactTk = (contact) => {
                 changeFileName : '',
                 authorName: firebaseUser.displayName||'이름없음',
                 authorId:firebaseUser.email||'이메일없음',
-                filePath: ''
+                filePath: '',
+                createdAt:Time
             }).then(() => {
             dispatch(createContact(contact));
                 // 스토리지에 저장
@@ -152,7 +162,7 @@ const initialState = {
     lastBoard:'',
     // 마지막 인덱스
     exists:true,
-    countList:4,
+    countList:1,
     //한페이지에 출력될 게시물 수
 }
 
@@ -174,6 +184,7 @@ export default handleActions({
         }
     },
     [GET_CONTACT] : (state,action) => {
+        console.log('contact reducer',action.payload)
         return {
             ...state,
             contact: action.payload

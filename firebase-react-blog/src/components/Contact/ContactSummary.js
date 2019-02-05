@@ -1,38 +1,40 @@
-import React from 'react';
-import Moment from 'react-moment';
+import React from 'react'
 import { withStyles, Paper, Grid, Typography } from '@material-ui/core';
+import Moment from 'react-moment';
 
 const styles = theme => ({
-    paper: {
-      minWidth: 'auto',
-      margin: `${theme.spacing.unit}px auto`,
-      padding: theme.spacing.unit * 2,
-    },
+    // paper: {
+    //     maxWidth: '1200px',
+    //     margin: `${theme.spacing.unit}px auto`,
+    // },
     title: {
       fontSize: 14,
     },
     pos: {
       marginBottom: 12,
     },
+    content:{
+        overflow: 'hidden',
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis'
+    }
   });
 const ContactSummary = ({contact,key,classes}) => {
     return (
         <Paper id={key} className={classes.paper}>
-            <Grid xs wrap="nowrap" spacing={16}>
-                    <Typography variant="h5" component="h2" >{contact.title}</Typography>
-                    <Typography nowrap component="p">{contact.content}</Typography>
+            <Grid
+            container>
+                    <Typography variant="h5" component="h2" gutterBottom>{contact.title}</Typography>
+                        <Typography className={classes.content} gutterBottom>{contact.content}</Typography>
                     <Typography className={classes.title} color="textSecondary">Posted by {contact.authorName||'이름없음'}</Typography>
+                    {contact.createdAt&&
                     <Typography className={classes.pos}>
-                        {contact.createdAt?contact.createdAt:''}
+                        <Moment format="YYYY/MM/DD">{contact.createdAt.toDate().toString()}</Moment>
                     </Typography>
+                    }
+                    {console.log('contact.DownloadUrl',contact.DownloadUrl)}
 
             </Grid>
-           {/* {(contact.DownloadUrl &&
-            (<div>
-                <img className="card" src={contact.DownloadUrl}/>
-            </div>)
-            )
-           ||(<div className="loader">Loading ...</div>)} */}
         </Paper>
     );
 };

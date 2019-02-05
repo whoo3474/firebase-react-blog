@@ -1,21 +1,29 @@
 import React from 'react';
 import ContactSummary from './ContactSummary';
 import { Link } from 'react-router-dom';
+import { Button, withStyles } from '@material-ui/core';
+
+const styles= theme => ({
+    button:{
+        margin: `${theme.spacing.unit}px auto`,
+    }
+})
 
 // contactWrapper에서 보여줌
-const ContactList = ({contactList}) => {
+const ContactList = ({contactList,classes}) => {
 
     return (
         <>
-            { contactList && contactList.map(contact => {
+            { contactList && contactList.map((contact,i) => {
                 return (
-                    <Link to={'/contact/'+contact.id }>
+                    <Button className={classes.button} component={Link} key={i} to={'/contact/'+contact.id }>
+                        {console.log('contact,i',contact,i)}
                       <ContactSummary contact={contact} key={contact.id}/>
-                    </Link>
+                    </Button>
                 )
             })}
         </>
     );
 };
 
-export default ContactList;
+export default withStyles(styles)(ContactList);

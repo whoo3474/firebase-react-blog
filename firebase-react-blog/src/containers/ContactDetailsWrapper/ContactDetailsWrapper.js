@@ -9,16 +9,16 @@ class ContactDetailsWrapper extends Component {
         this.props.getContactTk(id);
     }
     render() {
-        const {contact, getContactTk,id} = this.props;
+        const {contact} = this.props;
         if(!!contact){
         return(
-            <div className="container section contact-details">
+            <div>
                 <ContactDetails contact={contact}/>
              </div>
            );
         }else {
             return(
-                <div className="container center">
+                <div>
                   <p>Loading ContactDetails......</p>
                 </div>
                 // 이거 작동을 안하나?

@@ -21,7 +21,7 @@ const styles = theme => ({
     },
     button: {
       margin: theme.spacing.unit,
-    },
+    }
   });
   
 class ContactWrapper extends Component {
@@ -94,11 +94,11 @@ class ContactWrapper extends Component {
                    <Button component="button" color="primary" onClick={() => handleClickOpen()} variant="contained" className={classes.button}>
                          게시글 생성
                    </Button> 
-                <div>
+                <Grid container className={classes.contactListGrid}>
                     {console.log('contactList',contactList)}
                         <ContactList contactList={contactList}/>
                         {this.state.isLoading&&this.props.exists?(<div className="loader">Loading ...</div>):''}
-                </div>
+                </Grid>
 
                 <Dialog open={this.state.open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
                     <DialogTitle id="alert-dialog-title">

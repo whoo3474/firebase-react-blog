@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Paper, Grid, Typography, withStyles, Divider } from '@material-ui/core';
+import { Paper, Grid, Typography, withStyles, Divider, Button } from '@material-ui/core';
 
 const styles = theme => ({
     mainFeaturedPost: {
@@ -19,6 +19,18 @@ const styles = theme => ({
             padding: `${theme.spacing.unit * 3}px 0`,
           },
       },
+      sidebarAboutBox: {
+        padding: theme.spacing.unit * 2,
+        backgroundColor: theme.palette.grey[200],
+      },
+      button: {
+        textAlign:'center',
+        padding:'0'
+      },
+      icon: {
+        width:'25px',
+        height:'25px'
+      }
 })
 
 class AboutWrapper extends Component {
@@ -48,20 +60,18 @@ class AboutWrapper extends Component {
                 나에 대해서
               </Typography>
               <Divider />
-                <Typography className={classes.markdown}>
+                <Typography className={classes.markdown} gutterBottom>
                     대학교에서는 네트워크와 운영체제, 알고리즘과 자료구조, C, C++, 등을 배웠으며, 언어와 기술을 배우는것을 좋아합니다.
                     졸업 학기부터 회사를 다니게 되어, 첫 개발의 시작을 Java 웹 서버로 시작하였으나, 
                     Javascript의 재미를 느끼고 React를 공부하게 되었습니다.
                     함수형 자바스크립트의 커링구조, 고차함수, 순수함수 등을 공부하고 적용하려고 합니다.
                  </Typography>
-                </Grid>
 
-            <Grid item xs={12} md={8}>
               <Typography variant="h6" gutterBottom>
                 블로그를 만들며
               </Typography>
               <Divider />
-                <Typography className={classes.markdown}>
+                <Typography className={classes.markdown} gutterBottom>
                     이 사이트를 만들기 전에는 서버를 nodeJs 또는 스프링으로 고민을 하다가, react개발자로 전환을
                     하고자 하는것이 목적이기에, 빠르게 구현하는것을 목표로 하여 firebase로 NoSQL 데이터베이스인 firestore와
                     파일등을 담고자할때 쓰는 firebase storage, 그리고 인증기능을 구현하는 firebase auth 등을 사용하였고,
@@ -82,6 +92,36 @@ class AboutWrapper extends Component {
                  </Typography>
             </Grid>
 
+            <Grid item xs={12} md={4}>
+              <Paper elevation={0} className={classes.sidebarAboutBox}>
+                <Typography variant="h6" gutterBottom>
+                    관심
+                </Typography>
+                <Typography gutterBottom>
+                 저에 대해서 궁금하시거나, react, material-ui, fireabase로 
+                  만들어진 이 사이트가 궁금하시다면, connact 페이지에 글을 올려주시거나,
+                  이메일로 연락을 주세요!
+                  </Typography>
+              </Paper>
+                <Typography variant="h6" gutterBottom className={classes.sidebarSection}>
+                    연락
+                </Typography>
+                    <Typography  variant="body1">
+                    Email  : minhan_a@naver.com
+                    </Typography>
+                    <Typography  variant="body1">
+                    github : 
+                    <Button className={classes.button} onClick={() => { window.location = 'https://github.com/whoo3474'; return null;} } target="_blank">
+                    <svg className={classes.icon} focusable="false" viewBox="0 0 24 24" aria-hidden="true">
+                        <g>
+                        <path d="M12,2C6.48,2 2,6.48 2,12C2,16.42 4.87,20.17 8.84,21.5C9.34,21.58 9.5,21.27 9.5,21C9.5,20.77 9.5,20.14 9.5,19.31C6.73,19.91 6.14,17.97 6.14,17.97C5.68,16.81 5.03,16.5 5.03,16.5C4.12,15.88 5.1,15.9 5.1,15.9C6.1,15.97 6.63,16.93 6.63,16.93C7.5,18.45 8.97,18 9.54,17.76C9.63,17.11 9.89,16.67 10.17,16.42C7.95,16.17 5.62,15.31 5.62,11.5C5.62,10.39 6,9.5 6.65,8.79C6.55,8.54 6.2,7.5 6.75,6.15C6.75,6.15 7.59,5.88 9.5,7.17C10.29,6.95 11.15,6.84 12,6.84C12.85,6.84 13.71,6.95 14.5,7.17C16.41,5.88 17.25,6.15 17.25,6.15C17.8,7.5 17.45,8.54 17.35,8.79C18,9.5 18.38,10.39 18.38,11.5C18.38,15.32 16.04,16.16 13.81,16.41C14.17,16.72 14.5,17.33 14.5,18.26C14.5,19.6 14.5,20.68 14.5,21C14.5,21.27 14.66,21.59 15.17,21.5C19.14,20.16 22,16.42 22,12C22,6.48 17.52,2 12,2Z">
+                        </path>
+                        </g>
+                    </svg>
+                    </Button>
+                    </Typography>
+                </Grid>
+        
             </Grid>
         
             </div>
