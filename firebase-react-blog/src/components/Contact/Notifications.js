@@ -1,6 +1,6 @@
 import React from 'react';
 import Moment from 'react-moment';
-import { Grid,Typography } from '@material-ui/core';
+import { Grid,Typography, Divider } from '@material-ui/core';
 
 // contactWrapper에서 보여줌
 const Notifications = (props) => {
@@ -16,6 +16,7 @@ const Notifications = (props) => {
                                         <Typography variant="body1" gutterBottom>{item.user}</Typography>
                                         <Typography variant="body1" gutterBottom>{item.content}</Typography>
                                         <Moment fromNow>{item.time.toDate()?item.time.toDate():''}</Moment>
+                                        <Divider />
                                     </li>
                                 )
                             })}

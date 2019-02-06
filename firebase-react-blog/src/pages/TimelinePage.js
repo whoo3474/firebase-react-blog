@@ -7,8 +7,11 @@ const TimelinePage = () => {
         <PageTemplate>
             <div className="cover">
                 <h1 className="cover-title">
-                    <span className="text-center">타임라인</span>
+                    <span className="text-center">Minhan`s TimeLine</span>
                 </h1>
+                <h2>
+                    제가 배워왔던 기술들을 나열하는 페이지입니다.
+                </h2>
             </div>
             <TimeLineWrapper/>
         </PageTemplate>

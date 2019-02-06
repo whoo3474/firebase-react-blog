@@ -3,7 +3,20 @@ import { connect } from 'react-redux';
 import { createContactTk } from '../../store/modules/contact';
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router-dom';
-import { Dialog, DialogTitle, Button, DialogActions } from '@material-ui/core';
+import { compose } from 'recompose'
+import { withStyles, Dialog, DialogTitle, Button, DialogActions, Paper, TextField, Typography, Grid } from '@material-ui/core';
+
+const styles = (theme) => ({
+  container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+  },
+  textField: {
+    marginLeft: theme.spacing.unit,
+    marginRight: theme.spacing.unit,
+    width: '100%',
+  },
+})
 class CreateContactWrapper extends Component {
     state ={
         title: '',
@@ -13,11 +26,11 @@ class CreateContactWrapper extends Component {
         redirect:false
     }
 
-    handleChange = (e) => {
+    handleChange = name => event => {
         this.setState({
-            [e.target.id] : e.target.value
-        })
-    }
+          [name]: event.target.value,
+        });
+      };
     handleFileChange = (e) => {
         this.setState({
             file : e.target.files[0]
@@ -42,29 +55,38 @@ class CreateContactWrapper extends Component {
 
 
     render() {
-        const { user } = this.props;
+        const { user, classes } = this.props;
         const { handleClose,handleCloseCreate,handleChange, handleFileChange, handleSubmit} = this;
         if(!user) return <Redirect to='/signin'/>
         else if(this.state.redirect) return <Redirect to='/contact'/>
         return (
-            <div className="container">
-                <form onSubmit={handleSubmit}>
-                    <h5>글쓰기</h5>
-                    <div className="input-field">
-                        <label htmlFor="title">Title</label>
-                        <input type="text" id="title" onChange={handleChange} />
-                    </div>
-                    <div className="input-field">
-                        <label htmlFor="content">Content</label>
-                        <textarea id="content" className="materialize-textarea" onChange={handleChange}>
-                       
-                        </textarea>
-                    </div>
-                    <div className="divider"/>
+            <Paper className="container">
+                <form>
+                    <Typography variant='h4'>글남기기</Typography>
+                        <TextField
+                            id="outlined-name"
+                            label="제목"
+                            className={classes.textField}
+                            value={this.state.title}
+                            onChange={this.handleChange('title')}
+                            margin="normal"
+                            variant="outlined"
+                            />
+                        <TextField
+                            id="outlined-multiline-flexible"
+                            label="내용"
+                            multiline
+                            rowsMax="8"
+                            value={this.state.content}
+                            onChange={this.handleChange('content')}
+                            className={classes.textField}
+                            margin="normal"
+                            variant="outlined"
+                            />
                     <input type="file" id="file" onChange={handleFileChange}/>
-                    <div className="input-field">
-                        <button className="btn">생성</button>
-                    </div>
+                    <Grid className="input-field">
+                        <Button component="button" color="primary" onClick={handleSubmit}>생성하기</Button>
+                    </Grid>
                 </form>
 
                 
@@ -81,7 +103,7 @@ class CreateContactWrapper extends Component {
                         </Button>
                     </DialogActions>
                     </Dialog>
-            </div>
+            </Paper>
         );
     }
 }
@@ -98,4 +120,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(CreateContactWrapper);
+export default compose(
+    withStyles(styles),
+    connect(mapStateToProps,mapDispatchToProps)
+)(CreateContactWrapper);

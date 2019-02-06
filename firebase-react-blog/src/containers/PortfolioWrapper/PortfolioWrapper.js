@@ -41,25 +41,27 @@ const tutorialSteps = [
 
 const styles = theme => ({
   root: {
+
     [theme.breakpoints.up('sm')]: {
-        maxWidth: 400*1.8,
+        maxWidth: 400*2,
     },
     maxWidth: 400,
     flexGrow: 1,
     jus: 'center',
-    margin: '0 auto'
+    margin: '30px auto'
   },
   header: {
     display: 'flex',
     alignItems: 'center',
+    justifyContent: 'space-between',
     height: 50,
     paddingLeft: theme.spacing.unit * 4,
     backgroundColor: theme.palette.background.default,
   },
   img: {
     [theme.breakpoints.up('sm')]: {
-        maxWidth: 400*1.8,
-        height: 255*1.8,
+        maxWidth: 400*2,
+        height: 255*2,
     },
     height: 255,
     display: 'block',
@@ -99,6 +101,7 @@ class PortfolioWrapper extends Component {
           <div className={classes.root}>
             <Paper square elevation={0} className={classes.header}>
               <Typography>{tutorialSteps[activeStep].label}</Typography>
+              <Button component="button" color="primary">코드&&사이트 보기</Button>
             </Paper>
             <AutoPlaySwipeableViews
               axis={'x'}
