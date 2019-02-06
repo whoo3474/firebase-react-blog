@@ -1,32 +1,27 @@
 import React from 'react';
 import Moment from 'react-moment';
+import { Grid,Typography } from '@material-ui/core';
 
 // contactWrapper에서 보여줌
 const Notifications = (props) => {
     const {notifications} = props;
     return (
-        <div>
-            <div>
-                <div >
-                    <span>공지사항</span>
+                <Grid>
+                    <Typography variant="h4" gutterBottom>공지사항</Typography>
                     <ul className="notifications">
                         <li>
                             { notifications && notifications.map( item => {
                                 return (
                                     <li key={item.id}>
-                                        <span className="pink-text">{item.user}</span>
-                                        <span>{item.content}</span>
-                                        <div className="grey-text note-date">
-                                            <Moment fromNow>{item.time.toDate()?item.time.toDate():''}</Moment>
-                                        </div>
+                                        <Typography variant="body1" gutterBottom>{item.user}</Typography>
+                                        <Typography variant="body1" gutterBottom>{item.content}</Typography>
+                                        <Moment fromNow>{item.time.toDate()?item.time.toDate():''}</Moment>
                                     </li>
                                 )
                             })}
                         </li>
                     </ul>
-                </div>
-            </div>
-        </div>
+                </Grid>
     );
 };
 

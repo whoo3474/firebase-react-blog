@@ -6,6 +6,8 @@ import { Button, withStyles } from '@material-ui/core';
 const styles= theme => ({
     button:{
         margin: `${theme.spacing.unit}px auto`,
+        width: '100%',
+      display: 'inlineBlock'
     }
 })
 

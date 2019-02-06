@@ -3,32 +3,23 @@ import { withStyles, Paper, Grid, Typography } from '@material-ui/core';
 import Moment from 'react-moment';
 
 const styles = theme => ({
-    // paper: {
-    //     maxWidth: '1200px',
-    //     margin: `${theme.spacing.unit}px auto`,
-    // },
+     paper: {
+         padding: `${theme.spacing.unit*3}px`,
+         width: '100%'
+     },
     title: {
       fontSize: 14,
-    },
-    pos: {
-      marginBottom: 12,
-    },
-    content:{
-        overflow: 'hidden',
-        whiteSpace: 'nowrap',
-        textOverflow: 'ellipsis'
     }
   });
 const ContactSummary = ({contact,key,classes}) => {
     return (
         <Paper id={key} className={classes.paper}>
-            <Grid
-            container>
+            <Grid>
                     <Typography variant="h5" component="h2" gutterBottom>{contact.title}</Typography>
-                        <Typography className={classes.content} gutterBottom>{contact.content}</Typography>
+                    <Typography className={classes.content} gutterBottom>{contact.content}</Typography>
                     <Typography className={classes.title} color="textSecondary">Posted by {contact.authorName||'이름없음'}</Typography>
                     {contact.createdAt&&
-                    <Typography className={classes.pos}>
+                    <Typography>
                         <Moment format="YYYY/MM/DD">{contact.createdAt.toDate().toString()}</Moment>
                     </Typography>
                     }

@@ -10,14 +10,16 @@ import { Paper, Grid, Button, withStyles, Dialog, DialogContent, DialogActions, 
 
 const styles = theme => ({
     root: {
+        width:'80%',
+        margin: '20px auto',
       flexGrow: 1,
-      overflow: 'hidden',
       padding: `0 ${theme.spacing.unit * 1.5}px`,
     },
     paper: {
       minWidth: 'auto',
       margin: `${theme.spacing.unit}px auto`,
       padding: theme.spacing.unit * 2,
+      width: '100%'
     },
     button: {
       margin: theme.spacing.unit,
@@ -85,7 +87,11 @@ class ContactWrapper extends Component {
         else if(this.state.create){return <Redirect to='/create'/>}
         return (
 
-            <div className={classes.root}>
+            <Grid
+            container
+            direction="column"
+            justify="flex-start"
+            alignItems="flex-start"className={classes.root}>
                 <Paper className={classes.paper}>
                     <Grid>
                         <Notifications notifications={notifications}/>
@@ -113,7 +119,7 @@ class ContactWrapper extends Component {
                         </Button>
                     </DialogActions>
                     </Dialog>
-                </div>
+                </Grid>
         );
     }
 }
