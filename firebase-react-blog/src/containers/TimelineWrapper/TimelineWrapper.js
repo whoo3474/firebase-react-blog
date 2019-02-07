@@ -27,10 +27,10 @@ const styles = theme => ({
   });
   
 const helpTooltip = `
-Portfolio 페이지는 js의 배열값들을 캐럿셀로 보여주는 페이지입니다.
-Material-Ui의 AutoPlaySwipeableViews를 사용했으며, 상단의 버튼으로 사이트를 새창으로 띄워줍니다.
-제가 만든 사이트들의 일부이며, 저의 gitHub에서 코드들을 확인하실수있습니다.
-`
+    Timeline 페이지는 저의 이력 및 공부 해온것들에 대한 타임라인 입니다.
+    firebase의 데이터베이스인 firestore에서 값을 가져와서 뿌려줍니다.
+    현재 스크롤을 계산하여 하단에 닿으면 새로 값을 가져옵니다.
+    `
 class TimelineWrapper extends Component {
     state={
         isLoading:false

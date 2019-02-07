@@ -30,13 +30,11 @@ const ContactDetails = (props) => {
                             <Moment format="YYYY/MM/DD">{contact.createdAt.toDate().toString()}</Moment>
                         </Typography>
                         }
-                            {console.log('contact.DownloadUrl',contact)}
                             {(contact.DownloadUrl &&
                                 (<Grid item>
                                     <img src={contact.DownloadUrl}/>
                                 </Grid>)
                             )}
-                                 {contact.DownloadUrl}
                             </Grid>
                     </Paper>
                     <Button 

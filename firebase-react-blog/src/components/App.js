@@ -14,9 +14,7 @@ const App = () => {
                 <Route path="/portfolio" component={PortfolioPage} />
                 <Route path="/timeline" component={TimelinePage} />
                 <Route path="/signin" component={SignInPage} />
-                {/* <Route path="/signup" component={SignUpPage} /> */}
                 <Route path="/user" component={UserPage} />
-                {/* <Route path="" component={} /> */}
                 <Route component={NotFoundPage} />    
             </Switch>   
         </div>

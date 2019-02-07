@@ -49,19 +49,10 @@ export const deleteContactTk= (id) => {
 
 export const getContactTk = (id) => {
     return (dispatch, getState)=>{
-        const fireStorage =fbConfig.storage();
-        fbConfig.firestore().collection('contacts').doc(id).get()
-        .then((querySnapshot)=>{
-            let childData = querySnapshot.data(); 
-               if(!!childData.filePath) {
-                 //  혹시 file 있니?
-                 fireStorage.ref().child(childData.filePath).getDownloadURL().then( url =>{
-                 childData.DownloadUrl= url;
-                     // 있으면 같이 store에 DownloadUrl로 저장 되렴
-                  })
-               }
-            dispatch(getContact(childData));
-        });
+        const contactFind = getState().contact.contactList.find((n)=>{
+            return n.id===id
+        })
+            dispatch(getContact(contactFind));
     };
 };
 
@@ -141,8 +132,7 @@ export const createContactTk = (contact) => {
         const firestore = fireStore.collection('contacts').doc();
         const firebaseUser = fbConfig.auth().currentUser;
         const Time = new Date();
-        const fireStorage =fbConfig.storage().ref().child(`blog_img/${Time}`);
-        // const DownloadUrl = fireStorage.getDownloadURL()
+        const fireStorage =fbConfig.storage().ref().child(`blog_img/${Time.getTime()}`);
         if(contact.file){
             fireStorage.put(contact.file).then((snapshot)=> {
                 firestore.set({

@@ -7,7 +7,7 @@ const Notifications = (props) => {
     const {notifications} = props;
     return (
                 <Grid>
-                    <Typography variant="h4" gutterBottom>공지사항</Typography>
+                    <Typography variant="h4" gutterBottom>알림창</Typography>
                     <ul className="notifications">
                         <li>
                             { notifications && notifications.map( item => {

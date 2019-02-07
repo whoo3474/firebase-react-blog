@@ -6,7 +6,7 @@ import Notifications from '../../components/Contact/Notifications';
 import ContactList from '../../components/Contact/ContactList';
 import { getContactListTk, getNotificationsTk } from '../../store/modules/contact';
 import { compose } from 'recompose'
-import { Paper, Grid, Button, withStyles, Dialog, DialogContent, DialogActions, DialogTitle, CircularProgress } from '@material-ui/core';
+import { Paper, Grid, Button, withStyles, Dialog, DialogContent, DialogActions, DialogTitle, CircularProgress, Zoom, Tooltip } from '@material-ui/core';
 
 const styles = theme => ({
     root: {
@@ -27,7 +27,7 @@ const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
     },
-        absoluteProgress:{
+    absoluteProgress:{
         position:'absolute',
         right:50,
         bottom:-50,
@@ -35,8 +35,17 @@ const styles = theme => ({
     progress: {
       margin: theme.spacing.unit * 2,
     },
+    helpGrid:{
+      justifyContent: 'flex-end',
+      margin: '10px 0'
+    }
   });
-  
+
+  const helpTooltip = `
+    Contact 페이지는 저에게 하고싶으신 말을 적으시는 페이지입니다.
+    알림창은 현재 회원가입을 하였거나, 게시글을 새로 작성하시면 알람이 올라갑니다.
+    게시글은 로그인을 하셔야 작성이 가능하며, 본인만 수정과 삭제가 가능합니다.
+    `
 class ContactWrapper extends Component {
     state={
       isLoading:false,
@@ -53,7 +62,6 @@ class ContactWrapper extends Component {
         // this.props.getNotificationsTk();
         if(!!this.props.exists&&!this.state.isLoading)window.addEventListener('scroll',this._infiniteScroll,true);
         // 이거 텀을 줘야될것같다.
-        console.log('contactList',this.props.contactList)
     }
     _infiniteScroll = () => {
         let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
@@ -103,6 +111,13 @@ class ContactWrapper extends Component {
                 direction="column"
                 justify="flex-start"
                 alignItems="flex-start"className={classes.root}>
+                    <Grid container className={classes.helpGrid}>
+                        <Tooltip TransitionComponent={Zoom} title={helpTooltip}>
+                        <i className="material-icons">
+                            help_outline
+                        </i>
+                        </Tooltip>
+                    </Grid>
                 <Paper className={classes.paper}>
                     <Grid>
                         <Notifications notifications={notifications}/>
@@ -141,7 +156,6 @@ class ContactWrapper extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return {
         contactList : state.contact.contactList,
         notifications: state.contact.notifications,
