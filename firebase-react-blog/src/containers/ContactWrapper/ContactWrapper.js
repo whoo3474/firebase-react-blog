@@ -6,7 +6,7 @@ import Notifications from '../../components/Contact/Notifications';
 import ContactList from '../../components/Contact/ContactList';
 import { getContactListTk, getNotificationsTk } from '../../store/modules/contact';
 import { compose } from 'recompose'
-import { Paper, Grid, Button, withStyles, Dialog, DialogContent, DialogActions, DialogTitle, CircularProgress, Zoom, Tooltip } from '@material-ui/core';
+import { Paper, Grid, Button, withStyles, Dialog, DialogActions, DialogTitle, CircularProgress, Zoom, Tooltip } from '@material-ui/core';
 
 const styles = theme => ({
     root: {
@@ -45,6 +45,7 @@ const styles = theme => ({
     Contact 페이지는 저에게 하고싶으신 말을 적으시는 페이지입니다.
     알림창은 현재 회원가입을 하였거나, 게시글을 새로 작성하시면 알람이 올라갑니다.
     게시글은 로그인을 하셔야 작성이 가능하며, 본인만 수정과 삭제가 가능합니다.
+    jpeg 와 png 형식의 파일만 올릴수있으며, 게시글안으로 들어가면 보실수 있습니다.
     `
 class ContactWrapper extends Component {
     state={

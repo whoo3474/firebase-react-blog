@@ -1,5 +1,5 @@
 import React from 'react'
-import { withStyles, Paper, Grid, Typography } from '@material-ui/core';
+import { withStyles, Paper, Grid, Typography, Chip } from '@material-ui/core';
 import Moment from 'react-moment';
 
 const styles = theme => ({
@@ -19,7 +19,13 @@ const styles = theme => ({
     [theme.breakpoints.up('sm')]: {
         width: '800px',
     },
-    }
+    },
+    inlineBlock:{
+        display:'inline-block'
+    },
+    chip: {
+      margin: theme.spacing.unit,
+    },
 
   });
 const ContactSummary = ({contact,key,classes}) => {
@@ -30,11 +36,13 @@ const ContactSummary = ({contact,key,classes}) => {
                     <Typography className={classes.content} gutterBottom>{contact.content}</Typography>
                     <Typography className={classes.title} color="textSecondary">Posted by {contact.authorName||'이름없음'}</Typography>
                     {contact.createdAt&&
-                    <Typography>
+                    <Typography className={classes.inlineBlock}>
                         <Moment format="YYYY/MM/DD">{contact.createdAt.toDate().toString()}</Moment>
                     </Typography>
                     }
-                    {console.log('contact.DownloadUrl',contact.DownloadUrl)}
+                    {contact.contentType&&
+                        <Chip label={contact.contentType} className={classes.chip} variant="outlined" />
+                    }
             </Grid>
         </Paper>
     );
