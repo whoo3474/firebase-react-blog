@@ -101,7 +101,7 @@ class PortfolioWrapper extends Component {
           <div className={classes.root}>
             <Paper square elevation={0} className={classes.header}>
               <Typography>{tutorialSteps[activeStep].label}</Typography>
-              <Button component="button" color="primary">코드&&사이트 보기</Button>
+              <Button component="button" variant="contained" color="primary">코드&&사이트 보기</Button>
             </Paper>
             <AutoPlaySwipeableViews
               axis={'x'}

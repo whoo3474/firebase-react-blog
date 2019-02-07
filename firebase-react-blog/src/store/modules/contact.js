@@ -1,5 +1,6 @@
 import { createAction, handleActions } from 'redux-actions';
 import fbConfig,{fireStore} from '../../config/fbConfig';
+import { componentFromStreamWithConfig } from 'recompose';
 
 
 // action type
@@ -9,6 +10,8 @@ const GET_CONTACT_LIST_LOAD = 'GET_CONTACT_LIST_LOAD';
 const CREATE_CONTACT = 'CREATE_CONTACT';
 const CREATE_CONTACT_ERROR = 'CREATE_CONTACT_ERROR';
 const GET_NOTIFICATIONS = 'GET_NOTIFICATIONS';
+const DELETE_CONTACT = 'DELETE_CONTACT';
+const DELETE_CONTACT_ERROR = 'DELETE_CONTACT_ERROR';
 
 // action creators
 const getContact = createAction(GET_CONTACT);
@@ -17,7 +20,29 @@ const getContactListLoad = createAction(GET_CONTACT_LIST_LOAD);
 const createContact = createAction(CREATE_CONTACT);
 const createContactError = createAction(CREATE_CONTACT_ERROR);
 const getNotifications = createAction(GET_NOTIFICATIONS);
+const deleteContact = createAction(DELETE_CONTACT);
+const deleteContactError = createAction(DELETE_CONTACT_ERROR);
 
+export const deleteContactTk= (id) => {
+    return (dispatch, getState) => {
+        const userEmail = getState().auth.user.email;
+        const contactAuthorId = getState().contact.contact.authorId;
+        if(userEmail==contactAuthorId){
+            fbConfig.firestore().collection('contacts').doc(id).delete()
+            .then(()=>{
+                const List = getState().contact.contactList.filter((contact)=>{
+                    return contact.id !== id
+                })
+                dispatch(deleteContact(List))
+            }).catch((err)=>{
+                dispatch(deleteContactError())
+            })
+        }else{
+            dispatch(deleteContactError())
+        }
+        // fbConfig.firestore().collection('contacts').doc(id).where("")
+    }
+}
 
 export const getContactTk = (id) => {
     return (dispatch, getState)=>{
@@ -36,6 +61,8 @@ export const getContactTk = (id) => {
         });
     };
 };
+
+
 export const getContactListTk = () => {
     return (dispatch, getState)=>{
         const state = getState().contact;
@@ -125,7 +152,7 @@ export const createContactTk = (contact) => {
                     // filePath: snapshot.get||'',
                     filePath: snapshot.metadata.fullPath||'',
                     createdAt:Time
-                }).then(() => {
+                }).then((hello) => {
                 dispatch(createContact(contact));
                     // 스토리지에 저장
                 }).catch((err) => {
@@ -164,6 +191,7 @@ const initialState = {
     exists:true,
     countList:1,
     //한페이지에 출력될 게시물 수
+    message:''
 }
 
 // reducer
@@ -175,16 +203,15 @@ export default handleActions({
             contactList: [...state.contactList,...action.payload]
         }
     },
-        [GET_CONTACT_LIST_LOAD] : (state,action) => {
+    [GET_CONTACT_LIST_LOAD] : (state,action) => {
         return {
             ...state,
             loading:false,
             lastBoard:action.payload,
-            exists: action.payload?(action.payload.exists?action.payload.exists:''):''
+            exists: !!action.payload?(!!action.payload.exists?!!action.payload.exists:false):false
         }
     },
     [GET_CONTACT] : (state,action) => {
-        console.log('contact reducer',action.payload)
         return {
             ...state,
             contact: action.payload
@@ -193,7 +220,7 @@ export default handleActions({
     [CREATE_CONTACT] : (state,action) => {
         return {
             ...state,
-            contactList:[...state.contactList,action.payload]
+            contactList:[...state.contactList]
         }
     },
     [CREATE_CONTACT_ERROR] : (state,action) => {
@@ -205,6 +232,21 @@ export default handleActions({
         return {
             ...state,
             notifications: action.payload
+        }
+    },
+    [DELETE_CONTACT] : (state,action) => {
+        return {
+            ...state,
+            contactList:[
+                ...action.payload
+            ],
+            message:'해당 게시물을 정상 삭제하였습니다.'
+        }
+    },
+    [DELETE_CONTACT_ERROR] : (state,action) => {
+        return {
+            ...state,
+            message:'글 작성자가 아니면 삭제가 불가능합니다.'
         }
     }
 }, initialState);

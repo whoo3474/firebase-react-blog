@@ -11,7 +11,6 @@ class UserWrapper extends Component {
     
       handleClickOpen = () => {
         this.setState({ open: true });
-        console.log('handleClickOpen')
       };
     
       handleClose = () => {
@@ -36,7 +35,12 @@ class UserWrapper extends Component {
         const {user} = this.props;
         return (
             <div>
-                <User user={user} open={this.state.open} handleClose={this.handleClose} handleClickOpen={this.handleClickOpen} handleCloseDelete={this.handleCloseDelete}/>
+                <User
+                    user={user}
+                    open={this.state.open}
+                    handleClose={this.handleClose}
+                    handleClickOpen={this.handleClickOpen}
+                    handleCloseDelete={this.handleCloseDelete}/>
             </div>
         );
     }

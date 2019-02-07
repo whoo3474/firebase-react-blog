@@ -9,7 +9,18 @@ const styles = theme => ({
      },
     title: {
       fontSize: 14,
+    },
+    content:{
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    whiteSpace: 'nowrap',
+    width: '250px',
+    height: '20px',
+    [theme.breakpoints.up('sm')]: {
+        width: '800px',
+    },
     }
+
   });
 const ContactSummary = ({contact,key,classes}) => {
     return (

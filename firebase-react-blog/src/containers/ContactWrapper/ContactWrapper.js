@@ -6,11 +6,14 @@ import Notifications from '../../components/Contact/Notifications';
 import ContactList from '../../components/Contact/ContactList';
 import { getContactListTk, getNotificationsTk } from '../../store/modules/contact';
 import { compose } from 'recompose'
-import { Paper, Grid, Button, withStyles, Dialog, DialogContent, DialogActions, DialogTitle } from '@material-ui/core';
+import { Paper, Grid, Button, withStyles, Dialog, DialogContent, DialogActions, DialogTitle, CircularProgress } from '@material-ui/core';
 
 const styles = theme => ({
     root: {
-        width:'80%',
+        [theme.breakpoints.up('sm')]: {
+            width:'80%',
+        },
+        width:'100%',
         margin: '20px auto',
       flexGrow: 1,
       padding: `0 ${theme.spacing.unit * 1.5}px`,
@@ -23,7 +26,15 @@ const styles = theme => ({
     },
     button: {
       margin: theme.spacing.unit,
-    }
+    },
+        absoluteProgress:{
+        position:'absolute',
+        right:50,
+        bottom:-50,
+    },
+    progress: {
+      margin: theme.spacing.unit * 2,
+    },
   });
   
 class ContactWrapper extends Component {
@@ -87,11 +98,11 @@ class ContactWrapper extends Component {
         else if(this.state.create){return <Redirect to='/create'/>}
         return (
 
-            <Grid
-            container
-            direction="column"
-            justify="flex-start"
-            alignItems="flex-start"className={classes.root}>
+                <Grid
+                container
+                direction="column"
+                justify="flex-start"
+                alignItems="flex-start"className={classes.root}>
                 <Paper className={classes.paper}>
                     <Grid>
                         <Notifications notifications={notifications}/>
@@ -103,7 +114,13 @@ class ContactWrapper extends Component {
                 <Grid container className={classes.contactListGrid}>
                     {console.log('contactList',contactList)}
                         <ContactList contactList={contactList}/>
-                        {this.state.isLoading&&this.props.exists?(<div className="loader">Loading ...</div>):''}
+                        {this.state.isLoading&&this.props.exists?
+                            (
+                            <div className={classes.absoluteProgress}>
+                               <CircularProgress className={classes.progress} />
+                            </div>)
+                              :
+                              ''}
                 </Grid>
 
                 <Dialog open={this.state.open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">

@@ -5,7 +5,7 @@ import Header from '../Header/Header';
 // PageTemplate를 고차함수로 만들어서 Container에 곧장 넣었어도 되었을법도 하다.
 const PageTemplate = ({children}) => {
     return (
-        <div className="page-template" style={{marginBottom:'60px'}}>
+        <div className="page-template" style={{marginBottom:'55px'}}>
             <Header>
                 {children}
             </Header>

@@ -1,19 +1,44 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import ContactDetails from '../../components/Contact/ContactDetails';
-import { getContactTk } from '../../store/modules/contact';
+import { getContactTk, deleteContactTk } from '../../store/modules/contact';
 import { bindActionCreators } from 'redux';
 class ContactDetailsWrapper extends Component {
+    state = {
+        open: false,
+        redirect:false
+      };
+    
+      handleClickOpen = (id) => {
+        this.setState({ open: true });
+        this.contactDelete(id);
+      };
+    
+      handleClose = () => {
+        this.setState({ open: false, redirect:true });
+      };
+    
+      contactDelete = (id) => {
+        this.props.deleteContactTk(id);
+      }
     componentDidMount() {
         const id = this.props.id;
         this.props.getContactTk(id);
     }
     render() {
-        const {contact} = this.props;
+        const {contact, message} = this.props;
+        const {redirect, open} = this.state;
         if(!!contact){
         return(
             <div>
-                <ContactDetails contact={contact}/>
+                <ContactDetails 
+                message={message}
+                contact={contact} 
+                open={open}
+                redirect={redirect}
+                handleClose={this.handleClose} 
+                handleClickOpen={this.handleClickOpen}
+                handleCloseDelete={this.handleCloseDelete}/>
              </div>
            );
         }else {
@@ -29,11 +54,13 @@ class ContactDetailsWrapper extends Component {
 
 const mapStateToProps = (state) => {
     return {
-        contact : state.contact.contact
+        contact : state.contact.contact,
+        message : state.contact.message
     }
 }
 const mapDispatchToProps = (dispatch) => ({
-    getContactTk : bindActionCreators(getContactTk,dispatch)
+    getContactTk : bindActionCreators(getContactTk,dispatch),
+    deleteContactTk : bindActionCreators(deleteContactTk,dispatch)
 })
 
 export default connect(mapStateToProps,mapDispatchToProps)(ContactDetailsWrapper);

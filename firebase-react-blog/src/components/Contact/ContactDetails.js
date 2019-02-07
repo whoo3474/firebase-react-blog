@@ -1,33 +1,35 @@
 import React from 'react';
 import Moment from 'react-moment';
-import { withStyles,Paper, Grid, Typography } from '@material-ui/core';
+import { Redirect } from 'react-router-dom';
+import { withStyles,Paper, Grid, Typography, Button, Dialog, DialogTitle, DialogActions } from '@material-ui/core';
 
 const styles = theme => ({
-    // paper1: {
-    //     maxWidth: '900px',
-    //     margin: `${theme.spacing.unit}px auto`,
-    //     padding: theme.spacing.unit * 2,
-    // },
-    title1: {
-      fontSize: 14,
+    paper: {
+        padding: `${theme.spacing.unit*3}px`,
+        width: '100%'
     },
-    pos1: {
-      marginBottom: 12,
-    }
+   title: {
+     fontSize: 14,
+   },
+    button: {
+      margin: theme.spacing.unit,
+    },
   });
 const ContactDetails = (props) => {
-    const {contact, classes} = props;
+    const {contact, classes,handleClickOpen,handleClose,open,redirect,message} = props;
+        if(redirect) return <Redirect to='/contact'/>
         return (
-                    <Paper className={classes.paper1}>
-                        <Grid container>
-                            <Typography variant="h5" component="h2" gutterBottom>{contact.title}</Typography>
-                            <Typography component="p" gutterBottom>{contact.content}</Typography>
-                            <Typography className={classes.title1} color="textSecondary">Posted by {contact.authorName||'이름없음'}</Typography>
-                            {contact.createdAt&&
-                            <Typography className={classes.pos1}>
-                                <Moment format="YYYY/MM/DD">{contact.createdAt.toDate().toString()}</Moment>
-                            </Typography>
-                            }
+               <>
+                    <Paper className={classes.paper}>
+                        <Grid>
+                        <Typography variant="h5" component="h2" gutterBottom>{contact.title}</Typography>
+                        <Typography className={classes.content} gutterBottom>{contact.content}</Typography>
+                        <Typography className={classes.title} color="textSecondary">Posted by {contact.authorName||'이름없음'}</Typography>
+                        {contact.createdAt&&
+                        <Typography>
+                            <Moment format="YYYY/MM/DD">{contact.createdAt.toDate().toString()}</Moment>
+                        </Typography>
+                        }
                             {console.log('contact.DownloadUrl',contact)}
                             {(contact.DownloadUrl &&
                                 (<Grid item>
@@ -37,6 +39,31 @@ const ContactDetails = (props) => {
                                  {contact.DownloadUrl}
                             </Grid>
                     </Paper>
+                    <Button 
+                        variant="contained" 
+                        color="primary"
+                        className={classes.button} >
+                    수정
+                    </Button>
+                    <Button 
+                        variant="contained"
+                        color="secondary"
+                        className={classes.button}
+                        onClick={()=>handleClickOpen(contact.id)} >
+                    삭제
+                    </Button>
+
+                    <Dialog open={open} onClose={handleClose} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+                        <DialogTitle id="alert-dialog-title">
+                            {message}
+                            </DialogTitle>
+                        <DialogActions>
+                            <Button onClick={handleClose} color="primary" autoFocus>
+                            확인
+                            </Button>
+                        </DialogActions>
+                    </Dialog>
+                </>
         );
 
 };

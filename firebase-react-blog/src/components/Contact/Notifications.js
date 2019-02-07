@@ -13,8 +13,7 @@ const Notifications = (props) => {
                             { notifications && notifications.map( item => {
                                 return (
                                     <li key={item.id}>
-                                        <Typography variant="body1" gutterBottom>{item.user}</Typography>
-                                        <Typography variant="body1" gutterBottom>{item.content}</Typography>
+                                        <Typography variant="body1" gutterBottom>{item.user} {item.content}</Typography>
                                         <Moment fromNow>{item.time.toDate()?item.time.toDate():''}</Moment>
                                         <Divider />
                                     </li>
