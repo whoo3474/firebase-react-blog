@@ -33,6 +33,9 @@ export const deleteContactTk= (id) => {
                 const List = getState().contact.contactList.filter((contact)=>{
                     return contact.id !== id
                 })
+                // id받아와서, 얘 아닌거만 필터로 골라서 ContactList로 만들어준다.
+                // 현재 리덕스의 store에서 값을 읽어서 Contact 페이지로 뿌려주는것이라
+                // 안해주면 지웠어도 새로고침 하기전까지 남아있음
                 dispatch(deleteContact(List))
             }).catch((err)=>{
                 dispatch(deleteContactError())

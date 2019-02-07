@@ -112,7 +112,6 @@ class ContactWrapper extends Component {
                          게시글 생성
                    </Button> 
                 <Grid container className={classes.contactListGrid}>
-                    {console.log('contactList',contactList)}
                         <ContactList contactList={contactList}/>
                         {this.state.isLoading&&this.props.exists?
                             (

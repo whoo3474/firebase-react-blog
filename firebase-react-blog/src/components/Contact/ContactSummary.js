@@ -35,7 +35,6 @@ const ContactSummary = ({contact,key,classes}) => {
                     </Typography>
                     }
                     {console.log('contact.DownloadUrl',contact.DownloadUrl)}
-
             </Grid>
         </Paper>
     );

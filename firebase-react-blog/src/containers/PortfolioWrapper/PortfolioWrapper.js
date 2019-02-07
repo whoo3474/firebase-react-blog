@@ -8,35 +8,50 @@ import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
+import { Grid, Tooltip, Zoom } from '@material-ui/core';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
 const tutorialSteps = [
   {
-    label: 'San Francisco – Oakland Bay Bridge, United States',
+    label: '버스 예약 사이트_사용자 ~ PC, Mobile',
     imgPath:
-      'https://images.unsplash.com/photo-1537944434965-cf4679d1a598?auto=format&fit=crop&w=400&h=250&q=60',
+      'https://firebasestorage.googleapis.com/v0/b/fir-react-blog.appspot.com/o/portfolio%2FbusClient.PNG?alt=media&token=cbe76a45-21b5-48ba-8d61-041b899ed83a',
+    url:'http://mahatech.iptime.org:7007/',
+    description:`첫 회사에서 제작한 버스 예약 사용자 사이트입니다.
+    디자인회사와 협업하여 기능부터 DB설계, JAVA서버와 SQL, 호스팅, AWS ES2리눅스 서버, RDS-MariaDB까지 모든 부분을 도맡아 하였습니다.
+    아이디는 test, 비밀번호는 test로 들어가실수 있습니다.`
   },
   {
-    label: 'Bird',
+    label: '버스 예약 사이트_관리자 ~ PC',
     imgPath:
-      'https://images.unsplash.com/photo-1538032746644-0212e812a9e7?auto=format&fit=crop&w=400&h=250&q=60',
+      'https://firebasestorage.googleapis.com/v0/b/fir-react-blog.appspot.com/o/portfolio%2FbusAdmin.PNG?alt=media&token=128d4b2f-120f-4954-b47d-f1325d8ada00',
+    url:'http://mahatech.iptime.org:7007/admin',
+    description:`버스 예약 관리자 사이트입니다.
+    사용자 사이트에서 선택할수있는 모든 기능을 제어할수 있으며, 사용자 및 버스, 패널티등을 설정할수 있습니다.
+    아이디는 1, 비밀번호는 1로 들어가실수 있습니다.
+    관리자 계정으로는 사용자 사이트 접속이 가능하지만, 사용자 아이디로 관리자 사이트 접속이 불가능합니다.
+    현재 몇몇기능을 사용하기 좋게 기존에서 빼놓은 상태입니다.`
   },
   {
-    label: 'Bali, Indonesia',
+    label: 'sass 연습페이지',
     imgPath:
-      'https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=400&h=250&q=80',
+      'https://firebasestorage.googleapis.com/v0/b/fir-react-blog.appspot.com/o/portfolio%2Fscss.PNG?alt=media&token=9d960992-970d-446d-a819-f2592370d7ca',
+    url:'https://whoo3474.github.io/LoremSassProject/',
+    description:`scss를 연습하기 위하여 만든 사이트입니다.`
   },
   {
-    label: 'NeONBRAND Digital Marketing, Las Vegas, United States',
+    label: '칵테일 페이지',
     imgPath:
-      'https://images.unsplash.com/photo-1518732714860-b62714ce0c59?auto=format&fit=crop&w=400&h=250&q=60',
+      'https://firebasestorage.googleapis.com/v0/b/fir-react-blog.appspot.com/o/portfolio%2Fcocktail.PNG?alt=media&token=2371c757-fd92-4ea9-ad1a-33509116e757',
+    url:'https://whoo3474.github.io/cocktail-website/',
+    description:`css를 연습하기 위하여 만든 사이트입니다.`
   },
-  {
-    label: 'Goč, Serbia',
-    imgPath:
-      'https://firebasestorage.googleapis.com/v0/b/fir-react-blog.appspot.com/o/blog_img%2F1548316989960?alt=media&token=c6f7ad9c-4e18-4bdd-82ca-99c7f7905746',
-  },
+  // {
+  //   label: 'Goč, Serbia',
+  //   imgPath:
+  //     'https://firebasestorage.googleapis.com/v0/b/fir-react-blog.appspot.com/o/blog_img%2F1548316989960?alt=media&token=c6f7ad9c-4e18-4bdd-82ca-99c7f7905746',
+  // },
 ];
 
 const styles = theme => ({
@@ -69,7 +84,17 @@ const styles = theme => ({
     overflow: 'hidden',
     width: '100%',
   },
+  helpGrid:{
+    justifyContent: 'flex-end',
+    margin: '10px 0'
+  }
 });
+
+const helpTooltip = `
+  Portfolio 페이지는 js의 배열값들을 캐럿셀로 보여주는 페이지입니다.
+  Material-Ui의 AutoPlaySwipeableViews를 사용했으며, 상단의 버튼으로 사이트를 새창으로 띄워줍니다.
+  제가 만든 사이트들의 일부이며, 저의 gitHub에서 코드들을 확인하실수있습니다.
+`
 
 class PortfolioWrapper extends Component {
     state = {
@@ -99,9 +124,16 @@ class PortfolioWrapper extends Component {
     
         return (
           <div className={classes.root}>
+          <Grid container className={classes.helpGrid}>
+            <Tooltip TransitionComponent={Zoom} title={helpTooltip}>
+              <i className="material-icons">
+                help_outline
+              </i>
+            </Tooltip>
+          </Grid>
             <Paper square elevation={0} className={classes.header}>
-              <Typography>{tutorialSteps[activeStep].label}</Typography>
-              <Button component="button" variant="contained" color="primary">코드&&사이트 보기</Button>
+              <Typography variant="h6" gutterBottom>{tutorialSteps[activeStep].label}</Typography>
+              <Button target="_blank" href={tutorialSteps[activeStep].url} variant="contained" color="primary">사이트 보기</Button>
             </Paper>
             <AutoPlaySwipeableViews
               axis={'x'}
@@ -114,6 +146,12 @@ class PortfolioWrapper extends Component {
                   {Math.abs(activeStep - index) <= 2 ? (
                     <img className={classes.img} src={step.imgPath} alt={step.label} />
                   ) : null}
+                  
+                <Grid>
+                  <Typography variant="body1" gutterBottom>
+                    {step.description}
+                  </Typography>
+                </Grid>
                 </div>
               ))}
             </AutoPlaySwipeableViews>

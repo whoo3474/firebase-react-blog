@@ -22,16 +22,14 @@ dl, dd {
     // padding-top: 20%;
     // padding-bottom: 10%;
     text-align: center;
-    background-size: cover;
-    /* 보통 backbround-size 사진이 찌그러지지 않도록 cover을 많이쓴다 */
-    background-position: bottom;
-    /* position도 center을 많이쓰지만, 이번에는 산비탈을 보이기위하여 bottom */
     transition: padding .5s;
     /* 모바일과 pc버전일때 변화가 일어나면유연하게 변화하기 위하여 추가함 */
   }
   
   .cover-title {
+    margin:0;
     font-size: 22vw;
+    // padding: 5%;
     /* 픽셀로 맞추면 pc~mobile 마다 바꾸어줘야됨 */
     /* viewport의 (weight)너비기준의 10% => 10vw */
     font-family: 'Yellowtail', cursive;
