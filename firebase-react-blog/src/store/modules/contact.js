@@ -66,7 +66,7 @@ export const getContactListTk = () => {
         const rows = []; 
 
         const fireStorage =fbConfig.storage();
-        let ContactListFirst =fbConfig.firestore().collection('contacts').orderBy('createdAt');
+        let ContactListFirst =fbConfig.firestore().collection('contacts').orderBy('createdAt','desc');
         if(!!exists){
             if(!!lastBoard){
                 // lastBoard가 있다고? 그럼 startAfter로 너를 기준으로 limit만큼 찾아오자
@@ -135,6 +135,7 @@ export const createContactTk = (contact) => {
         const fireStorage =fbConfig.storage().ref().child(`blog_img/${Time.getTime()}`);
         if(contact.file){
             fireStorage.put(contact.file).then((snapshot)=> {
+                console.log('snapshot',snapshot.metadata.contentType)
                 firestore.set({
                     ...contact,
                     id:firestore.id,
@@ -142,10 +143,11 @@ export const createContactTk = (contact) => {
                     changeFileName : Time.getTime(),
                     authorName: firebaseUser.displayName||'이름없음',
                     authorId:firebaseUser.email||'이메일없음',
-                    // filePath: snapshot.get||'',
                     filePath: snapshot.metadata.fullPath||'',
-                    createdAt:Time
-                }).then((hello) => {
+                    createdAt:Time,
+                    contentType:(snapshot.metadata.contentType=='image/png'||snapshot.metadata.contentType=='image/jpeg')?snapshot.metadata.contentType : ''
+                    // 저는 png나 jpeg가 아니면 파일을 안열어 주겠습니다.
+                }).then(() => {
                 dispatch(createContact(contact));
                     // 스토리지에 저장
                 }).catch((err) => {
