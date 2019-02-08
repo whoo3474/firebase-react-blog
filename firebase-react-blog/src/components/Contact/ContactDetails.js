@@ -14,6 +14,10 @@ const styles = theme => ({
     button: {
       margin: theme.spacing.unit,
     },
+    img:{
+        width:'100%',
+        maxHeight:'300px',
+    }
   });
 const ContactDetails = (props) => {
     const {contact, classes,handleClickOpen,handleClose,open,redirect,message} = props;
@@ -34,7 +38,7 @@ const ContactDetails = (props) => {
                             ((contact.contentType=='image/png'||contact.contentType=='image/jpeg')
                             ?
                                 (<Grid item>
-                                    <img src={contact.DownloadUrl}/>
+                                    <img className={classes.img} src={contact.DownloadUrl}/>
                                 </Grid>)
                             :'')
                             }

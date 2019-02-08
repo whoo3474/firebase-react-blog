@@ -10,7 +10,7 @@ import './TimelineWrpper.scss';
 
 const styles = theme => ({
     root:{
-        padding: theme.spacing.unit * 2,
+        // padding: theme.spacing.unit * 2,
     },
     absoluteProgress:{
         position:'absolute',
@@ -83,7 +83,7 @@ class TimelineWrapper extends Component {
                 {this.state.isLoading&&this.props.exists?
                     (
                         <div className={classes.absoluteProgress}>
-                        <CircularProgress className={classes.progress} />
+                            <CircularProgress className={classes.progress} />
                         </div>)
                     :
                     ''}
