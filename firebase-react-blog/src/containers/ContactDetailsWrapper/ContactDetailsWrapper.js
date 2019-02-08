@@ -26,19 +26,20 @@ class ContactDetailsWrapper extends Component {
         this.props.getContactTk(id);
     }
     render() {
-        const {contact, message} = this.props;
+        const {contact, message, id} = this.props;
         const {redirect, open} = this.state;
         if(!!contact){
         return(
             <div>
                 <ContactDetails 
-                message={message}
-                contact={contact} 
-                open={open}
-                redirect={redirect}
-                handleClose={this.handleClose} 
-                handleClickOpen={this.handleClickOpen}
-                handleCloseDelete={this.handleCloseDelete}/>
+                    id={id}
+                    message={message}
+                    contact={contact} 
+                    open={open}
+                    redirect={redirect}
+                    handleClose={this.handleClose} 
+                    handleClickOpen={this.handleClickOpen}
+                    handleCloseDelete={this.handleCloseDelete}/>
              </div>
            );
         }else {

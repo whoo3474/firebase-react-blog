@@ -43,7 +43,6 @@ export const deleteContactTk= (id) => {
         }else{
             dispatch(deleteContactError())
         }
-        // fbConfig.firestore().collection('contacts').doc(id).where("")
     }
 }
 
@@ -129,13 +128,24 @@ export const getNotificationsTk = () => {
 
 export const createContactTk = (contact) => {
     return (dispatch, getState) => {
-        const firestore = fireStore.collection('contacts').doc();
+        const stateContactList = getState().contact.contactList;
         const firebaseUser = fbConfig.auth().currentUser;
         const Time = new Date();
+        let firestore = fireStore.collection('contacts').doc();
+        let submitList = contact;
+        if(contact.id){
+            // 업데이트문을 위한 함수
+            firestore = fireStore.collection('contacts').doc(contact.id);
+            
+            const index = getState().contact.contactList.findIndex(item => item.id === contact.id)
+            if( index <= stateContactList.length){
+                submitList = [...stateContactList.slice(0,index), contact, ...stateContactList.slice(index+1, stateContactList.length)]
+            }
+            // firebase와 redux의 state를 따로 수정, 삭제, 저장을 해주어야 하는건가? 맞는 방법인지 모르겠다.
+        }
         const fireStorage =fbConfig.storage().ref().child(`blog_img/${Time.getTime()}`);
         if(contact.file){
             fireStorage.put(contact.file).then((snapshot)=> {
-                console.log('snapshot',snapshot.metadata.contentType)
                 firestore.set({
                     ...contact,
                     id:firestore.id,
@@ -148,7 +158,7 @@ export const createContactTk = (contact) => {
                     contentType:(snapshot.metadata.contentType=='image/png'||snapshot.metadata.contentType=='image/jpeg')?snapshot.metadata.contentType : ''
                     // 저는 png나 jpeg가 아니면 파일을 안열어 주겠습니다.
                 }).then(() => {
-                dispatch(createContact(contact));
+                    dispatch(createContact(submitList));
                     // 스토리지에 저장
                 }).catch((err) => {
                     dispatch(createContactError(err));
@@ -166,7 +176,7 @@ export const createContactTk = (contact) => {
                 filePath: '',
                 createdAt:Time
             }).then(() => {
-            dispatch(createContact(contact));
+            dispatch(createContact(submitList));
                 // 스토리지에 저장
             }).catch((err) => {
                 dispatch(createContactError(err));
@@ -184,9 +194,8 @@ const initialState = {
     lastBoard:'',
     // 마지막 인덱스
     exists:true,
-    countList:1,
+    countList:2,
     //한페이지에 출력될 게시물 수
-    message:''
 }
 
 // reducer
@@ -195,8 +204,9 @@ export default handleActions({
         return {
             ...state,
             loading:false,
-            contactList: [...state.contactList,...action.payload]
+            contactList: [...state.contactList,...action.payload],
         }
+   
     },
     [GET_CONTACT_LIST_LOAD] : (state,action) => {
         return {
@@ -213,14 +223,16 @@ export default handleActions({
         }
     },
     [CREATE_CONTACT] : (state,action) => {
+        
         return {
             ...state,
-            contactList:[...state.contactList]
+            contactList:[action.payload,...state.contactList]
         }
     },
     [CREATE_CONTACT_ERROR] : (state,action) => {
         return {
-            ...state
+            ...state,
+            contact:{}
         }
     },
     [GET_NOTIFICATIONS] : (state,action) => {

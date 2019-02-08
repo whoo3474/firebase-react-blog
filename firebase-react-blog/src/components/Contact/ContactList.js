@@ -19,7 +19,6 @@ const ContactList = ({contactList,classes}) => {
             { contactList && contactList.map((contact,i) => {
                 return (
                     <Button className={classes.button} component={Link} key={i} to={'/contact/'+contact.id }>
-                        {console.log('contact,i',contact,i)}
                       <ContactSummary contact={contact} key={contact.id}/>
                     </Button>
                 )

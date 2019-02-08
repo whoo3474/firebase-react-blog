@@ -10,6 +10,7 @@ const App = () => {
                 <Route exact path="/" component={AboutPage} />
                 <Route exact path="/contact" component={ContactPage} />
                 <Route path="/contact/:id" component={ContactDetailsPage} />
+                <Route path="/modify/:id" component={CreactContactPage} />
                 <Route path="/create" component={CreactContactPage} />
                 <Route path="/portfolio" component={PortfolioPage} />
                 <Route path="/timeline" component={TimelinePage} />

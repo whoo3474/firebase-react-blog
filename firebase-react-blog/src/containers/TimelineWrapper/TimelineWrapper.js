@@ -35,7 +35,7 @@ class TimelineWrapper extends Component {
     state={
         isLoading:false
     }
-    componentWillMount() {
+    componentDidMount() {
         this.props.getTimeListLoad();
         if(!!this.props.exists)window.addEventListener('scroll',this._infiniteScroll,true);
         // 이거 텀을 줘야될것같다.

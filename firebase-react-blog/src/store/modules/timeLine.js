@@ -1,5 +1,5 @@
 import { createAction, handleActions } from 'redux-actions';
-import fbConfig,{fireStore} from '../../config/fbConfig';
+import fbConfig from '../../config/fbConfig';
 
 // action type
 
@@ -82,16 +82,13 @@ export default handleActions({
     [GET_TIMELINE]: (state, action) => {
         return {
             ...state,
-            loading:false,
             timelines: [...state.timelines, ...action.payload],
         }
     },
 
     [GET_TIMELINE_LOAD]: (state, action) => {
-        console.log('action.payload',action.payload)
         return {
             ...state,
-            loading:false,
             lastBoard:action.payload,
             exists: action.payload?(action.payload.exists?action.payload.exists:''):''
             // payload가 있니? 그럼 거기에 exists가 있니? 그럼 저장

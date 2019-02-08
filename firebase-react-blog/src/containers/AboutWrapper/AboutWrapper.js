@@ -13,11 +13,11 @@ const styles = theme => ({
           paddingRight: 0,
         },
         mainGrid: {
-            marginTop: theme.spacing.unit * 3,
-          },
-          markdown: {
-            padding: `${theme.spacing.unit * 3}px 0`,
-          },
+          marginTop: theme.spacing.unit * 3,
+        },
+        markdown: {
+          padding: `${theme.spacing.unit * 3}px 0`,
+        },
       },
       sidebarAboutBox: {
         padding: theme.spacing.unit * 2,
@@ -37,7 +37,7 @@ class AboutWrapper extends Component {
     render() {  
         const { classes } = this.props;
         return (
-            <div>
+        <div>
           <Paper className={classes.mainFeaturedPost}>
             <Grid container>
               <Grid item md={10}>
@@ -132,7 +132,7 @@ class AboutWrapper extends Component {
         
             </Grid>
         
-            </div>
+          </div>
         );
     }
 }

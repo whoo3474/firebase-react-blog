@@ -6,9 +6,10 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-import { Grid, Tooltip, Zoom } from '@material-ui/core';
+import { Grid, Tooltip, Zoom, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -46,24 +47,22 @@ const tutorialSteps = [
       'https://firebasestorage.googleapis.com/v0/b/fir-react-blog.appspot.com/o/portfolio%2Fcocktail.PNG?alt=media&token=2371c757-fd92-4ea9-ad1a-33509116e757',
     url:'https://whoo3474.github.io/cocktail-website/',
     description:`css를 연습하기 위하여 만든 사이트입니다.`
-  },
-  // {
-  //   label: 'Goč, Serbia',
-  //   imgPath:
-  //     'https://firebasestorage.googleapis.com/v0/b/fir-react-blog.appspot.com/o/blog_img%2F1548316989960?alt=media&token=c6f7ad9c-4e18-4bdd-82ca-99c7f7905746',
-  // },
+  }
 ];
 
 const styles = theme => ({
   root: {
 
     [theme.breakpoints.up('sm')]: {
-        maxWidth: 400*2,
+      maxWidth: 400*2,
     },
+    [theme.breakpoints.up('xl')]: {
+      maxWidth: 400*3,
+  },
     maxWidth: 400,
     flexGrow: 1,
     jus: 'center',
-    margin: '30px auto'
+    margin: '20px auto'
   },
   header: {
     display: 'flex',
@@ -78,6 +77,10 @@ const styles = theme => ({
         maxWidth: 400*2,
         height: 255*2,
     },
+    [theme.breakpoints.up('xl')]: {
+       maxWidth: 400*3,
+        height: 255*3,
+    },
     height: 255,
     display: 'block',
     maxWidth: 400,
@@ -87,7 +90,11 @@ const styles = theme => ({
   helpGrid:{
     justifyContent: 'flex-end',
     margin: '10px 0'
-  }
+  },
+  heading: {
+    // fontSize: theme.typography.pxToRem(15),
+    fontWeight: theme.typography.fontWeightRegular,
+  },
 });
 
 const helpTooltip = `
@@ -131,8 +138,9 @@ class PortfolioWrapper extends Component {
               </i>
             </Tooltip>
           </Grid>
+          
             <Paper square elevation={0} className={classes.header}>
-              <Typography variant="h6" gutterBottom>{tutorialSteps[activeStep].label}</Typography>
+              <Typography variant="h5" gutterBottom>{tutorialSteps[activeStep].label}</Typography>
               <Button target="_blank" href={tutorialSteps[activeStep].url} variant="contained" color="primary">사이트 보기</Button>
             </Paper>
             <AutoPlaySwipeableViews
@@ -147,11 +155,16 @@ class PortfolioWrapper extends Component {
                     <img className={classes.img} src={step.imgPath} alt={step.label} />
                   ) : null}
                   
-                <Grid>
-                  <Typography variant="body1" gutterBottom>
+                  <ExpansionPanel>
+                  <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    <Typography variant="h6" className={classes.heading}>포트폴리오 설명</Typography>
+                  </ExpansionPanelSummary>
+                  <ExpansionPanelDetails>
+                    <Typography>
                     {step.description}
-                  </Typography>
-                </Grid>
+                    </Typography>
+                  </ExpansionPanelDetails>
+                </ExpansionPanel>
                 </div>
               ))}
             </AutoPlaySwipeableViews>

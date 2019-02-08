@@ -17,10 +17,8 @@ var config = {
   
   const fireStore = fbConfig.firestore();
   fireStore.settings({ timestampsInSnapshots: true});
-    // fbConfig.storage();
-  const facebookProvider = new firebase.auth.FacebookAuthProvider();
+
         
   const fireAuth = firebase.auth();
-  const fireStorage = firebase.storage();
-  export {fireStore, fireAuth, fireStorage, facebookProvider}
+  export {fireStore, fireAuth }
   export default fbConfig;

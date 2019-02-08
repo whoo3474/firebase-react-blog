@@ -1,6 +1,6 @@
 import React from 'react';
 import Moment from 'react-moment';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { withStyles,Paper, Grid, Typography, Button, Dialog, DialogTitle, DialogActions } from '@material-ui/core';
 
 const styles = theme => ({
@@ -15,13 +15,13 @@ const styles = theme => ({
       margin: theme.spacing.unit,
     },
     img:{
-        width:'100%',
-        maxHeight:'300px',
+        maxHeight:'350px',
     }
   });
 const ContactDetails = (props) => {
-    const {contact, classes,handleClickOpen,handleClose,open,redirect,message} = props;
+    const {contact, classes,handleClickOpen,handleClose,open,redirect,message, id} = props;
         if(redirect) return <Redirect to='/contact'/>
+        console.log('contact',contact)
         return (
                <>
                     <Paper className={classes.paper}>
@@ -45,6 +45,8 @@ const ContactDetails = (props) => {
                             </Grid>
                     </Paper>
                     <Button 
+                        component={Link}
+                        to={'/modify/'+id }
                         variant="contained" 
                         color="primary"
                         className={classes.button} >

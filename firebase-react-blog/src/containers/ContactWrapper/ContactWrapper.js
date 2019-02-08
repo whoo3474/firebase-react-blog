@@ -57,14 +57,9 @@ class ContactWrapper extends Component {
     componentDidMount() {
         this.props.getContactListTk();
         this.props.getNotificationsTk();
+        if(!!this.props.exists)window.addEventListener('scroll',this._infiniteScroll2,true);
     }
-    componentWillMount() {
-        // this.props.getContactListTk();
-        // this.props.getNotificationsTk();
-        if(!!this.props.exists&&!this.state.isLoading)window.addEventListener('scroll',this._infiniteScroll,true);
-        // 이거 텀을 줘야될것같다.
-    }
-    _infiniteScroll = () => {
+    _infiniteScroll2 = () => {
         let scrollHeight = Math.max(document.documentElement.scrollHeight, document.body.scrollHeight);
         let scrollTop = Math.max(document.documentElement.scrollTop, document.body.scrollTop);
         let clientHeight = document.documentElement.clientHeight;
@@ -76,6 +71,7 @@ class ContactWrapper extends Component {
                 isLoading:true
             });
             this.props.getContactListTk();
+            // 얘가 생성,수정을 한 후로는 2회 동시호출이 된다. Timeline,Contact포함
         }
     }
 
