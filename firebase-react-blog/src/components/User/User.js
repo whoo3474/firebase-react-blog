@@ -9,7 +9,7 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
     card: {
         maxWidth: 500,
-        margin:'30px auto'
+        margin:'10px auto'
       },
       media: {
         height: 0,

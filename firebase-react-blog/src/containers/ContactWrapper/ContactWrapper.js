@@ -6,7 +6,7 @@ import Notifications from '../../components/Contact/Notifications';
 import ContactList from '../../components/Contact/ContactList';
 import { getContactListTk, getNotificationsTk } from '../../store/modules/contact';
 import { compose } from 'recompose'
-import { Paper, Grid, Button, withStyles, Dialog, DialogActions, DialogTitle, CircularProgress, Zoom, Tooltip } from '@material-ui/core';
+import { Paper, Grid, Button, withStyles, Dialog, DialogActions, DialogTitle, CircularProgress, Zoom, Tooltip, ClickAwayListener } from '@material-ui/core';
 
 const styles = theme => ({
     root: {
@@ -36,7 +36,6 @@ const styles = theme => ({
       margin: theme.spacing.unit * 2,
     },
     helpGrid:{
-      justifyContent: 'flex-end',
       margin: '10px 0'
     }
   });
@@ -52,7 +51,8 @@ class ContactWrapper extends Component {
       isLoading:false,
       open: false,
       redirect:false,
-      create:false
+      create:false,
+      openTooltops:false
     }
     componentDidMount() {
         this.props.getContactListTk();
@@ -74,6 +74,14 @@ class ContactWrapper extends Component {
             // 얘가 생성,수정을 한 후로는 2회 동시호출이 된다. Timeline,Contact포함
         }
     }
+    
+    handleTooltipClose = () => {
+      this.setState({ openTooltops: false });
+    };
+
+    handleTooltipOpen = () => {
+      this.setState({ openTooltops: true });
+    };
 
     handleClickOpen = () => {
         if(this.props.user){
@@ -104,17 +112,34 @@ class ContactWrapper extends Component {
         return (
 
                 <Grid
-                container
-                direction="column"
-                justify="flex-start"
-                alignItems="flex-start"className={classes.root}>
-                    <Grid container className={classes.helpGrid}>
-                        <Tooltip TransitionComponent={Zoom} title={helpTooltip}>
+                    container
+                    direction="column"
+                    justify="flex-start"
+                    alignItems="flex-start"className={classes.root}>
+
+                <Grid container className={classes.helpGrid}>
+                    <ClickAwayListener onClickAway={this.handleTooltipClose}>
+                    <div>
+                        <Tooltip
+                        PopperProps={{
+                            disablePortal: true,
+                        }}
+                        onClose={this.handleTooltipClose}
+                        open={this.state.openTooltops}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        title={helpTooltip}
+                        >
+                        <Button onClick={this.handleTooltipOpen}>
                         <i className="material-icons">
                             help_outline
                         </i>
+                        </Button>
                         </Tooltip>
-                    </Grid>
+                    </div>
+                    </ClickAwayListener>
+                </Grid>
                 <Paper className={classes.paper}>
                     <Grid>
                         <Notifications notifications={notifications}/>

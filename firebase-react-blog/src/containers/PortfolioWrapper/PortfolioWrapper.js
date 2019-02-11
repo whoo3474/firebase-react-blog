@@ -9,7 +9,7 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import SwipeableViews from 'react-swipeable-views';
 import { autoPlay } from 'react-swipeable-views-utils';
-import { Grid, Tooltip, Zoom, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails } from '@material-ui/core';
+import { Grid, Tooltip, ExpansionPanel, ExpansionPanelSummary, ExpansionPanelDetails, ClickAwayListener } from '@material-ui/core';
 
 const AutoPlaySwipeableViews = autoPlay(SwipeableViews);
 
@@ -59,9 +59,8 @@ const styles = theme => ({
     [theme.breakpoints.up('xl')]: {
       maxWidth: 400*3,
   },
-    maxWidth: 400,
+    maxWidth: '350px',
     flexGrow: 1,
-    jus: 'center',
     margin: '20px auto'
   },
   header: {
@@ -88,13 +87,15 @@ const styles = theme => ({
     width: '100%',
   },
   helpGrid:{
-    justifyContent: 'flex-end',
     margin: '10px 0'
   },
   heading: {
-    // fontSize: theme.typography.pxToRem(15),
     fontWeight: theme.typography.fontWeightRegular,
   },
+  button:{
+    width: '145px',
+    padding: '6px'
+  }
 });
 
 const helpTooltip = `
@@ -106,9 +107,17 @@ const helpTooltip = `
 class PortfolioWrapper extends Component {
     state = {
         activeStep: 0,
+        openTooltops:false
       };
     
-      handleNext = () => {
+    handleTooltipClose = () => {
+      this.setState({ openTooltops: false });
+    };
+
+    handleTooltipOpen = () => {
+      this.setState({ openTooltops: true });
+    };
+        handleNext = () => {
         this.setState(prevState => ({
           activeStep: prevState.activeStep + 1,
         }));
@@ -125,23 +134,39 @@ class PortfolioWrapper extends Component {
       };
     
       render() {
-        const { classes, theme } = this.props;
+        const { classes} = this.props;
         const { activeStep } = this.state;
         const maxSteps = tutorialSteps.length;
     
         return (
           <div className={classes.root}>
-          <Grid container className={classes.helpGrid}>
-            <Tooltip TransitionComponent={Zoom} title={helpTooltip}>
-              <i className="material-icons">
-                help_outline
-              </i>
-            </Tooltip>
-          </Grid>
+              <Grid container className={classes.helpGrid}>
+                <ClickAwayListener onClickAway={this.handleTooltipClose}>
+                  <div>
+                    <Tooltip
+                      PopperProps={{
+                        disablePortal: true,
+                      }}
+                      onClose={this.handleTooltipClose}
+                      open={this.state.openTooltops}
+                      disableFocusListener
+                      disableHoverListener
+                      disableTouchListener
+                      title={helpTooltip}
+                    >
+                      <Button onClick={this.handleTooltipOpen}>
+                      <i className="material-icons">
+                        help_outline
+                      </i>
+                      </Button>
+                    </Tooltip>
+                  </div>
+                </ClickAwayListener>
+              </Grid>
           
             <Paper square elevation={0} className={classes.header}>
               <Typography variant="h5" gutterBottom>{tutorialSteps[activeStep].label}</Typography>
-              <Button target="_blank" href={tutorialSteps[activeStep].url} variant="contained" color="primary">사이트 보기</Button>
+              <Button className={classes.button} target="_blank" href={tutorialSteps[activeStep].url} variant="contained" color="primary">사이트 보기</Button>
             </Paper>
             <AutoPlaySwipeableViews
               axis={'x'}
@@ -157,7 +182,7 @@ class PortfolioWrapper extends Component {
                   
                   <ExpansionPanel>
                   <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
-                    <Typography variant="h6" className={classes.heading}>포트폴리오 설명</Typography>
+                    <Typography variant="h6" className={classes.heading}>포트폴리오 설명 (Click!)</Typography>
                   </ExpansionPanelSummary>
                   <ExpansionPanelDetails>
                     <Typography>

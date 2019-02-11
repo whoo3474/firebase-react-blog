@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import TimelineCards from '../../components/TimelineCards/TimelineCards';
 import { getTimeListLoad } from '../../store/modules/timeLine';
 import { bindActionCreators } from 'redux';
-import { withStyles, Grid, Tooltip, Zoom } from '@material-ui/core';
+import { withStyles, Grid, Tooltip, Zoom, ClickAwayListener, Button } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { compose } from 'recompose'
 import './TimelineWrpper.scss';
@@ -21,7 +21,6 @@ const styles = theme => ({
       margin: theme.spacing.unit * 2,
     },
     helpGrid:{
-      justifyContent: 'flex-end',
       margin: '10px 0'
     }
   });
@@ -33,7 +32,8 @@ const helpTooltip = `
     `
 class TimelineWrapper extends Component {
     state={
-        isLoading:false
+        isLoading:false,
+        openTooltops:false
     }
     componentDidMount() {
         this.props.getTimeListLoad();
@@ -54,19 +54,43 @@ class TimelineWrapper extends Component {
             this.props.getTimeListLoad();
         }
     }
+    
+    handleTooltipClose = () => {
+      this.setState({ openTooltops: false });
+    };
+
+    handleTooltipOpen = () => {
+      this.setState({ openTooltops: true });
+    };
 
 
     render() {
         const{ timelines, classes} = this.props;
         return (
             <div className={classes.root}>
-            <Grid container className={classes.helpGrid}>
-                <Tooltip TransitionComponent={Zoom} title={helpTooltip}>
-                <i className="material-icons">
-                    help_outline
-                </i>
-                </Tooltip>
-            </Grid>
+              <Grid container className={classes.helpGrid}>
+                <ClickAwayListener onClickAway={this.handleTooltipClose}>
+                  <div>
+                    <Tooltip
+                      PopperProps={{
+                        disablePortal: true,
+                      }}
+                      onClose={this.handleTooltipClose}
+                      open={this.state.openTooltops}
+                      disableFocusListener
+                      disableHoverListener
+                      disableTouchListener
+                      title={helpTooltip}
+                    >
+                      <Button onClick={this.handleTooltipOpen}>
+                      <i className="material-icons">
+                        help_outline
+                      </i>
+                      </Button>
+                    </Tooltip>
+                  </div>
+                </ClickAwayListener>
+              </Grid>
             <div className="cover">
                 <h1 className="cover-title">
                     <span className="text-center">Minhan`s TimeLine</span>

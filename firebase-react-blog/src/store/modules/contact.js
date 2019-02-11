@@ -194,7 +194,7 @@ const initialState = {
     lastBoard:'',
     // 마지막 인덱스
     exists:true,
-    countList:2,
+    countList:3,
     //한페이지에 출력될 게시물 수
 }
 

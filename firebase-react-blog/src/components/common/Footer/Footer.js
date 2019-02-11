@@ -15,6 +15,7 @@ const styles = theme => ({
     bottom:0,
     flexGrow: 1,
     padding: theme.spacing.unit,
+    backgroundColor:'white'
   }
 })
 const Footer = (props) => {

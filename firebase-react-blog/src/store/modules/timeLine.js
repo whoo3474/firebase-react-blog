@@ -16,7 +16,7 @@ export const getTimeList = () => {
         const countList = state.countList;
         const TimeListFirst = fbConfig.firestore().collection('Timelines');
         //전체 문서의 수를 세기위함
-        TimeListFirst.orderBy('index').limit(countList).get().then((querySnapshot)=> {
+        TimeListFirst.orderBy('index','desc').limit(countList).get().then((querySnapshot)=> {
             const lastBoard = querySnapshot.docs[querySnapshot.docs.length-1];
             const rows = []; 
             querySnapshot.forEach((doc) => { 
@@ -36,7 +36,7 @@ export const getTimeListLoad = () => {
         const countList = state.countList;
         const exists = state.exists;
         const rows = []; 
-        let TimeListFirst = fbConfig.firestore().collection('Timelines').orderBy('index');
+        let TimeListFirst = fbConfig.firestore().collection('Timelines').orderBy('index','desc');
         if(!!exists){
             if(!!lastBoard){
                 TimeListFirst.startAfter(lastBoard).limit(countList).get().then((querySnapshot)=> {

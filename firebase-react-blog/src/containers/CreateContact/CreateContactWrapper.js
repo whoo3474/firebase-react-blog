@@ -4,12 +4,11 @@ import { createContactTk, getContactTk } from '../../store/modules/contact';
 import { bindActionCreators } from 'redux';
 import { Redirect } from 'react-router-dom';
 import { compose } from 'recompose'
-import { withStyles, Dialog, DialogTitle, Button, DialogActions, Paper, TextField, Typography, Grid, Tooltip, Zoom } from '@material-ui/core';
+import { withStyles, Dialog, DialogTitle, Button, DialogActions, Paper, TextField, Typography, Grid, Tooltip, Zoom, ClickAwayListener } from '@material-ui/core';
 
 const styles = (theme) => ({
   container: {
-    display: 'flex',
-    flexWrap: 'wrap',
+      padding:theme.spacing.unit*2,
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -17,8 +16,10 @@ const styles = (theme) => ({
     width: '100%',
   },
   helpGrid:{
-    justifyContent: 'flex-end',
     margin: '10px 0'
+  },
+  button:{
+    margin: theme.spacing.unit,
   }
 })
 
@@ -36,7 +37,15 @@ class CreateContactWrapper extends Component {
         file:'',
         open:false,
         redirect:false,
+        openTooltops:false
     }
+    handleTooltipClose = () => {
+      this.setState({ openTooltops: false });
+    };
+
+    handleTooltipOpen = () => {
+      this.setState({ openTooltops: true });
+    };
 
     handleChange = name => event => {
         this.setState({
@@ -80,14 +89,30 @@ class CreateContactWrapper extends Component {
         else if(this.state.redirect) return <Redirect to='/contact'/>
         return (
             <>
-            <Grid container className={classes.helpGrid}>
-                <Tooltip TransitionComponent={Zoom} title={helpTooltip}>
-                <i className="material-icons">
-                    help_outline
-                </i>
-                </Tooltip>
-            </Grid>
-            <Paper className="container">
+              <Grid container className={classes.helpGrid}>
+                <ClickAwayListener onClickAway={this.handleTooltipClose}>
+                  <div>
+                    <Tooltip
+                      PopperProps={{
+                        disablePortal: true,
+                      }}
+                      onClose={this.handleTooltipClose}
+                      open={this.state.openTooltops}
+                      disableFocusListener
+                      disableHoverListener
+                      disableTouchListener
+                      title={helpTooltip}
+                    >
+                      <Button onClick={this.handleTooltipOpen}>
+                      <i className="material-icons">
+                        help_outline
+                      </i>
+                      </Button>
+                    </Tooltip>
+                  </div>
+                </ClickAwayListener>
+              </Grid>
+            <Paper className={classes.container}>
                 <form>
                     <Typography variant='h4'> {id?'글 수정하기':'글 생성하기'}</Typography>
                         <TextField
@@ -111,8 +136,8 @@ class CreateContactWrapper extends Component {
                             variant="outlined"
                             />
                     <input type="file" id="file" onChange={handleFileChange}/>
-                    <Grid className="input-field">
-                        <Button component="button" color="primary" onClick={handleSubmit}>{id?'수정':'생성'}</Button>
+                    <Grid>
+                        <Button className={classes.button}component="button" variant="contained" color="primary" onClick={handleSubmit}>{id?'수정':'생성'}</Button>
                     </Grid>
                 </form>
 

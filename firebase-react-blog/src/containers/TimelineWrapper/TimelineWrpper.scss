@@ -1,4 +1,4 @@
-$mainColor: #FF0000;
+$mainColor: #59744f;
 $cardColor: black;
 
 dl, dd {
@@ -28,7 +28,7 @@ dl, dd {
   
   .cover-title {
     margin:0;
-    font-size: 22vw;
+    font-size: 16vw;
     /* 픽셀로 맞추면 pc~mobile 마다 바꾸어줘야됨 */
     /* viewport의 (weight)너비기준의 10% => 10vw */
     font-family: 'Yellowtail', cursive;
@@ -130,7 +130,7 @@ dl, dd {
         }
 
         &-title{
-        font-size: 3vw;
+        font-size: 2vw;
         display: inline-block;
         position: relative;
           &::after{
@@ -150,7 +150,7 @@ dl, dd {
       }
     }
     .cover-title {
-      font-size: 15vw;
+      font-size: 8vw;
     }
     .timeline::after{
       background: $mainColor;
